@@ -1,0 +1,67 @@
+# ==========================================================================
+#  CREDENCIALES — nunca deben salir del equipo
+# ==========================================================================
+pubg_key.txt
+*.key
+.env
+.env.*
+!.env.example
+.streamlit/secrets.toml
+
+# ==========================================================================
+#  DATOS PESADOS
+# ==========================================================================
+# Telemetría cruda: decenas de MB por partida. Se regenera con ingest.py
+# y, cuando expira en la API, se restaura desde el respaldo en Drive.
+raw/
+meta/
+datos/raw/
+*.json.gz
+
+# La tabla analítica agregada SÍ se versiona: pesa pocos MB y es lo que
+# permite ejecutar el notebook sin API. Si supera los 50 MB, súbela a Drive
+# y descomenta la línea siguiente.
+# datos/*.parquet
+
+# ==========================================================================
+#  MODELOS ENTRENADOS
+# ==========================================================================
+# Superan el límite de GitHub. Se alojan en Drive y se descargan al iniciar.
+modelos/*.pkl
+modelos/*.keras
+modelos/*.h5
+*.joblib
+
+# ==========================================================================
+#  PYTHON
+# ==========================================================================
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+env/
+.ipynb_checkpoints/
+.pytest_cache/
+.ruff_cache/
+
+# ==========================================================================
+#  LATEX — archivos intermedios de compilación
+# ==========================================================================
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.fls
+*.fdb_latexmk
+*.bbl
+*.blg
+
+# ==========================================================================
+#  SISTEMA OPERATIVO Y EDITORES
+# ==========================================================================
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
