@@ -1,0 +1,83 @@
+{
+ "modelos": [
+  {
+   "Modelo": "Impulso gradiente",
+   "AUC": 0.698,
+   "Brier": 0.1958,
+   "AP": 0.5194
+  },
+  {
+   "Modelo": "Red densa",
+   "AUC": 0.6933,
+   "Brier": 0.1973,
+   "AP": 0.5087
+  },
+  {
+   "Modelo": "Bosque aleatorio",
+   "AUC": 0.6927,
+   "Brier": 0.2143,
+   "AP": 0.5127
+  },
+  {
+   "Modelo": "Red recurrente",
+   "AUC": 0.6877,
+   "Brier": 0.2373,
+   "AP": 0.5152
+  },
+  {
+   "Modelo": "Regresión logística",
+   "AUC": 0.6772,
+   "Brier": 0.2237,
+   "AP": 0.4958
+  }
+ ],
+ "por_fase": [
+  {
+   "Fase": 1,
+   "n": 3600,
+   "Tasa base": 0.273,
+   "AUC": 0.637,
+   "Brier": 0.208
+  },
+  {
+   "Fase": 2,
+   "n": 575,
+   "Tasa base": 0.313,
+   "AUC": 0.671,
+   "Brier": 0.224
+  },
+  {
+   "Fase": 3,
+   "n": 442,
+   "Tasa base": 0.326,
+   "AUC": 0.731,
+   "Brier": 0.209
+  },
+  {
+   "Fase": 4,
+   "n": 418,
+   "Tasa base": 0.344,
+   "AUC": 0.73,
+   "Brier": 0.211
+  },
+  {
+   "Fase": 5,
+   "n": 1040,
+   "Tasa base": 0.401,
+   "AUC": 0.75,
+   "Brier": 0.207
+  },
+  {
+   "Fase": 6,
+   "n": 681,
+   "Tasa base": 0.471,
+   "AUC": 0.759,
+   "Brier": 0.214
+  }
+ ],
+ "corpus": {
+  "partidas": 150,
+  "observaciones": 46817,
+  "escuadrones": 3862
+ }
+}

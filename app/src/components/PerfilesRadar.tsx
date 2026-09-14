@@ -10,13 +10,14 @@ import {
 import type { TooltipContentProps } from 'recharts'
 import type { Perfiles } from '../types/datos'
 import { EstadoVacio } from './EstadoVacio'
+import { COLOR_ACENTO, COLOR_CONTEXTO } from '../colores'
 
 type Props = {
   perfiles: Perfiles | null
 }
 
-const COLOR_GRUPO = '#2a78d6'
-const COLOR_PROMEDIO = '#898781'
+const COLOR_GRUPO = COLOR_ACENTO
+const COLOR_PROMEDIO = COLOR_CONTEXTO
 
 // Etiquetas de presentación para las llaves técnicas de caracteristicas.json;
 // si aparece una característica nueva no traducida, se muestra tal cual.

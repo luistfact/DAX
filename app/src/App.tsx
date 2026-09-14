@@ -8,13 +8,10 @@ import { TablaModelos } from './components/TablaModelos'
 import { EstadoVacio } from './components/EstadoVacio'
 import { usePartidas } from './hooks/usePartidas'
 import { usePerfiles } from './hooks/usePerfiles'
-import type { Metricas } from './types/datos'
+import { useMetricas } from './hooks/useMetricas'
 
 const PESTANAS = ['Partida', 'Perfiles', 'Modelos'] as const
 type Pestana = (typeof PESTANAS)[number]
-
-// TODO: cargar metricas.json cuando se construya esa vista.
-const metricas: Metricas | null = null
 
 function App() {
   const [aceptoTratamiento, setAceptoTratamiento] = useState(false)
@@ -23,6 +20,7 @@ function App() {
   const { cargando, error, partidas } = usePartidas()
   const partidaActual = partidas?.find((p) => p.id === partidaSeleccionada) ?? null
   const { cargando: cargandoPerfiles, error: errorPerfiles, perfiles } = usePerfiles()
+  const { cargando: cargandoMetricas, error: errorMetricas, metricas } = useMetricas()
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -84,7 +82,15 @@ function App() {
                 {perfiles && <PerfilesRadar perfiles={perfiles} />}
               </>
             )}
-            {pestana === 'Modelos' && <TablaModelos metricas={metricas} />}
+            {pestana === 'Modelos' && (
+              <>
+                {cargandoMetricas && <EstadoVacio mensaje="Cargando métricas…" />}
+                {errorMetricas && (
+                  <EstadoVacio mensaje={`No se pudieron cargar las métricas (${errorMetricas}).`} />
+                )}
+                {metricas && <TablaModelos metricas={metricas} />}
+              </>
+            )}
           </main>
         </>
       )}
