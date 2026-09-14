@@ -1,0 +1,75 @@
+import { useState } from 'react'
+import { AvisoTratamiento } from './components/AvisoTratamiento'
+import { SelectorPartida } from './components/SelectorPartida'
+import { CurvaProbabilidad } from './components/CurvaProbabilidad'
+import { Informe } from './components/Informe'
+import { PerfilesRadar } from './components/PerfilesRadar'
+import { TablaModelos } from './components/TablaModelos'
+import type { Partida, Perfiles, Metricas } from './types/datos'
+
+const PESTANAS = ['Partida', 'Perfiles', 'Modelos'] as const
+type Pestana = (typeof PESTANAS)[number]
+
+// TODO: cargar con fetch('/datos/partidas.json') etc. una vez existan los archivos.
+const partidas: Partida[] = []
+const perfiles: Perfiles | null = null
+const metricas: Metricas | null = null
+
+function App() {
+  const [aceptoTratamiento, setAceptoTratamiento] = useState(false)
+  const [pestana, setPestana] = useState<Pestana>('Partida')
+  const [partidaSeleccionada, setPartidaSeleccionada] = useState<string | null>(null)
+
+  return (
+    <div className="min-h-screen bg-slate-50">
+      <AvisoTratamiento aceptado={aceptoTratamiento} onAceptar={setAceptoTratamiento} />
+
+      <header className="border-b border-slate-200 bg-white px-4 py-3 sm:px-6">
+        <h1 className="text-xl font-semibold text-slate-900">ZonaAzul</h1>
+        <p className="text-sm text-slate-500">
+          Análisis retrospectivo de partidas de PUBG. No predice resultados futuros.
+        </p>
+      </header>
+
+      {aceptoTratamiento && (
+        <>
+          <nav className="flex gap-1 border-b border-slate-200 bg-white px-4 sm:px-6">
+            {PESTANAS.map((p) => (
+              <button
+                key={p}
+                type="button"
+                onClick={() => setPestana(p)}
+                className={
+                  'border-b-2 px-3 py-2 text-sm font-medium ' +
+                  (pestana === p
+                    ? 'border-slate-900 text-slate-900'
+                    : 'border-transparent text-slate-500 hover:text-slate-700')
+                }
+              >
+                {p}
+              </button>
+            ))}
+          </nav>
+
+          <main className="mx-auto max-w-5xl space-y-6 p-4 sm:p-6">
+            {pestana === 'Partida' && (
+              <>
+                <SelectorPartida
+                  partidas={partidas}
+                  partidaSeleccionada={partidaSeleccionada}
+                  onSeleccionar={setPartidaSeleccionada}
+                />
+                <CurvaProbabilidad partida={null} />
+                <Informe partida={null} />
+              </>
+            )}
+            {pestana === 'Perfiles' && <PerfilesRadar perfiles={perfiles} />}
+            {pestana === 'Modelos' && <TablaModelos metricas={metricas} />}
+          </main>
+        </>
+      )}
+    </div>
+  )
+}
+
+export default App

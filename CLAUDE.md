@@ -79,8 +79,11 @@ No las revierta sin discutirlo primero.
 ```bash
 python src/ingest.py --n 20          # descarga de prueba
 python src/parse_fase1.py            # parseo de telemetría
-streamlit run app/main.py            # aplicación en local
+streamlit run app/main.py            # aplicación Streamlit en local
 pdflatex documento/documento.tex     # documento (ejecutar dos veces)
+
+cd app && npm run dev                # app React (Vite) en local
+cd app && npm run build              # build de producción de la app React
 ```
 
 ## Bitácora de decisiones
@@ -88,4 +91,16 @@ pdflatex documento/documento.tex     # documento (ejecutar dos veces)
 Añade aquí lo que se resuelva en cada sesión, con fecha. Evita repetir
 discusiones ya cerradas.
 
-- *(pendiente)*
+- **2026-09-13** — Se inicia una segunda interfaz, en **React + Vite +
+  TypeScript**, dentro del mismo directorio `app/` que la app Streamlit
+  (`app/main.py`), sin tocar ni reemplazar esta última. Es una app
+  **completamente estática**: sin backend, sin llamadas a la API de PUBG ni a
+  ningún servicio externo, sin ejecución de modelos en el cliente. Lee tres
+  JSON precalculados por el notebook (`app/public/datos/partidas.json`,
+  `perfiles.json`, `metricas.json`) — todavía no existen; hasta que se
+  generen, la interfaz muestra estados vacíos explícitos y los tipos en
+  `app/src/types/datos.ts` quedan como `unknown` con `TODO`. Stack fijado
+  verificando versiones en el registro de npm ese mismo día: Vite 8.3,
+  React 19.2, TypeScript ~6.0, Tailwind CSS 4.3 (vía `@tailwindcss/vite`),
+  Recharts 3.10, Motion 13.2. Primera entrega acordada: solo selector de
+  partida + curva de probabilidad, sin informe/perfiles/métricas.
