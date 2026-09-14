@@ -111,3 +111,9 @@ discusiones ya cerradas.
   restantes) quedan implementados y probados de punta a punta en el navegador
   (`npm run dev`, sin errores de consola). `Informe`, `PerfilesRadar` y
   `TablaModelos` siguen como esqueleto a la espera de la siguiente entrega.
+- **2026-09-13** — Vista de Informe implementada: veredicto, confianza,
+  resumen, momento crítico y las tres listas (factores a favor/en contra,
+  recomendaciones), con estado vacío explícito por lista cuando viene vacía
+  en el JSON (p. ej. "Sin factores a favor registrados"), no un valor de
+  relleno. Probada en el navegador con una partida "Adversa" sin factores a
+  favor. `PerfilesRadar` y `TablaModelos` siguen pendientes.

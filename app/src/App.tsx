@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { AvisoTratamiento } from './components/AvisoTratamiento'
 import { SelectorPartida } from './components/SelectorPartida'
 import { CurvaProbabilidad } from './components/CurvaProbabilidad'
+import { Informe } from './components/Informe'
 import { PerfilesRadar } from './components/PerfilesRadar'
 import { TablaModelos } from './components/TablaModelos'
 import { EstadoVacio } from './components/EstadoVacio'
@@ -68,6 +69,7 @@ function App() {
                       onSeleccionar={setPartidaSeleccionada}
                     />
                     <CurvaProbabilidad partida={partidaActual} />
+                    <Informe partida={partidaActual} />
                   </>
                 )}
               </>
