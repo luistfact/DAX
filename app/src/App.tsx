@@ -7,13 +7,13 @@ import { PerfilesRadar } from './components/PerfilesRadar'
 import { TablaModelos } from './components/TablaModelos'
 import { EstadoVacio } from './components/EstadoVacio'
 import { usePartidas } from './hooks/usePartidas'
-import type { Perfiles, Metricas } from './types/datos'
+import { usePerfiles } from './hooks/usePerfiles'
+import type { Metricas } from './types/datos'
 
 const PESTANAS = ['Partida', 'Perfiles', 'Modelos'] as const
 type Pestana = (typeof PESTANAS)[number]
 
-// TODO: cargar perfiles.json y metricas.json cuando se construyan esas vistas.
-const perfiles: Perfiles | null = null
+// TODO: cargar metricas.json cuando se construya esa vista.
 const metricas: Metricas | null = null
 
 function App() {
@@ -22,6 +22,7 @@ function App() {
   const [partidaSeleccionada, setPartidaSeleccionada] = useState<string | null>(null)
   const { cargando, error, partidas } = usePartidas()
   const partidaActual = partidas?.find((p) => p.id === partidaSeleccionada) ?? null
+  const { cargando: cargandoPerfiles, error: errorPerfiles, perfiles } = usePerfiles()
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -74,7 +75,15 @@ function App() {
                 )}
               </>
             )}
-            {pestana === 'Perfiles' && <PerfilesRadar perfiles={perfiles} />}
+            {pestana === 'Perfiles' && (
+              <>
+                {cargandoPerfiles && <EstadoVacio mensaje="Cargando perfiles…" />}
+                {errorPerfiles && (
+                  <EstadoVacio mensaje={`No se pudieron cargar los perfiles (${errorPerfiles}).`} />
+                )}
+                {perfiles && <PerfilesRadar perfiles={perfiles} />}
+              </>
+            )}
             {pestana === 'Modelos' && <TablaModelos metricas={metricas} />}
           </main>
         </>

@@ -117,3 +117,13 @@ discusiones ya cerradas.
   en el JSON (p. ej. "Sin factores a favor registrados"), no un valor de
   relleno. Probada en el navegador con una partida "Adversa" sin factores a
   favor. `PerfilesRadar` y `TablaModelos` siguen pendientes.
+- **2026-09-13** — Vista de Perfiles implementada: `usePerfiles` carga
+  `perfiles.json`; un radar (Recharts) por grupo (grupo vs. promedio general),
+  en vez de un radar único con las 4 series superpuestas, siguiendo el skill
+  de dataviz (patrón "emphasis": 1 color de acento + gris para el contexto).
+  Cada eje se normaliza entre el mínimo y máximo observado para esa
+  característica —las características vienen en escalas muy distintas (salud
+  0-100 vs. variabilidad 0-1) y Recharts usa un solo eje radial compartido—
+  pero el tooltip siempre muestra el valor real sin normalizar, nunca solo la
+  posición normalizada. Probado en el navegador: los 4 radares y el tooltip
+  con valores reales funcionan correctamente. `TablaModelos` sigue pendiente.

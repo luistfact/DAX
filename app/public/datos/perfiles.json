@@ -1,0 +1,66 @@
+{
+ "caracteristicas": [
+  "hp_apertura",
+  "dist_apertura",
+  "movilidad",
+  "var_dist",
+  "var_mov"
+ ],
+ "grupos": [
+  {
+   "grupo": 0,
+   "n": 1102,
+   "mediana_pct_rank": 0.423,
+   "centro": {
+    "hp_apertura": 95.29,
+    "dist_apertura": 0.404,
+    "movilidad": 0.048,
+    "var_dist": 0.032,
+    "var_mov": 0.086
+   }
+  },
+  {
+   "grupo": 1,
+   "n": 1002,
+   "mediana_pct_rank": 0.403,
+   "centro": {
+    "hp_apertura": 95.504,
+    "dist_apertura": 0.381,
+    "movilidad": 0.115,
+    "var_dist": 0.056,
+    "var_mov": 0.206
+   }
+  },
+  {
+   "grupo": 2,
+   "n": 1275,
+   "mediana_pct_rank": 0.52,
+   "centro": {
+    "hp_apertura": 94.658,
+    "dist_apertura": 0.191,
+    "movilidad": 0.057,
+    "var_dist": 0.082,
+    "var_mov": 0.105
+   }
+  },
+  {
+   "grupo": 3,
+   "n": 483,
+   "mediana_pct_rank": 0.885,
+   "centro": {
+    "hp_apertura": 66.41,
+    "dist_apertura": 0.282,
+    "movilidad": 0.061,
+    "var_dist": 0.056,
+    "var_mov": 0.119
+   }
+  }
+ ],
+ "promedio_general": {
+  "hp_apertura": 91.525,
+  "dist_apertura": 0.313,
+  "movilidad": 0.07,
+  "var_dist": 0.058,
+  "var_mov": 0.127
+ }
+}
