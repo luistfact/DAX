@@ -104,3 +104,10 @@ discusiones ya cerradas.
   React 19.2, TypeScript ~6.0, Tailwind CSS 4.3 (vía `@tailwindcss/vite`),
   Recharts 3.10, Motion 13.2. Primera entrega acordada: solo selector de
   partida + curva de probabilidad, sin informe/perfiles/métricas.
+- **2026-09-13** — Primera entrega completada: `usePartidas` carga
+  `public/datos/partidas.json` con `fetch`; `SelectorPartida` y
+  `CurvaProbabilidad` (Recharts, animada, con `ReferenceDot` en minutos con
+  caída de probabilidad > 10 puntos y tooltip con vivos/salud/fase/equipos
+  restantes) quedan implementados y probados de punta a punta en el navegador
+  (`npm run dev`, sin errores de consola). `Informe`, `PerfilesRadar` y
+  `TablaModelos` siguen como esqueleto a la espera de la siguiente entrega.

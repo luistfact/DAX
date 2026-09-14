@@ -1,0 +1,5506 @@
+[
+ {
+  "id": "053b957b-1",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 1,
+  "posicion_final": 4,
+  "escuadrones": 21,
+  "clasifico": true,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.5248,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.367,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5941,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.505,
+    "fase": 1,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.6456,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.534,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.6333,
+    "vivos": 4,
+    "salud": 75.0,
+    "dist_rel": 0.538,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.5782,
+    "vivos": 4,
+    "salud": 63.7,
+    "dist_rel": 0.556,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.5911,
+    "vivos": 3,
+    "salud": 73.6,
+    "dist_rel": 0.706,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.5929,
+    "vivos": 2,
+    "salud": 67.8,
+    "dist_rel": 0.968,
+    "fase": 2,
+    "equipos_vivos": 17
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.6899,
+    "vivos": 1,
+    "salud": 99.6,
+    "dist_rel": 1.444,
+    "fase": 3,
+    "equipos_vivos": 16
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.7321,
+    "vivos": 1,
+    "salud": 83.0,
+    "dist_rel": 2.204,
+    "fase": 4,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.6905,
+    "vivos": 1,
+    "salud": 64.2,
+    "dist_rel": 2.277,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.6328,
+    "vivos": 1,
+    "salud": 68.1,
+    "dist_rel": 2.03,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.5789,
+    "vivos": 1,
+    "salud": 67.6,
+    "dist_rel": 1.576,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.5684,
+    "vivos": 1,
+    "salud": 82.6,
+    "dist_rel": 0.686,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.5676,
+    "vivos": 1,
+    "salud": 99.0,
+    "dist_rel": 0.33,
+    "fase": 6,
+    "equipos_vivos": 11
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.565,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.153,
+    "fase": 6,
+    "equipos_vivos": 9
+   }
+  ],
+  "informe": {
+   "veredicto": "Difícil",
+   "resumen": "El escuadrón terminó en la posición 4 de 21. Comenzó con 100 puntos de salud promedio y cerró con 100, perdiendo 3 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 10: la probabilidad cayó 6% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Salud final del escuadrón: 100 puntos"
+   ],
+   "factores_adversos": [
+    "Se perdieron 3 integrantes",
+    "Permaneció fuera de la zona el 36% del tiempo"
+   ],
+   "recomendaciones": [
+    "Revisar la coordinación en los enfrentamientos",
+    "Iniciar la rotación antes del cierre del círculo"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "053b957b-2",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 2,
+  "posicion_final": 17,
+  "escuadrones": 21,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.5261,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.379,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5912,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.526,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.5987,
+    "vivos": 4,
+    "salud": 83.3,
+    "dist_rel": 0.55,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.4451,
+    "vivos": 4,
+    "salud": 37.4,
+    "dist_rel": 0.56,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.3439,
+    "vivos": 2,
+    "salud": 51.6,
+    "dist_rel": 0.572,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.4648,
+    "vivos": 1,
+    "salud": 91.5,
+    "dist_rel": 0.728,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.5172,
+    "vivos": 1,
+    "salud": 95.9,
+    "dist_rel": 1.003,
+    "fase": 2,
+    "equipos_vivos": 17
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.3072,
+    "vivos": 1,
+    "salud": 50.3,
+    "dist_rel": 1.404,
+    "fase": 3,
+    "equipos_vivos": 16
+   }
+  ],
+  "informe": {
+   "veredicto": "Adversa",
+   "resumen": "El escuadrón terminó en la posición 17 de 21. Comenzó con 100 puntos de salud promedio y cerró con 50, perdiendo 3 integrantes durante los 8 minutos observados.",
+   "momento_critico": "Minuto 7: la probabilidad cayó 21% respecto del minuto anterior.",
+   "factores_favorables": [],
+   "factores_adversos": [
+    "Salud final del escuadrón: 50 puntos",
+    "Se perdieron 3 integrantes",
+    "Permaneció fuera de la zona el 19% del tiempo"
+   ],
+   "recomendaciones": [
+    "Revisar la coordinación en los enfrentamientos",
+    "Iniciar la rotación antes del cierre del círculo",
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Media",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "053b957b-3",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 3,
+  "posicion_final": 5,
+  "escuadrones": 21,
+  "clasifico": true,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.5211,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.333,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5556,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.267,
+    "fase": 1,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.591,
+    "vivos": 4,
+    "salud": 99.1,
+    "dist_rel": 0.339,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.6189,
+    "vivos": 4,
+    "salud": 98.4,
+    "dist_rel": 0.378,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.6327,
+    "vivos": 4,
+    "salud": 98.4,
+    "dist_rel": 0.39,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.6409,
+    "vivos": 4,
+    "salud": 98.9,
+    "dist_rel": 0.491,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.6548,
+    "vivos": 4,
+    "salud": 98.6,
+    "dist_rel": 0.671,
+    "fase": 2,
+    "equipos_vivos": 17
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.6865,
+    "vivos": 4,
+    "salud": 96.5,
+    "dist_rel": 0.977,
+    "fase": 3,
+    "equipos_vivos": 16
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.7322,
+    "vivos": 4,
+    "salud": 81.1,
+    "dist_rel": 1.488,
+    "fase": 4,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.7144,
+    "vivos": 4,
+    "salud": 58.2,
+    "dist_rel": 1.435,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.6686,
+    "vivos": 4,
+    "salud": 65.9,
+    "dist_rel": 0.774,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.6888,
+    "vivos": 4,
+    "salud": 83.7,
+    "dist_rel": 0.332,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.6325,
+    "vivos": 4,
+    "salud": 54.4,
+    "dist_rel": 0.183,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.609,
+    "vivos": 4,
+    "salud": 60.7,
+    "dist_rel": 0.381,
+    "fase": 6,
+    "equipos_vivos": 11
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.7213,
+    "vivos": 3,
+    "salud": 87.5,
+    "dist_rel": 0.816,
+    "fase": 6,
+    "equipos_vivos": 9
+   }
+  ],
+  "informe": {
+   "veredicto": "Irregular",
+   "resumen": "El escuadrón terminó en la posición 5 de 21. Comenzó con 100 puntos de salud promedio y cerró con 87, perdiendo 1 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 12: la probabilidad cayó 6% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Salud final del escuadrón: 87 puntos"
+   ],
+   "factores_adversos": [
+    "Se perdieron 1 integrantes",
+    "Permaneció fuera de la zona el 19% del tiempo"
+   ],
+   "recomendaciones": [
+    "Revisar la coordinación en los enfrentamientos",
+    "Iniciar la rotación antes del cierre del círculo"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "053b957b-4",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 4,
+  "posicion_final": 15,
+  "escuadrones": 21,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.5213,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.335,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5301,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.068,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.5357,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.07,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.5247,
+    "vivos": 4,
+    "salud": 95.1,
+    "dist_rel": 0.077,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.5081,
+    "vivos": 4,
+    "salud": 92.3,
+    "dist_rel": 0.087,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.4968,
+    "vivos": 4,
+    "salud": 85.1,
+    "dist_rel": 0.167,
+    "fase": 2,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.5602,
+    "vivos": 4,
+    "salud": 92.5,
+    "dist_rel": 0.297,
+    "fase": 2,
+    "equipos_vivos": 17
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.3875,
+    "vivos": 4,
+    "salud": 31.1,
+    "dist_rel": 0.515,
+    "fase": 3,
+    "equipos_vivos": 16
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.3214,
+    "vivos": 4,
+    "salud": 18.2,
+    "dist_rel": 0.782,
+    "fase": 4,
+    "equipos_vivos": 14
+   }
+  ],
+  "informe": {
+   "veredicto": "Difícil",
+   "resumen": "El escuadrón terminó en la posición 15 de 21. Comenzó con 100 puntos de salud promedio y cerró con 18, perdiendo 0 integrantes durante los 9 minutos observados.",
+   "momento_critico": "Minuto 7: la probabilidad cayó 17% respecto del minuto anterior.",
+   "factores_favorables": [
+    "El escuadrón se mantuvo completo",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Salud final del escuadrón: 18 puntos"
+   ],
+   "recomendaciones": [
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Media",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "053b957b-5",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 5,
+  "posicion_final": 3,
+  "escuadrones": 21,
+  "clasifico": true,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.5206,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.328,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.571,
+    "vivos": 2,
+    "salud": 100.0,
+    "dist_rel": 0.344,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.5853,
+    "vivos": 2,
+    "salud": 100.0,
+    "dist_rel": 0.361,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.5778,
+    "vivos": 2,
+    "salud": 100.0,
+    "dist_rel": 0.363,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.5516,
+    "vivos": 2,
+    "salud": 100.0,
+    "dist_rel": 0.383,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.523,
+    "vivos": 2,
+    "salud": 100.0,
+    "dist_rel": 0.509,
+    "fase": 2,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.5035,
+    "vivos": 2,
+    "salud": 99.8,
+    "dist_rel": 0.828,
+    "fase": 2,
+    "equipos_vivos": 17
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.4846,
+    "vivos": 2,
+    "salud": 92.8,
+    "dist_rel": 1.221,
+    "fase": 3,
+    "equipos_vivos": 16
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.4506,
+    "vivos": 2,
+    "salud": 82.3,
+    "dist_rel": 1.707,
+    "fase": 4,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.3865,
+    "vivos": 2,
+    "salud": 67.5,
+    "dist_rel": 1.355,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.2837,
+    "vivos": 2,
+    "salud": 48.8,
+    "dist_rel": 1.025,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.1504,
+    "vivos": 2,
+    "salud": 36.5,
+    "dist_rel": 1.276,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.0886,
+    "vivos": 2,
+    "salud": 34.9,
+    "dist_rel": 1.179,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.0993,
+    "vivos": 2,
+    "salud": 60.0,
+    "dist_rel": 0.87,
+    "fase": 6,
+    "equipos_vivos": 11
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.1765,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.471,
+    "fase": 6,
+    "equipos_vivos": 9
+   }
+  ],
+  "informe": {
+   "veredicto": "Difícil",
+   "resumen": "El escuadrón terminó en la posición 3 de 21. Comenzó con 100 puntos de salud promedio y cerró con 100, perdiendo 3 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 11: la probabilidad cayó 13% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Salud final del escuadrón: 100 puntos"
+   ],
+   "factores_adversos": [
+    "Se perdieron 3 integrantes",
+    "Permaneció fuera de la zona el 38% del tiempo"
+   ],
+   "recomendaciones": [
+    "Revisar la coordinación en los enfrentamientos",
+    "Iniciar la rotación antes del cierre del círculo"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "053b957b-6",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 6,
+  "posicion_final": 11,
+  "escuadrones": 21,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.5231,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.351,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5312,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.143,
+    "fase": 1,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.5376,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.142,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.5431,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.142,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.5447,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.139,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.551,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.116,
+    "fase": 2,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.5662,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.125,
+    "fase": 2,
+    "equipos_vivos": 17
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.5995,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.214,
+    "fase": 3,
+    "equipos_vivos": 16
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.6552,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.395,
+    "fase": 4,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.6971,
+    "vivos": 4,
+    "salud": 98.9,
+    "dist_rel": 0.349,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.7266,
+    "vivos": 4,
+    "salud": 98.9,
+    "dist_rel": 0.355,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.7737,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.663,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.801,
+    "vivos": 4,
+    "salud": 97.1,
+    "dist_rel": 0.53,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.818,
+    "vivos": 4,
+    "salud": 97.7,
+    "dist_rel": 0.202,
+    "fase": 6,
+    "equipos_vivos": 11
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.744,
+    "vivos": 4,
+    "salud": 51.9,
+    "dist_rel": 0.455,
+    "fase": 6,
+    "equipos_vivos": 11
+   }
+  ],
+  "informe": {
+   "veredicto": "Irregular",
+   "resumen": "El escuadrón terminó en la posición 11 de 21. Comenzó con 100 puntos de salud promedio y cerró con 52, perdiendo 0 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 14: la probabilidad cayó 7% respecto del minuto anterior.",
+   "factores_favorables": [
+    "El escuadrón se mantuvo completo",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Salud final del escuadrón: 52 puntos"
+   ],
+   "recomendaciones": [
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "053b957b-7",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 7,
+  "posicion_final": 16,
+  "escuadrones": 21,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.4875,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.415,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.4826,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.32,
+    "fase": 1,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.4705,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.325,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.4548,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.324,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.4377,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.322,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.4245,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.341,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.4206,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.385,
+    "fase": 2,
+    "equipos_vivos": 17
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.427,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.483,
+    "fase": 3,
+    "equipos_vivos": 16
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.3433,
+    "vivos": 1,
+    "salud": 50.0,
+    "dist_rel": 0.606,
+    "fase": 4,
+    "equipos_vivos": 15
+   }
+  ],
+  "informe": {
+   "veredicto": "Irregular",
+   "resumen": "El escuadrón terminó en la posición 16 de 21. Comenzó con 100 puntos de salud promedio y cerró con 50, perdiendo 0 integrantes durante los 9 minutos observados.",
+   "momento_critico": "Minuto 8: la probabilidad cayó 8% respecto del minuto anterior.",
+   "factores_favorables": [
+    "El escuadrón se mantuvo completo",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Salud final del escuadrón: 50 puntos"
+   ],
+   "recomendaciones": [
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Media",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "053b957b-8",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 8,
+  "posicion_final": 1,
+  "escuadrones": 21,
+  "clasifico": true,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.5253,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.372,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5772,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.386,
+    "fase": 1,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.618,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.399,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.6442,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.402,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.6528,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.417,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.6546,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.52,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.662,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.701,
+    "fase": 2,
+    "equipos_vivos": 17
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.6889,
+    "vivos": 4,
+    "salud": 96.2,
+    "dist_rel": 1.027,
+    "fase": 3,
+    "equipos_vivos": 16
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.7137,
+    "vivos": 4,
+    "salud": 75.5,
+    "dist_rel": 1.443,
+    "fase": 4,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.6602,
+    "vivos": 4,
+    "salud": 70.2,
+    "dist_rel": 0.684,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.6238,
+    "vivos": 4,
+    "salud": 75.2,
+    "dist_rel": 0.509,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.5968,
+    "vivos": 4,
+    "salud": 69.5,
+    "dist_rel": 0.395,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.6193,
+    "vivos": 4,
+    "salud": 87.1,
+    "dist_rel": 0.265,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.6777,
+    "vivos": 4,
+    "salud": 92.1,
+    "dist_rel": 0.42,
+    "fase": 6,
+    "equipos_vivos": 11
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.7514,
+    "vivos": 4,
+    "salud": 92.9,
+    "dist_rel": 0.753,
+    "fase": 6,
+    "equipos_vivos": 9
+   }
+  ],
+  "informe": {
+   "veredicto": "Dominante",
+   "resumen": "El escuadrón terminó en la posición 1 de 21. Comenzó con 100 puntos de salud promedio y cerró con 93, perdiendo 0 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 9: la probabilidad cayó 5% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Salud final del escuadrón: 93 puntos",
+    "El escuadrón se mantuvo completo",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [],
+   "recomendaciones": [
+    "Mantener el planteamiento actual"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "053b957b-9",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 9,
+  "posicion_final": 21,
+  "escuadrones": 21,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.541,
+    "vivos": 4,
+    "salud": 99.8,
+    "dist_rel": 0.542,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.4574,
+    "vivos": 4,
+    "salud": 51.1,
+    "dist_rel": 0.499,
+    "fase": 1,
+    "equipos_vivos": 20
+   }
+  ],
+  "informe": {
+   "veredicto": "Irregular",
+   "resumen": "El escuadrón terminó en la posición 21 de 21. Comenzó con 100 puntos de salud promedio y cerró con 51, perdiendo 0 integrantes durante los 2 minutos observados.",
+   "momento_critico": "Minuto 1: la probabilidad cayó 8% respecto del minuto anterior.",
+   "factores_favorables": [
+    "El escuadrón se mantuvo completo",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Salud final del escuadrón: 51 puntos"
+   ],
+   "recomendaciones": [
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Baja",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "053b957b-10",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 10,
+  "posicion_final": 10,
+  "escuadrones": 21,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.4826,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.321,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.4917,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.342,
+    "fase": 1,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.4879,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.332,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.476,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.332,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.4588,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.34,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.4425,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.444,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.433,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.621,
+    "fase": 2,
+    "equipos_vivos": 17
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.4289,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.928,
+    "fase": 3,
+    "equipos_vivos": 16
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.4277,
+    "vivos": 1,
+    "salud": 99.7,
+    "dist_rel": 1.468,
+    "fase": 4,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.4077,
+    "vivos": 1,
+    "salud": 88.3,
+    "dist_rel": 1.648,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.3497,
+    "vivos": 1,
+    "salud": 75.1,
+    "dist_rel": 2.146,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.3097,
+    "vivos": 1,
+    "salud": 78.3,
+    "dist_rel": 3.023,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.2898,
+    "vivos": 1,
+    "salud": 74.0,
+    "dist_rel": 3.305,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.2938,
+    "vivos": 1,
+    "salud": 73.0,
+    "dist_rel": 4.148,
+    "fase": 6,
+    "equipos_vivos": 11
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.2569,
+    "vivos": 1,
+    "salud": 31.9,
+    "dist_rel": 5.495,
+    "fase": 6,
+    "equipos_vivos": 9
+   }
+  ],
+  "informe": {
+   "veredicto": "Difícil",
+   "resumen": "El escuadrón terminó en la posición 10 de 21. Comenzó con 100 puntos de salud promedio y cerró con 32, perdiendo 0 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 10: la probabilidad cayó 6% respecto del minuto anterior.",
+   "factores_favorables": [
+    "El escuadrón se mantuvo completo"
+   ],
+   "factores_adversos": [
+    "Salud final del escuadrón: 32 puntos",
+    "Permaneció fuera de la zona el 49% del tiempo"
+   ],
+   "recomendaciones": [
+    "Iniciar la rotación antes del cierre del círculo",
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "053b957b-11",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 11,
+  "posicion_final": 7,
+  "escuadrones": 21,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.5239,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.359,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5363,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.193,
+    "fase": 1,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.5444,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.188,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.55,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.189,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.5464,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.148,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.4761,
+    "vivos": 4,
+    "salud": 88.0,
+    "dist_rel": 0.159,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.4099,
+    "vivos": 4,
+    "salud": 64.8,
+    "dist_rel": 0.278,
+    "fase": 2,
+    "equipos_vivos": 17
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.3922,
+    "vivos": 4,
+    "salud": 48.7,
+    "dist_rel": 0.488,
+    "fase": 3,
+    "equipos_vivos": 16
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.6362,
+    "vivos": 4,
+    "salud": 81.4,
+    "dist_rel": 0.831,
+    "fase": 4,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.7709,
+    "vivos": 3,
+    "salud": 94.4,
+    "dist_rel": 0.972,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.8025,
+    "vivos": 3,
+    "salud": 71.2,
+    "dist_rel": 1.269,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.7243,
+    "vivos": 4,
+    "salud": 42.7,
+    "dist_rel": 1.616,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.7998,
+    "vivos": 3,
+    "salud": 77.3,
+    "dist_rel": 1.359,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.8665,
+    "vivos": 4,
+    "salud": 84.3,
+    "dist_rel": 0.768,
+    "fase": 6,
+    "equipos_vivos": 11
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.8984,
+    "vivos": 4,
+    "salud": 92.4,
+    "dist_rel": 0.494,
+    "fase": 6,
+    "equipos_vivos": 9
+   }
+  ],
+  "informe": {
+   "veredicto": "Dominante",
+   "resumen": "El escuadrón terminó en la posición 7 de 21. Comenzó con 100 puntos de salud promedio y cerró con 92, perdiendo 0 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 11: la probabilidad cayó 8% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Salud final del escuadrón: 92 puntos",
+    "El escuadrón se mantuvo completo"
+   ],
+   "factores_adversos": [
+    "Permaneció fuera de la zona el 20% del tiempo"
+   ],
+   "recomendaciones": [
+    "Iniciar la rotación antes del cierre del círculo"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "053b957b-12",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 12,
+  "posicion_final": 18,
+  "escuadrones": 21,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.5172,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.297,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5122,
+    "vivos": 4,
+    "salud": 96.0,
+    "dist_rel": 0.084,
+    "fase": 1,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.5044,
+    "vivos": 4,
+    "salud": 92.0,
+    "dist_rel": 0.082,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.458,
+    "vivos": 4,
+    "salud": 80.9,
+    "dist_rel": 0.08,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.4423,
+    "vivos": 4,
+    "salud": 79.6,
+    "dist_rel": 0.085,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.5368,
+    "vivos": 4,
+    "salud": 86.5,
+    "dist_rel": 0.153,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.3526,
+    "vivos": 4,
+    "salud": 31.9,
+    "dist_rel": 0.256,
+    "fase": 2,
+    "equipos_vivos": 18
+   }
+  ],
+  "informe": {
+   "veredicto": "Difícil",
+   "resumen": "El escuadrón terminó en la posición 18 de 21. Comenzó con 100 puntos de salud promedio y cerró con 32, perdiendo 0 integrantes durante los 7 minutos observados.",
+   "momento_critico": "Minuto 6: la probabilidad cayó 18% respecto del minuto anterior.",
+   "factores_favorables": [
+    "El escuadrón se mantuvo completo",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Salud final del escuadrón: 32 puntos"
+   ],
+   "recomendaciones": [
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Media",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "053b957b-13",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 13,
+  "posicion_final": 14,
+  "escuadrones": 21,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.5219,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.34,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5467,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.201,
+    "fase": 1,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.5676,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.201,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.5799,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.188,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.5663,
+    "vivos": 4,
+    "salud": 96.2,
+    "dist_rel": 0.184,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.5524,
+    "vivos": 4,
+    "salud": 91.1,
+    "dist_rel": 0.263,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.6027,
+    "vivos": 4,
+    "salud": 98.8,
+    "dist_rel": 0.379,
+    "fase": 2,
+    "equipos_vivos": 17
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.6574,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.548,
+    "fase": 3,
+    "equipos_vivos": 16
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.7157,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.882,
+    "fase": 4,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.7603,
+    "vivos": 4,
+    "salud": 89.7,
+    "dist_rel": 0.986,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.7104,
+    "vivos": 4,
+    "salud": 48.2,
+    "dist_rel": 1.285,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.3792,
+    "vivos": 4,
+    "salud": 7.9,
+    "dist_rel": 1.656,
+    "fase": 6,
+    "equipos_vivos": 13
+   }
+  ],
+  "informe": {
+   "veredicto": "Adversa",
+   "resumen": "El escuadrón terminó en la posición 14 de 21. Comenzó con 100 puntos de salud promedio y cerró con 8, perdiendo 0 integrantes durante los 12 minutos observados.",
+   "momento_critico": "Minuto 11: la probabilidad cayó 33% respecto del minuto anterior.",
+   "factores_favorables": [
+    "El escuadrón se mantuvo completo"
+   ],
+   "factores_adversos": [
+    "Salud final del escuadrón: 8 puntos",
+    "Permaneció fuera de la zona el 19% del tiempo"
+   ],
+   "recomendaciones": [
+    "Iniciar la rotación antes del cierre del círculo",
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "053b957b-14",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 14,
+  "posicion_final": 2,
+  "escuadrones": 21,
+  "clasifico": true,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.5327,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.441,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5714,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.373,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.5963,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.374,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.6079,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.371,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.6052,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.368,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.5899,
+    "vivos": 4,
+    "salud": 97.8,
+    "dist_rel": 0.33,
+    "fase": 2,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.5698,
+    "vivos": 4,
+    "salud": 94.0,
+    "dist_rel": 0.345,
+    "fase": 2,
+    "equipos_vivos": 17
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.5685,
+    "vivos": 4,
+    "salud": 93.3,
+    "dist_rel": 0.383,
+    "fase": 3,
+    "equipos_vivos": 16
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.5861,
+    "vivos": 4,
+    "salud": 93.5,
+    "dist_rel": 0.444,
+    "fase": 4,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.6312,
+    "vivos": 4,
+    "salud": 98.1,
+    "dist_rel": 0.501,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.6672,
+    "vivos": 4,
+    "salud": 91.7,
+    "dist_rel": 0.701,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.7223,
+    "vivos": 4,
+    "salud": 83.3,
+    "dist_rel": 1.035,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.7556,
+    "vivos": 4,
+    "salud": 90.0,
+    "dist_rel": 0.593,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.7987,
+    "vivos": 4,
+    "salud": 99.9,
+    "dist_rel": 0.632,
+    "fase": 6,
+    "equipos_vivos": 11
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.8443,
+    "vivos": 4,
+    "salud": 99.9,
+    "dist_rel": 0.905,
+    "fase": 6,
+    "equipos_vivos": 9
+   }
+  ],
+  "informe": {
+   "veredicto": "Dominante",
+   "resumen": "El escuadrón terminó en la posición 2 de 21. Comenzó con 100 puntos de salud promedio y cerró con 100, perdiendo 0 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 6: la probabilidad cayó 2% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Salud final del escuadrón: 100 puntos",
+    "El escuadrón se mantuvo completo",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [],
+   "recomendaciones": [
+    "Mantener el planteamiento actual"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "053b957b-15",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 15,
+  "posicion_final": 9,
+  "escuadrones": 21,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.4839,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.346,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.4625,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.045,
+    "fase": 1,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.4486,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.041,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.4437,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.044,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.4433,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.046,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.4486,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.086,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.4613,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.186,
+    "fase": 2,
+    "equipos_vivos": 17
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.4804,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.362,
+    "fase": 3,
+    "equipos_vivos": 16
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.5108,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.671,
+    "fase": 4,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.5372,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.643,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.556,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.646,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.5773,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.824,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.5949,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.734,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.6164,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.698,
+    "fase": 6,
+    "equipos_vivos": 11
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.6382,
+    "vivos": 1,
+    "salud": 92.9,
+    "dist_rel": 0.757,
+    "fase": 6,
+    "equipos_vivos": 9
+   }
+  ],
+  "informe": {
+   "veredicto": "Dominante",
+   "resumen": "El escuadrón terminó en la posición 9 de 21. Comenzó con 100 puntos de salud promedio y cerró con 93, perdiendo 0 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 1: la probabilidad cayó 2% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Salud final del escuadrón: 93 puntos",
+    "El escuadrón se mantuvo completo",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [],
+   "recomendaciones": [
+    "Mantener el planteamiento actual"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "053b957b-16",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 16,
+  "posicion_final": 6,
+  "escuadrones": 21,
+  "clasifico": true,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.4842,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.352,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.4793,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.063,
+    "fase": 1,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.4751,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.104,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.472,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.097,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.4676,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.084,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.4657,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.076,
+    "fase": 2,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.4716,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.138,
+    "fase": 2,
+    "equipos_vivos": 17
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.4858,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.292,
+    "fase": 4,
+    "equipos_vivos": 16
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.5118,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.53,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.5323,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.444,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.5439,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.302,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.5559,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.29,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.5633,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.171,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.5758,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.136,
+    "fase": 6,
+    "equipos_vivos": 11
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.6007,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.316,
+    "fase": 6,
+    "equipos_vivos": 9
+   }
+  ],
+  "informe": {
+   "veredicto": "Dominante",
+   "resumen": "El escuadrón terminó en la posición 6 de 21. Comenzó con 100 puntos de salud promedio y cerró con 100, perdiendo 0 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 1: la probabilidad cayó 0% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Salud final del escuadrón: 100 puntos",
+    "El escuadrón se mantuvo completo",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [],
+   "recomendaciones": [
+    "Mantener el planteamiento actual"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "053b957b-17",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 17,
+  "posicion_final": 12,
+  "escuadrones": 21,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.4836,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.341,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.4875,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.405,
+    "fase": 1,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.48,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.419,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.4637,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.423,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.4423,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.433,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.4217,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.576,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.4072,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.832,
+    "fase": 2,
+    "equipos_vivos": 17
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.38,
+    "vivos": 1,
+    "salud": 96.9,
+    "dist_rel": 1.245,
+    "fase": 3,
+    "equipos_vivos": 16
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.3337,
+    "vivos": 1,
+    "salud": 86.1,
+    "dist_rel": 1.939,
+    "fase": 4,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.2668,
+    "vivos": 1,
+    "salud": 71.5,
+    "dist_rel": 2.176,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.2207,
+    "vivos": 1,
+    "salud": 73.3,
+    "dist_rel": 2.827,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.193,
+    "vivos": 1,
+    "salud": 64.5,
+    "dist_rel": 3.869,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.1582,
+    "vivos": 1,
+    "salud": 37.4,
+    "dist_rel": 4.161,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.1272,
+    "vivos": 1,
+    "salud": 19.4,
+    "dist_rel": 4.976,
+    "fase": 6,
+    "equipos_vivos": 12
+   }
+  ],
+  "informe": {
+   "veredicto": "Difícil",
+   "resumen": "El escuadrón terminó en la posición 12 de 21. Comenzó con 100 puntos de salud promedio y cerró con 19, perdiendo 0 integrantes durante los 14 minutos observados.",
+   "momento_critico": "Minuto 9: la probabilidad cayó 7% respecto del minuto anterior.",
+   "factores_favorables": [
+    "El escuadrón se mantuvo completo"
+   ],
+   "factores_adversos": [
+    "Salud final del escuadrón: 19 puntos",
+    "Permaneció fuera de la zona el 50% del tiempo"
+   ],
+   "recomendaciones": [
+    "Iniciar la rotación antes del cierre del círculo",
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "053b957b-18",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 18,
+  "posicion_final": 13,
+  "escuadrones": 21,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.5417,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.53,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.4892,
+    "vivos": 4,
+    "salud": 61.7,
+    "dist_rel": 0.499,
+    "fase": 1,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.3915,
+    "vivos": 4,
+    "salud": 54.1,
+    "dist_rel": 0.497,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.483,
+    "vivos": 4,
+    "salud": 70.8,
+    "dist_rel": 0.498,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.6364,
+    "vivos": 4,
+    "salud": 86.3,
+    "dist_rel": 0.503,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.7001,
+    "vivos": 4,
+    "salud": 92.2,
+    "dist_rel": 0.553,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.7301,
+    "vivos": 4,
+    "salud": 94.1,
+    "dist_rel": 0.652,
+    "fase": 2,
+    "equipos_vivos": 17
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.7384,
+    "vivos": 4,
+    "salud": 97.8,
+    "dist_rel": 0.62,
+    "fase": 3,
+    "equipos_vivos": 16
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.7525,
+    "vivos": 4,
+    "salud": 99.6,
+    "dist_rel": 0.748,
+    "fase": 4,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.7443,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.371,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.7179,
+    "vivos": 4,
+    "salud": 95.3,
+    "dist_rel": 0.229,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.687,
+    "vivos": 4,
+    "salud": 79.5,
+    "dist_rel": 0.371,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.552,
+    "vivos": 4,
+    "salud": 44.5,
+    "dist_rel": 0.198,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.2377,
+    "vivos": 4,
+    "salud": 0.0,
+    "dist_rel": 0.306,
+    "fase": 6,
+    "equipos_vivos": 12
+   }
+  ],
+  "informe": {
+   "veredicto": "Adversa",
+   "resumen": "El escuadrón terminó en la posición 13 de 21. Comenzó con 100 puntos de salud promedio y cerró con 0, perdiendo 0 integrantes durante los 14 minutos observados.",
+   "momento_critico": "Minuto 13: la probabilidad cayó 31% respecto del minuto anterior.",
+   "factores_favorables": [
+    "El escuadrón se mantuvo completo",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Salud final del escuadrón: 0 puntos"
+   ],
+   "recomendaciones": [
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "053b957b-19",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 19,
+  "posicion_final": 8,
+  "escuadrones": 21,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.5178,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.303,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.4968,
+    "vivos": 4,
+    "salud": 89.7,
+    "dist_rel": 0.095,
+    "fase": 1,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.4491,
+    "vivos": 4,
+    "salud": 81.3,
+    "dist_rel": 0.096,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.5273,
+    "vivos": 3,
+    "salud": 100.0,
+    "dist_rel": 0.098,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.557,
+    "vivos": 3,
+    "salud": 100.0,
+    "dist_rel": 0.101,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.4073,
+    "vivos": 3,
+    "salud": 60.2,
+    "dist_rel": 0.138,
+    "fase": 1,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.5022,
+    "vivos": 2,
+    "salud": 92.7,
+    "dist_rel": 0.189,
+    "fase": 2,
+    "equipos_vivos": 17
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.5408,
+    "vivos": 2,
+    "salud": 98.3,
+    "dist_rel": 0.241,
+    "fase": 3,
+    "equipos_vivos": 16
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.5564,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.388,
+    "fase": 4,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.552,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.447,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.543,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.646,
+    "fase": 5,
+    "equipos_vivos": 14
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.5338,
+    "vivos": 1,
+    "salud": 84.3,
+    "dist_rel": 1.065,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.3556,
+    "vivos": 1,
+    "salud": 50.2,
+    "dist_rel": 1.212,
+    "fase": 6,
+    "equipos_vivos": 13
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.1922,
+    "vivos": 1,
+    "salud": 48.7,
+    "dist_rel": 1.643,
+    "fase": 6,
+    "equipos_vivos": 11
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.1208,
+    "vivos": 1,
+    "salud": 43.7,
+    "dist_rel": 2.023,
+    "fase": 6,
+    "equipos_vivos": 9
+   }
+  ],
+  "informe": {
+   "veredicto": "Adversa",
+   "resumen": "El escuadrón terminó en la posición 8 de 21. Comenzó con 100 puntos de salud promedio y cerró con 44, perdiendo 3 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 12: la probabilidad cayó 18% respecto del minuto anterior.",
+   "factores_favorables": [],
+   "factores_adversos": [
+    "Salud final del escuadrón: 44 puntos",
+    "Se perdieron 3 integrantes",
+    "Permaneció fuera de la zona el 24% del tiempo"
+   ],
+   "recomendaciones": [
+    "Revisar la coordinación en los enfrentamientos",
+    "Iniciar la rotación antes del cierre del círculo",
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "053b957b-20",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 20,
+  "posicion_final": 20,
+  "escuadrones": 21,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.4855,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.377,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.4712,
+    "vivos": 1,
+    "salud": 83.3,
+    "dist_rel": 0.539,
+    "fase": 1,
+    "equipos_vivos": 20
+   }
+  ],
+  "informe": {
+   "veredicto": "Sólida",
+   "resumen": "El escuadrón terminó en la posición 20 de 21. Comenzó con 100 puntos de salud promedio y cerró con 83, perdiendo 0 integrantes durante los 2 minutos observados.",
+   "momento_critico": "Minuto 1: la probabilidad cayó 1% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Salud final del escuadrón: 83 puntos",
+    "El escuadrón se mantuvo completo",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [],
+   "recomendaciones": [
+    "Mantener el planteamiento actual"
+   ],
+   "confianza": "Baja",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "053b957b-21",
+  "match_id": "053b957b-1034-4cda-a963-3b0a10b95a40",
+  "team_id": 21,
+  "posicion_final": 19,
+  "escuadrones": 21,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.5149,
+    "vivos": 2,
+    "salud": 100.0,
+    "dist_rel": 0.548,
+    "fase": 1,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5228,
+    "vivos": 2,
+    "salud": 100.0,
+    "dist_rel": 0.501,
+    "fase": 1,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.517,
+    "vivos": 2,
+    "salud": 100.0,
+    "dist_rel": 0.499,
+    "fase": 1,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.2879,
+    "vivos": 2,
+    "salud": 25.0,
+    "dist_rel": 0.498,
+    "fase": 1,
+    "equipos_vivos": 18
+   }
+  ],
+  "informe": {
+   "veredicto": "Difícil",
+   "resumen": "El escuadrón terminó en la posición 19 de 21. Comenzó con 100 puntos de salud promedio y cerró con 25, perdiendo 0 integrantes durante los 4 minutos observados.",
+   "momento_critico": "Minuto 3: la probabilidad cayó 23% respecto del minuto anterior.",
+   "factores_favorables": [
+    "El escuadrón se mantuvo completo",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Salud final del escuadrón: 25 puntos"
+   ],
+   "recomendaciones": [
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Baja",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "09481f95-1",
+  "match_id": "09481f95-febf-4d2f-a8b6-ae82b9d0998f",
+  "team_id": 1,
+  "posicion_final": 23,
+  "escuadrones": 28,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.4685,
+    "vivos": 2,
+    "salud": 100.0,
+    "dist_rel": 0.317,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.4687,
+    "vivos": 2,
+    "salud": 100.0,
+    "dist_rel": 0.194,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.4713,
+    "vivos": 2,
+    "salud": 100.0,
+    "dist_rel": 0.198,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.4832,
+    "vivos": 2,
+    "salud": 100.0,
+    "dist_rel": 0.197,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.3934,
+    "vivos": 2,
+    "salud": 71.4,
+    "dist_rel": 0.196,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.4252,
+    "vivos": 2,
+    "salud": 64.7,
+    "dist_rel": 0.194,
+    "fase": 1,
+    "equipos_vivos": 25
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.5496,
+    "vivos": 1,
+    "salud": 73.5,
+    "dist_rel": 0.176,
+    "fase": 1,
+    "equipos_vivos": 24
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.5899,
+    "vivos": 1,
+    "salud": 75.0,
+    "dist_rel": 0.202,
+    "fase": 2,
+    "equipos_vivos": 23
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.4779,
+    "vivos": 1,
+    "salud": 50.0,
+    "dist_rel": 0.286,
+    "fase": 3,
+    "equipos_vivos": 23
+   }
+  ],
+  "informe": {
+   "veredicto": "Difícil",
+   "resumen": "El escuadrón terminó en la posición 23 de 28. Comenzó con 100 puntos de salud promedio y cerró con 50, perdiendo 1 integrantes durante los 9 minutos observados.",
+   "momento_critico": "Minuto 8: la probabilidad cayó 11% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Salud final del escuadrón: 50 puntos",
+    "Se perdieron 1 integrantes"
+   ],
+   "recomendaciones": [
+    "Revisar la coordinación en los enfrentamientos",
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Media",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "09481f95-2",
+  "match_id": "09481f95-febf-4d2f-a8b6-ae82b9d0998f",
+  "team_id": 2,
+  "posicion_final": 3,
+  "escuadrones": 28,
+  "clasifico": true,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.4661,
+    "vivos": 2,
+    "salud": 100.0,
+    "dist_rel": 0.282,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.4559,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.131,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.436,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.129,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.4235,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.129,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.4171,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.131,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.4267,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.13,
+    "fase": 1,
+    "equipos_vivos": 25
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.442,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.146,
+    "fase": 1,
+    "equipos_vivos": 24
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.46,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.228,
+    "fase": 2,
+    "equipos_vivos": 23
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.4868,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.447,
+    "fase": 3,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.5103,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.751,
+    "fase": 4,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.534,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.963,
+    "fase": 5,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.5529,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.954,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.5632,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.974,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.5636,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.863,
+    "fase": 6,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.5049,
+    "vivos": 1,
+    "salud": 65.3,
+    "dist_rel": 0.688,
+    "fase": 6,
+    "equipos_vivos": 17
+   }
+  ],
+  "informe": {
+   "veredicto": "Irregular",
+   "resumen": "El escuadrón terminó en la posición 3 de 28. Comenzó con 100 puntos de salud promedio y cerró con 65, perdiendo 1 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 14: la probabilidad cayó 6% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Salud final del escuadrón: 65 puntos",
+    "Se perdieron 1 integrantes"
+   ],
+   "recomendaciones": [
+    "Revisar la coordinación en los enfrentamientos"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "09481f95-3",
+  "match_id": "09481f95-febf-4d2f-a8b6-ae82b9d0998f",
+  "team_id": 3,
+  "posicion_final": 2,
+  "escuadrones": 28,
+  "clasifico": true,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.4569,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.435,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.4327,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.283,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.4011,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.279,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.3733,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.273,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.3569,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.278,
+    "fase": 1,
+    "equipos_vivos": 27
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.3587,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.302,
+    "fase": 1,
+    "equipos_vivos": 25
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.3726,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.397,
+    "fase": 2,
+    "equipos_vivos": 24
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.3986,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.559,
+    "fase": 2,
+    "equipos_vivos": 23
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.4394,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.86,
+    "fase": 3,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.4811,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 1.199,
+    "fase": 4,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.5396,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 1.091,
+    "fase": 5,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.5814,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.637,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.6031,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.65,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.6228,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.731,
+    "fase": 6,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.6422,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.766,
+    "fase": 6,
+    "equipos_vivos": 17
+   }
+  ],
+  "informe": {
+   "veredicto": "Dominante",
+   "resumen": "El escuadrón terminó en la posición 2 de 28. Comenzó con 100 puntos de salud promedio y cerró con 100, perdiendo 0 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 2: la probabilidad cayó 3% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Salud final del escuadrón: 100 puntos",
+    "El escuadrón se mantuvo completo",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [],
+   "recomendaciones": [
+    "Mantener el planteamiento actual"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "09481f95-4",
+  "match_id": "09481f95-febf-4d2f-a8b6-ae82b9d0998f",
+  "team_id": 4,
+  "posicion_final": 13,
+  "escuadrones": 28,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.4542,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.373,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.4367,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.193,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.4124,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.195,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.384,
+    "vivos": 1,
+    "salud": 96.4,
+    "dist_rel": 0.193,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.3279,
+    "vivos": 1,
+    "salud": 73.1,
+    "dist_rel": 0.198,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.3762,
+    "vivos": 1,
+    "salud": 92.7,
+    "dist_rel": 0.2,
+    "fase": 1,
+    "equipos_vivos": 25
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.4315,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.19,
+    "fase": 1,
+    "equipos_vivos": 24
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.473,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.22,
+    "fase": 2,
+    "equipos_vivos": 23
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.5114,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.331,
+    "fase": 3,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.5106,
+    "vivos": 1,
+    "salud": 83.2,
+    "dist_rel": 0.599,
+    "fase": 4,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.4177,
+    "vivos": 1,
+    "salud": 52.4,
+    "dist_rel": 0.836,
+    "fase": 5,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.5231,
+    "vivos": 1,
+    "salud": 75.6,
+    "dist_rel": 0.846,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.6448,
+    "vivos": 1,
+    "salud": 98.6,
+    "dist_rel": 0.935,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.7085,
+    "vivos": 1,
+    "salud": 98.5,
+    "dist_rel": 0.96,
+    "fase": 6,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.7457,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.915,
+    "fase": 6,
+    "equipos_vivos": 17
+   }
+  ],
+  "informe": {
+   "veredicto": "Dominante",
+   "resumen": "El escuadrón terminó en la posición 13 de 28. Comenzó con 100 puntos de salud promedio y cerró con 100, perdiendo 0 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 10: la probabilidad cayó 9% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Salud final del escuadrón: 100 puntos",
+    "El escuadrón se mantuvo completo",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [],
+   "recomendaciones": [
+    "Mantener el planteamiento actual"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "09481f95-5",
+  "match_id": "09481f95-febf-4d2f-a8b6-ae82b9d0998f",
+  "team_id": 5,
+  "posicion_final": 21,
+  "escuadrones": 28,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.4863,
+    "vivos": 3,
+    "salud": 100.0,
+    "dist_rel": 0.375,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.4953,
+    "vivos": 3,
+    "salud": 100.0,
+    "dist_rel": 0.273,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.5116,
+    "vivos": 3,
+    "salud": 100.0,
+    "dist_rel": 0.27,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.5357,
+    "vivos": 3,
+    "salud": 100.0,
+    "dist_rel": 0.26,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.5704,
+    "vivos": 3,
+    "salud": 100.0,
+    "dist_rel": 0.258,
+    "fase": 1,
+    "equipos_vivos": 27
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.6131,
+    "vivos": 3,
+    "salud": 100.0,
+    "dist_rel": 0.252,
+    "fase": 1,
+    "equipos_vivos": 25
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.6572,
+    "vivos": 3,
+    "salud": 100.0,
+    "dist_rel": 0.305,
+    "fase": 1,
+    "equipos_vivos": 24
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.6951,
+    "vivos": 3,
+    "salud": 100.0,
+    "dist_rel": 0.372,
+    "fase": 2,
+    "equipos_vivos": 23
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.7022,
+    "vivos": 3,
+    "salud": 94.3,
+    "dist_rel": 0.411,
+    "fase": 3,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.7225,
+    "vivos": 3,
+    "salud": 86.2,
+    "dist_rel": 0.622,
+    "fase": 4,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.6444,
+    "vivos": 3,
+    "salud": 59.6,
+    "dist_rel": 0.854,
+    "fase": 5,
+    "equipos_vivos": 20
+   }
+  ],
+  "informe": {
+   "veredicto": "Irregular",
+   "resumen": "El escuadrón terminó en la posición 21 de 28. Comenzó con 100 puntos de salud promedio y cerró con 60, perdiendo 0 integrantes durante los 11 minutos observados.",
+   "momento_critico": "Minuto 10: la probabilidad cayó 8% respecto del minuto anterior.",
+   "factores_favorables": [
+    "El escuadrón se mantuvo completo",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Salud final del escuadrón: 60 puntos"
+   ],
+   "recomendaciones": [
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Media",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "09481f95-200",
+  "match_id": "09481f95-febf-4d2f-a8b6-ae82b9d0998f",
+  "team_id": 200,
+  "posicion_final": 22,
+  "escuadrones": 28,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.4944,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.362,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5564,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.455,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.5106,
+    "vivos": 4,
+    "salud": 77.8,
+    "dist_rel": 0.467,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.3888,
+    "vivos": 4,
+    "salud": 54.8,
+    "dist_rel": 0.468,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.5017,
+    "vivos": 4,
+    "salud": 70.5,
+    "dist_rel": 0.47,
+    "fase": 1,
+    "equipos_vivos": 27
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.5075,
+    "vivos": 4,
+    "salud": 60.0,
+    "dist_rel": 0.47,
+    "fase": 1,
+    "equipos_vivos": 25
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.3232,
+    "vivos": 4,
+    "salud": 32.1,
+    "dist_rel": 0.468,
+    "fase": 1,
+    "equipos_vivos": 24
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.1471,
+    "vivos": 3,
+    "salud": 15.6,
+    "dist_rel": 0.468,
+    "fase": 2,
+    "equipos_vivos": 23
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.0619,
+    "vivos": 2,
+    "salud": 2.4,
+    "dist_rel": 0.482,
+    "fase": 3,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.0324,
+    "vivos": 1,
+    "salud": 0.0,
+    "dist_rel": 0.507,
+    "fase": 4,
+    "equipos_vivos": 21
+   }
+  ],
+  "informe": {
+   "veredicto": "Adversa",
+   "resumen": "El escuadrón terminó en la posición 22 de 28. Comenzó con 100 puntos de salud promedio y cerró con 0, perdiendo 3 integrantes durante los 10 minutos observados.",
+   "momento_critico": "Minuto 6: la probabilidad cayó 18% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Salud final del escuadrón: 0 puntos",
+    "Se perdieron 3 integrantes"
+   ],
+   "recomendaciones": [
+    "Revisar la coordinación en los enfrentamientos",
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Media",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "09481f95-201",
+  "match_id": "09481f95-febf-4d2f-a8b6-ae82b9d0998f",
+  "team_id": 201,
+  "posicion_final": 17,
+  "escuadrones": 28,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.4919,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.337,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5317,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.316,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.5688,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.333,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.6088,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.352,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.6442,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.358,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.5938,
+    "vivos": 4,
+    "salud": 89.9,
+    "dist_rel": 0.371,
+    "fase": 1,
+    "equipos_vivos": 25
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.4338,
+    "vivos": 4,
+    "salud": 55.3,
+    "dist_rel": 0.358,
+    "fase": 1,
+    "equipos_vivos": 24
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.408,
+    "vivos": 4,
+    "salud": 50.7,
+    "dist_rel": 0.324,
+    "fase": 2,
+    "equipos_vivos": 23
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.2846,
+    "vivos": 4,
+    "salud": 34.9,
+    "dist_rel": 0.285,
+    "fase": 3,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.2013,
+    "vivos": 4,
+    "salud": 30.2,
+    "dist_rel": 0.203,
+    "fase": 4,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.1156,
+    "vivos": 4,
+    "salud": 19.1,
+    "dist_rel": 0.146,
+    "fase": 5,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.0709,
+    "vivos": 3,
+    "salud": 18.0,
+    "dist_rel": 0.185,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.0503,
+    "vivos": 3,
+    "salud": 13.5,
+    "dist_rel": 0.471,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.1092,
+    "vivos": 1,
+    "salud": 55.1,
+    "dist_rel": 0.962,
+    "fase": 6,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.2065,
+    "vivos": 1,
+    "salud": 80.7,
+    "dist_rel": 0.955,
+    "fase": 6,
+    "equipos_vivos": 17
+   }
+  ],
+  "informe": {
+   "veredicto": "Difícil",
+   "resumen": "El escuadrón terminó en la posición 17 de 28. Comenzó con 100 puntos de salud promedio y cerró con 81, perdiendo 3 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 6: la probabilidad cayó 16% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Salud final del escuadrón: 81 puntos",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Se perdieron 3 integrantes"
+   ],
+   "recomendaciones": [
+    "Revisar la coordinación en los enfrentamientos"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "09481f95-202",
+  "match_id": "09481f95-febf-4d2f-a8b6-ae82b9d0998f",
+  "team_id": 202,
+  "posicion_final": 11,
+  "escuadrones": 28,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.4884,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.303,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.4954,
+    "vivos": 4,
+    "salud": 98.2,
+    "dist_rel": 0.149,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.5045,
+    "vivos": 4,
+    "salud": 98.5,
+    "dist_rel": 0.147,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.4435,
+    "vivos": 4,
+    "salud": 91.7,
+    "dist_rel": 0.161,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.4145,
+    "vivos": 4,
+    "salud": 78.3,
+    "dist_rel": 0.177,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.4606,
+    "vivos": 3,
+    "salud": 79.5,
+    "dist_rel": 0.179,
+    "fase": 1,
+    "equipos_vivos": 25
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.32,
+    "vivos": 3,
+    "salud": 50.6,
+    "dist_rel": 0.17,
+    "fase": 1,
+    "equipos_vivos": 24
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.3369,
+    "vivos": 2,
+    "salud": 56.5,
+    "dist_rel": 0.202,
+    "fase": 2,
+    "equipos_vivos": 23
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.3513,
+    "vivos": 2,
+    "salud": 60.0,
+    "dist_rel": 0.289,
+    "fase": 3,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.5822,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.519,
+    "fase": 4,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.5692,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.77,
+    "fase": 5,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.5817,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.792,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.5903,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.868,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.6013,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.87,
+    "fase": 6,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.6134,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.623,
+    "fase": 6,
+    "equipos_vivos": 17
+   }
+  ],
+  "informe": {
+   "veredicto": "Difícil",
+   "resumen": "El escuadrón terminó en la posición 11 de 28. Comenzó con 100 puntos de salud promedio y cerró con 100, perdiendo 3 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 6: la probabilidad cayó 14% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Salud final del escuadrón: 100 puntos",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Se perdieron 3 integrantes"
+   ],
+   "recomendaciones": [
+    "Revisar la coordinación en los enfrentamientos"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "09481f95-203",
+  "match_id": "09481f95-febf-4d2f-a8b6-ae82b9d0998f",
+  "team_id": 203,
+  "posicion_final": 4,
+  "escuadrones": 28,
+  "clasifico": true,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.495,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.368,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5467,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.403,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.589,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.403,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.6308,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.417,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.6698,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.419,
+    "fase": 1,
+    "equipos_vivos": 27
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.7079,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.43,
+    "fase": 1,
+    "equipos_vivos": 25
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.6049,
+    "vivos": 4,
+    "salud": 77.7,
+    "dist_rel": 0.428,
+    "fase": 1,
+    "equipos_vivos": 24
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.593,
+    "vivos": 4,
+    "salud": 75.0,
+    "dist_rel": 0.41,
+    "fase": 2,
+    "equipos_vivos": 23
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.7141,
+    "vivos": 4,
+    "salud": 94.7,
+    "dist_rel": 0.373,
+    "fase": 3,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.5738,
+    "vivos": 3,
+    "salud": 76.3,
+    "dist_rel": 0.382,
+    "fase": 4,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.4655,
+    "vivos": 3,
+    "salud": 63.8,
+    "dist_rel": 0.378,
+    "fase": 5,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.5595,
+    "vivos": 3,
+    "salud": 81.7,
+    "dist_rel": 0.281,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.2485,
+    "vivos": 2,
+    "salud": 49.2,
+    "dist_rel": 0.326,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.4589,
+    "vivos": 2,
+    "salud": 85.7,
+    "dist_rel": 0.416,
+    "fase": 6,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.5717,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.421,
+    "fase": 6,
+    "equipos_vivos": 17
+   }
+  ],
+  "informe": {
+   "veredicto": "Difícil",
+   "resumen": "El escuadrón terminó en la posición 4 de 28. Comenzó con 100 puntos de salud promedio y cerró con 100, perdiendo 3 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 12: la probabilidad cayó 31% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Salud final del escuadrón: 100 puntos",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Se perdieron 3 integrantes"
+   ],
+   "recomendaciones": [
+    "Revisar la coordinación en los enfrentamientos"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "09481f95-204",
+  "match_id": "09481f95-febf-4d2f-a8b6-ae82b9d0998f",
+  "team_id": 204,
+  "posicion_final": 7,
+  "escuadrones": 28,
+  "clasifico": true,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.4917,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.335,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5108,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.18,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.533,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.196,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.5634,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.209,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.5954,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.223,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.6346,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.226,
+    "fase": 1,
+    "equipos_vivos": 25
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.6575,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.207,
+    "fase": 1,
+    "equipos_vivos": 24
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.6711,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.193,
+    "fase": 2,
+    "equipos_vivos": 23
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.6761,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.137,
+    "fase": 3,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.6729,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.179,
+    "fase": 4,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.675,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.252,
+    "fase": 5,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.6102,
+    "vivos": 4,
+    "salud": 92.9,
+    "dist_rel": 0.248,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.6026,
+    "vivos": 4,
+    "salud": 91.2,
+    "dist_rel": 0.311,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.6494,
+    "vivos": 4,
+    "salud": 97.5,
+    "dist_rel": 0.441,
+    "fase": 6,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.6944,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.486,
+    "fase": 6,
+    "equipos_vivos": 17
+   }
+  ],
+  "informe": {
+   "veredicto": "Dominante",
+   "resumen": "El escuadrón terminó en la posición 7 de 28. Comenzó con 100 puntos de salud promedio y cerró con 100, perdiendo 0 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 11: la probabilidad cayó 6% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Salud final del escuadrón: 100 puntos",
+    "El escuadrón se mantuvo completo",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [],
+   "recomendaciones": [
+    "Mantener el planteamiento actual"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "09481f95-205",
+  "match_id": "09481f95-febf-4d2f-a8b6-ae82b9d0998f",
+  "team_id": 205,
+  "posicion_final": 20,
+  "escuadrones": 28,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.5005,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.423,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5227,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.336,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.4624,
+    "vivos": 4,
+    "salud": 91.7,
+    "dist_rel": 0.32,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.2855,
+    "vivos": 4,
+    "salud": 54.0,
+    "dist_rel": 0.303,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.2529,
+    "vivos": 4,
+    "salud": 54.0,
+    "dist_rel": 0.295,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.4006,
+    "vivos": 4,
+    "salud": 67.4,
+    "dist_rel": 0.281,
+    "fase": 1,
+    "equipos_vivos": 25
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.3847,
+    "vivos": 3,
+    "salud": 66.7,
+    "dist_rel": 0.283,
+    "fase": 1,
+    "equipos_vivos": 24
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.5568,
+    "vivos": 3,
+    "salud": 92.3,
+    "dist_rel": 0.285,
+    "fase": 2,
+    "equipos_vivos": 23
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.6246,
+    "vivos": 2,
+    "salud": 96.0,
+    "dist_rel": 0.366,
+    "fase": 3,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.6098,
+    "vivos": 2,
+    "salud": 91.5,
+    "dist_rel": 0.602,
+    "fase": 4,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.643,
+    "vivos": 2,
+    "salud": 95.8,
+    "dist_rel": 0.803,
+    "fase": 5,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.3228,
+    "vivos": 2,
+    "salud": 48.4,
+    "dist_rel": 0.785,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.078,
+    "vivos": 2,
+    "salud": 0.0,
+    "dist_rel": 0.806,
+    "fase": 5,
+    "equipos_vivos": 19
+   }
+  ],
+  "informe": {
+   "veredicto": "Adversa",
+   "resumen": "El escuadrón terminó en la posición 20 de 28. Comenzó con 100 puntos de salud promedio y cerró con 0, perdiendo 2 integrantes durante los 13 minutos observados.",
+   "momento_critico": "Minuto 11: la probabilidad cayó 32% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Salud final del escuadrón: 0 puntos",
+    "Se perdieron 2 integrantes"
+   ],
+   "recomendaciones": [
+    "Revisar la coordinación en los enfrentamientos",
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "09481f95-206",
+  "match_id": "09481f95-febf-4d2f-a8b6-ae82b9d0998f",
+  "team_id": 206,
+  "posicion_final": 5,
+  "escuadrones": 28,
+  "clasifico": true,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.496,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.378,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5619,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.532,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.6181,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.549,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.6635,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.525,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.6966,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.495,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.7281,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.458,
+    "fase": 1,
+    "equipos_vivos": 25
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.7455,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.406,
+    "fase": 1,
+    "equipos_vivos": 24
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.7528,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.345,
+    "fase": 2,
+    "equipos_vivos": 23
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.7581,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.285,
+    "fase": 3,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.7491,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.199,
+    "fase": 4,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.7288,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.055,
+    "fase": 5,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.7161,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.117,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.5681,
+    "vivos": 4,
+    "salud": 78.1,
+    "dist_rel": 0.428,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.5184,
+    "vivos": 4,
+    "salud": 70.9,
+    "dist_rel": 0.729,
+    "fase": 6,
+    "equipos_vivos": 18
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.6195,
+    "vivos": 4,
+    "salud": 85.7,
+    "dist_rel": 0.733,
+    "fase": 6,
+    "equipos_vivos": 17
+   }
+  ],
+  "informe": {
+   "veredicto": "Sólida",
+   "resumen": "El escuadrón terminó en la posición 5 de 28. Comenzó con 100 puntos de salud promedio y cerró con 86, perdiendo 0 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 12: la probabilidad cayó 15% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Salud final del escuadrón: 86 puntos",
+    "El escuadrón se mantuvo completo",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [],
+   "recomendaciones": [
+    "Mantener el planteamiento actual"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "09481f95-207",
+  "match_id": "09481f95-febf-4d2f-a8b6-ae82b9d0998f",
+  "team_id": 207,
+  "posicion_final": 6,
+  "escuadrones": 28,
+  "clasifico": true,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.5019,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.436,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5209,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.359,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.5441,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.351,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.5705,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.344,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.5978,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.334,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.6121,
+    "vivos": 4,
+    "salud": 95.6,
+    "dist_rel": 0.327,
+    "fase": 1,
+    "equipos_vivos": 25
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.4806,
+    "vivos": 4,
+    "salud": 74.0,
+    "dist_rel": 0.344,
+    "fase": 1,
+    "equipos_vivos": 24
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.469,
+    "vivos": 4,
+    "salud": 65.7,
+    "dist_rel": 0.388,
+    "fase": 2,
+    "equipos_vivos": 23
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.6949,
+    "vivos": 3,
+    "salud": 91.7,
+    "dist_rel": 0.503,
+    "fase": 3,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.6984,
+    "vivos": 3,
+    "salud": 89.1,
+    "dist_rel": 0.726,
+    "fase": 4,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.7367,
+    "vivos": 3,
+    "salud": 95.8,
+    "dist_rel": 0.895,
+    "fase": 5,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.7532,
+    "vivos": 3,
+    "salud": 96.2,
+    "dist_rel": 0.831,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.7655,
+    "vivos": 3,
+    "salud": 100.0,
+    "dist_rel": 0.828,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.7643,
+    "vivos": 3,
+    "salud": 100.0,
+    "dist_rel": 0.756,
+    "fase": 6,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.7709,
+    "vivos": 3,
+    "salud": 99.9,
+    "dist_rel": 0.659,
+    "fase": 6,
+    "equipos_vivos": 17
+   }
+  ],
+  "informe": {
+   "veredicto": "Sólida",
+   "resumen": "El escuadrón terminó en la posición 6 de 28. Comenzó con 100 puntos de salud promedio y cerró con 100, perdiendo 1 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 6: la probabilidad cayó 13% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Salud final del escuadrón: 100 puntos",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Se perdieron 1 integrantes"
+   ],
+   "recomendaciones": [
+    "Revisar la coordinación en los enfrentamientos"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "09481f95-208",
+  "match_id": "09481f95-febf-4d2f-a8b6-ae82b9d0998f",
+  "team_id": 208,
+  "posicion_final": 15,
+  "escuadrones": 28,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.4871,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.29,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.4796,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.015,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.483,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.028,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.4841,
+    "vivos": 4,
+    "salud": 95.5,
+    "dist_rel": 0.043,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.4695,
+    "vivos": 4,
+    "salud": 86.7,
+    "dist_rel": 0.064,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.4298,
+    "vivos": 4,
+    "salud": 82.1,
+    "dist_rel": 0.068,
+    "fase": 1,
+    "equipos_vivos": 25
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.6217,
+    "vivos": 4,
+    "salud": 99.8,
+    "dist_rel": 0.07,
+    "fase": 1,
+    "equipos_vivos": 24
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.6539,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.153,
+    "fase": 2,
+    "equipos_vivos": 23
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.6821,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.312,
+    "fase": 3,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.701,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.605,
+    "fase": 4,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.7205,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.824,
+    "fase": 5,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.7081,
+    "vivos": 4,
+    "salud": 98.7,
+    "dist_rel": 0.777,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.6984,
+    "vivos": 4,
+    "salud": 92.3,
+    "dist_rel": 0.872,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.6991,
+    "vivos": 4,
+    "salud": 89.7,
+    "dist_rel": 0.917,
+    "fase": 6,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.3587,
+    "vivos": 4,
+    "salud": 40.4,
+    "dist_rel": 0.809,
+    "fase": 6,
+    "equipos_vivos": 17
+   }
+  ],
+  "informe": {
+   "veredicto": "Irregular",
+   "resumen": "El escuadrón terminó en la posición 15 de 28. Comenzó con 100 puntos de salud promedio y cerró con 40, perdiendo 0 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 14: la probabilidad cayó 34% respecto del minuto anterior.",
+   "factores_favorables": [
+    "El escuadrón se mantuvo completo",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Salud final del escuadrón: 40 puntos"
+   ],
+   "recomendaciones": [
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "09481f95-209",
+  "match_id": "09481f95-febf-4d2f-a8b6-ae82b9d0998f",
+  "team_id": 209,
+  "posicion_final": 27,
+  "escuadrones": 28,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.4961,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.379,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5532,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.456,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.5755,
+    "vivos": 4,
+    "salud": 97.5,
+    "dist_rel": 0.472,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.4628,
+    "vivos": 4,
+    "salud": 62.5,
+    "dist_rel": 0.478,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.2174,
+    "vivos": 3,
+    "salud": 30.0,
+    "dist_rel": 0.484,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.0649,
+    "vivos": 1,
+    "salud": 1.6,
+    "dist_rel": 0.484,
+    "fase": 1,
+    "equipos_vivos": 25
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.0359,
+    "vivos": 1,
+    "salud": 0.0,
+    "dist_rel": 0.483,
+    "fase": 1,
+    "equipos_vivos": 25
+   }
+  ],
+  "informe": {
+   "veredicto": "Adversa",
+   "resumen": "El escuadrón terminó en la posición 27 de 28. Comenzó con 100 puntos de salud promedio y cerró con 0, perdiendo 3 integrantes durante los 7 minutos observados.",
+   "momento_critico": "Minuto 4: la probabilidad cayó 25% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Salud final del escuadrón: 0 puntos",
+    "Se perdieron 3 integrantes"
+   ],
+   "recomendaciones": [
+    "Revisar la coordinación en los enfrentamientos",
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Media",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "09481f95-210",
+  "match_id": "09481f95-febf-4d2f-a8b6-ae82b9d0998f",
+  "team_id": 210,
+  "posicion_final": 28,
+  "escuadrones": 28,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.4917,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.335,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.4915,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.07,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.3831,
+    "vivos": 4,
+    "salud": 83.3,
+    "dist_rel": 0.073,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.213,
+    "vivos": 4,
+    "salud": 44.3,
+    "dist_rel": 0.07,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.1324,
+    "vivos": 4,
+    "salud": 19.8,
+    "dist_rel": 0.068,
+    "fase": 1,
+    "equipos_vivos": 27
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.1032,
+    "vivos": 4,
+    "salud": 0.0,
+    "dist_rel": 0.067,
+    "fase": 1,
+    "equipos_vivos": 25
+   }
+  ],
+  "informe": {
+   "veredicto": "Adversa",
+   "resumen": "El escuadrón terminó en la posición 28 de 28. Comenzó con 100 puntos de salud promedio y cerró con 0, perdiendo 0 integrantes durante los 6 minutos observados.",
+   "momento_critico": "Minuto 3: la probabilidad cayó 17% respecto del minuto anterior.",
+   "factores_favorables": [
+    "El escuadrón se mantuvo completo",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Salud final del escuadrón: 0 puntos"
+   ],
+   "recomendaciones": [
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Media",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "09481f95-211",
+  "match_id": "09481f95-febf-4d2f-a8b6-ae82b9d0998f",
+  "team_id": 211,
+  "posicion_final": 24,
+  "escuadrones": 28,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.4922,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.34,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.3836,
+    "vivos": 4,
+    "salud": 83.3,
+    "dist_rel": 0.192,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.2236,
+    "vivos": 4,
+    "salud": 57.1,
+    "dist_rel": 0.195,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.3848,
+    "vivos": 2,
+    "salud": 100.0,
+    "dist_rel": 0.205,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.4271,
+    "vivos": 2,
+    "salud": 100.0,
+    "dist_rel": 0.207,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.4583,
+    "vivos": 2,
+    "salud": 100.0,
+    "dist_rel": 0.201,
+    "fase": 1,
+    "equipos_vivos": 25
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.171,
+    "vivos": 2,
+    "salud": 45.6,
+    "dist_rel": 0.183,
+    "fase": 1,
+    "equipos_vivos": 24
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.058,
+    "vivos": 2,
+    "salud": 9.0,
+    "dist_rel": 0.201,
+    "fase": 2,
+    "equipos_vivos": 23
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.0314,
+    "vivos": 1,
+    "salud": 0.0,
+    "dist_rel": 0.258,
+    "fase": 3,
+    "equipos_vivos": 23
+   }
+  ],
+  "informe": {
+   "veredicto": "Adversa",
+   "resumen": "El escuadrón terminó en la posición 24 de 28. Comenzó con 100 puntos de salud promedio y cerró con 0, perdiendo 3 integrantes durante los 9 minutos observados.",
+   "momento_critico": "Minuto 6: la probabilidad cayó 29% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Salud final del escuadrón: 0 puntos",
+    "Se perdieron 3 integrantes"
+   ],
+   "recomendaciones": [
+    "Revisar la coordinación en los enfrentamientos",
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Media",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "09481f95-212",
+  "match_id": "09481f95-febf-4d2f-a8b6-ae82b9d0998f",
+  "team_id": 212,
+  "posicion_final": 14,
+  "escuadrones": 28,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.494,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.358,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5464,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.493,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.597,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.508,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.5643,
+    "vivos": 4,
+    "salud": 90.5,
+    "dist_rel": 0.503,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.578,
+    "vivos": 4,
+    "salud": 88.2,
+    "dist_rel": 0.495,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.5699,
+    "vivos": 4,
+    "salud": 72.8,
+    "dist_rel": 0.494,
+    "fase": 1,
+    "equipos_vivos": 25
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.5101,
+    "vivos": 4,
+    "salud": 55.2,
+    "dist_rel": 0.494,
+    "fase": 1,
+    "equipos_vivos": 24
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.6438,
+    "vivos": 4,
+    "salud": 71.7,
+    "dist_rel": 0.487,
+    "fase": 2,
+    "equipos_vivos": 23
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.435,
+    "vivos": 3,
+    "salud": 49.1,
+    "dist_rel": 0.484,
+    "fase": 3,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.5758,
+    "vivos": 3,
+    "salud": 69.9,
+    "dist_rel": 0.553,
+    "fase": 4,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.5723,
+    "vivos": 3,
+    "salud": 74.3,
+    "dist_rel": 0.572,
+    "fase": 5,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.6751,
+    "vivos": 3,
+    "salud": 98.1,
+    "dist_rel": 0.147,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.6762,
+    "vivos": 3,
+    "salud": 100.0,
+    "dist_rel": 0.148,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.5791,
+    "vivos": 3,
+    "salud": 91.0,
+    "dist_rel": 0.241,
+    "fase": 6,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.3285,
+    "vivos": 3,
+    "salud": 53.2,
+    "dist_rel": 0.186,
+    "fase": 6,
+    "equipos_vivos": 17
+   }
+  ],
+  "informe": {
+   "veredicto": "Difícil",
+   "resumen": "El escuadrón terminó en la posición 14 de 28. Comenzó con 100 puntos de salud promedio y cerró con 53, perdiendo 1 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 14: la probabilidad cayó 25% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Salud final del escuadrón: 53 puntos",
+    "Se perdieron 1 integrantes"
+   ],
+   "recomendaciones": [
+    "Revisar la coordinación en los enfrentamientos",
+    "Priorizar la recuperación de salud tras cada combate"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ },
+ {
+  "id": "09481f95-213",
+  "match_id": "09481f95-febf-4d2f-a8b6-ae82b9d0998f",
+  "team_id": 213,
+  "posicion_final": 10,
+  "escuadrones": 28,
+  "clasifico": false,
+  "minutos": [
+   {
+    "minuto": 0,
+    "probabilidad": 0.4961,
+    "vivos": 4,
+    "salud": 100.0,
+    "dist_rel": 0.379,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 1,
+    "probabilidad": 0.5519,
+    "vivos": 4,
+    "salud": 99.3,
+    "dist_rel": 0.535,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 2,
+    "probabilidad": 0.5348,
+    "vivos": 4,
+    "salud": 85.3,
+    "dist_rel": 0.568,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 3,
+    "probabilidad": 0.4939,
+    "vivos": 4,
+    "salud": 72.1,
+    "dist_rel": 0.558,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 4,
+    "probabilidad": 0.3393,
+    "vivos": 3,
+    "salud": 47.6,
+    "dist_rel": 0.555,
+    "fase": 1,
+    "equipos_vivos": 28
+   },
+   {
+    "minuto": 5,
+    "probabilidad": 0.2655,
+    "vivos": 3,
+    "salud": 35.6,
+    "dist_rel": 0.556,
+    "fase": 1,
+    "equipos_vivos": 25
+   },
+   {
+    "minuto": 6,
+    "probabilidad": 0.2949,
+    "vivos": 3,
+    "salud": 40.0,
+    "dist_rel": 0.558,
+    "fase": 1,
+    "equipos_vivos": 24
+   },
+   {
+    "minuto": 7,
+    "probabilidad": 0.5737,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.542,
+    "fase": 2,
+    "equipos_vivos": 23
+   },
+   {
+    "minuto": 8,
+    "probabilidad": 0.5912,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.54,
+    "fase": 3,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 9,
+    "probabilidad": 0.5667,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.526,
+    "fase": 4,
+    "equipos_vivos": 21
+   },
+   {
+    "minuto": 10,
+    "probabilidad": 0.5581,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.478,
+    "fase": 5,
+    "equipos_vivos": 20
+   },
+   {
+    "minuto": 11,
+    "probabilidad": 0.5639,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.485,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 12,
+    "probabilidad": 0.5654,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.55,
+    "fase": 5,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 13,
+    "probabilidad": 0.5685,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.588,
+    "fase": 6,
+    "equipos_vivos": 19
+   },
+   {
+    "minuto": 14,
+    "probabilidad": 0.5783,
+    "vivos": 1,
+    "salud": 100.0,
+    "dist_rel": 0.582,
+    "fase": 6,
+    "equipos_vivos": 17
+   }
+  ],
+  "informe": {
+   "veredicto": "Difícil",
+   "resumen": "El escuadrón terminó en la posición 10 de 28. Comenzó con 100 puntos de salud promedio y cerró con 100, perdiendo 3 integrantes durante los 15 minutos observados.",
+   "momento_critico": "Minuto 4: la probabilidad cayó 15% respecto del minuto anterior.",
+   "factores_favorables": [
+    "Salud final del escuadrón: 100 puntos",
+    "Posicionamiento dentro de la zona sostenido"
+   ],
+   "factores_adversos": [
+    "Se perdieron 3 integrantes"
+   ],
+   "recomendaciones": [
+    "Revisar la coordinación en los enfrentamientos"
+   ],
+   "confianza": "Alta",
+   "_origen": "determinista"
+  }
+ }
+]

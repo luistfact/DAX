@@ -2,16 +2,16 @@ import { useState } from 'react'
 import { AvisoTratamiento } from './components/AvisoTratamiento'
 import { SelectorPartida } from './components/SelectorPartida'
 import { CurvaProbabilidad } from './components/CurvaProbabilidad'
-import { Informe } from './components/Informe'
 import { PerfilesRadar } from './components/PerfilesRadar'
 import { TablaModelos } from './components/TablaModelos'
-import type { Partida, Perfiles, Metricas } from './types/datos'
+import { EstadoVacio } from './components/EstadoVacio'
+import { usePartidas } from './hooks/usePartidas'
+import type { Perfiles, Metricas } from './types/datos'
 
 const PESTANAS = ['Partida', 'Perfiles', 'Modelos'] as const
 type Pestana = (typeof PESTANAS)[number]
 
-// TODO: cargar con fetch('/datos/partidas.json') etc. una vez existan los archivos.
-const partidas: Partida[] = []
+// TODO: cargar perfiles.json y metricas.json cuando se construyan esas vistas.
 const perfiles: Perfiles | null = null
 const metricas: Metricas | null = null
 
@@ -19,6 +19,8 @@ function App() {
   const [aceptoTratamiento, setAceptoTratamiento] = useState(false)
   const [pestana, setPestana] = useState<Pestana>('Partida')
   const [partidaSeleccionada, setPartidaSeleccionada] = useState<string | null>(null)
+  const { cargando, error, partidas } = usePartidas()
+  const partidaActual = partidas?.find((p) => p.id === partidaSeleccionada) ?? null
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -54,13 +56,20 @@ function App() {
           <main className="mx-auto max-w-5xl space-y-6 p-4 sm:p-6">
             {pestana === 'Partida' && (
               <>
-                <SelectorPartida
-                  partidas={partidas}
-                  partidaSeleccionada={partidaSeleccionada}
-                  onSeleccionar={setPartidaSeleccionada}
-                />
-                <CurvaProbabilidad partida={null} />
-                <Informe partida={null} />
+                {cargando && <EstadoVacio mensaje="Cargando partidas…" />}
+                {error && (
+                  <EstadoVacio mensaje={`No se pudieron cargar las partidas (${error}).`} />
+                )}
+                {partidas && (
+                  <>
+                    <SelectorPartida
+                      partidas={partidas}
+                      partidaSeleccionada={partidaSeleccionada}
+                      onSeleccionar={setPartidaSeleccionada}
+                    />
+                    <CurvaProbabilidad partida={partidaActual} />
+                  </>
+                )}
               </>
             )}
             {pestana === 'Perfiles' && <PerfilesRadar perfiles={perfiles} />}
