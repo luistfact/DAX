@@ -18,10 +18,18 @@ meta/
 datos/raw/
 *.json.gz
 
-# La tabla analítica agregada SÍ se versiona: pesa pocos MB y es lo que
-# permite ejecutar el notebook sin API. Si supera los 50 MB, súbela a Drive
-# y descomenta la línea siguiente.
-# datos/*.parquet
+# Solo la tabla analítica agregada se versiona: pesa pocos MB y es lo que
+# permite ejecutar el notebook sin API. Las tablas intermedias por partida
+# (posiciones, muertes, participantes, zona) son crudas/pesadas —decenas de
+# MB, como posiciones.parquet— y no se versionan aunque vivan en datos/ y no
+# en datos/raw/. Si tabla_analitica.parquet supera los 50 MB, súbela a Drive
+# y comenta la línea "!datos/tabla_analitica.parquet" de abajo.
+datos/*.parquet
+!datos/tabla_analitica.parquet
+datos/*.csv.gz
+
+# Copia duplicada de datos/ dentro de notebooks/; no se versiona.
+notebooks/datos/
 
 # ==========================================================================
 #  MODELOS ENTRENADOS
