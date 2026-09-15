@@ -34,9 +34,15 @@ notebooks/datos/
 # ==========================================================================
 #  MODELOS ENTRENADOS
 # ==========================================================================
-# Superan el límite de GitHub. Se alojan en Drive y se descargan al iniciar.
+# El resto (red recurrente, perfilamiento) supera el límite de GitHub o no
+# lo usa el servicio; se aloja en Drive y se descarga al iniciar.
 modelos/*.pkl
 modelos/*.keras
+
+# Excepción: son los dos que carga servicio/modelos.py, y juntos pesan poco
+# (~32 MB) — Render los necesita en el repo para arrancar.
+!modelos/modelo_supervisado.pkl
+!modelos/preprocesamiento.pkl
 modelos/*.h5
 *.joblib
 
