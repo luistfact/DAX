@@ -5,12 +5,13 @@ import { CurvaProbabilidad } from './components/CurvaProbabilidad'
 import { Informe } from './components/Informe'
 import { PerfilesRadar } from './components/PerfilesRadar'
 import { TablaModelos } from './components/TablaModelos'
+import { AnalizarPartida } from './components/AnalizarPartida'
 import { EstadoVacio } from './components/EstadoVacio'
 import { usePartidas } from './hooks/usePartidas'
 import { usePerfiles } from './hooks/usePerfiles'
 import { useMetricas } from './hooks/useMetricas'
 
-const PESTANAS = ['Partida', 'Perfiles', 'Modelos'] as const
+const PESTANAS = ['Partida', 'Perfiles', 'Modelos', 'Analizar mi partida'] as const
 type Pestana = (typeof PESTANAS)[number]
 
 function App() {
@@ -91,6 +92,7 @@ function App() {
                 {metricas && <TablaModelos metricas={metricas} />}
               </>
             )}
+            {pestana === 'Analizar mi partida' && <AnalizarPartida />}
           </main>
         </>
       )}

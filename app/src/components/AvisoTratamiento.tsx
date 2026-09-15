@@ -1,9 +1,12 @@
 const TEXTO = (
-  'Este análisis usa partidas de PUBG ya procesadas y precalculadas. No se ' +
-  'realizan llamadas a la API de PUBG ni a ningún servicio externo desde el ' +
-  'navegador: todo lo que se muestra proviene de archivos locales generados ' +
-  'de antemano. Es una herramienta de análisis retrospectivo: no predice ' +
-  'partidas futuras ni ofrece ventaja competitiva en tiempo real.'
+  'Las pestañas Partida, Perfiles y Modelos usan partidas de PUBG ya ' +
+  'procesadas y precalculadas: no hacen ninguna llamada externa desde el ' +
+  'navegador. La pestaña Analizar mi partida sí llama a un servicio propio ' +
+  'que consulta la API oficial de PUBG con el nombre de usuario que ' +
+  'escribas, procesa tu partida más reciente de escuadrón en Erangel y no ' +
+  'guarda ni el nombre ni el resultado entre consultas. Es una herramienta ' +
+  'de análisis retrospectivo: no predice partidas futuras ni ofrece ' +
+  'ventaja competitiva en tiempo real.'
 )
 
 type Props = {
