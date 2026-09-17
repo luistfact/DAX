@@ -301,3 +301,64 @@ discusiones ya cerradas.
   completa (decisión del usuario: nadie busca por identificador y el
   dataset no tiene nombre de jugador). Quedan solo los chips de forma de
   curva como filtro en `SelectorPartida.tsx`.
+- **2026-09-16** — `servicio/main.py`: `FRONTEND_ORIGIN` ahora admite varios
+  orígenes separados por coma (p. ej. preview y producción a la vez), y
+  `http://localhost:5173` queda permitido siempre, incluso en despliegue,
+  para poder probar en local contra el servicio ya desplegado en Render sin
+  tocar la variable de entorno. Verificado con `curl -H Origin: ...` contra
+  el servicio local: `localhost:5173` recibe el header
+  `access-control-allow-origin`, un origen no listado no lo recibe.
+- **2026-09-16** — `perfiles.json` trae `nombre` y `descripcion` por grupo.
+  `PerfilesRadar.tsx` usa `grupo.nombre` en vez de "Grupo N" en el título de
+  cada tarjeta, y muestra `grupo.descripcion` como texto bajo el radar.
+  Verificado en el navegador: los 4 grupos ("Periféricos", "Rotadores",
+  "Centrales", "Castigados") con su descripción.
+- **2026-09-16** — `servicio/requirements.txt`: se agregó `openai==3.14.1`
+  (versión fijada, más reciente disponible ese día) de cara al asistente,
+  para no tener que redesplegar solo por esto más adelante. Verificado con
+  `pip download --only-binary=:all: --python-version 3.13` (hay wheel
+  `py3-none-any`) y con `pip install --dry-run -r requirements.txt`: resuelve
+  sin conflictos con el resto del archivo (pydantic-core, httpx, etc.).
+- **2026-09-16** — Primera entrega de `PROMPT_ASISTENTE.md`: endpoint
+  `POST /asistente` en `servicio/`, probado en local. Verifiqué la forma real
+  de la Responses API contra el SDK `openai==3.14.1` instalado (no contra un
+  resumen de docs): `client.responses.create(model=, instructions=, input=,
+  tools=, max_output_tokens=)`; tool calls en `response.output` como items
+  `type="function_call"`; se responden con
+  `{"type": "function_call_output", "call_id":, "output":}`.
+  Archivos nuevos: `servicio/forma.py` (puerto exacto de `app/src/forma.ts` —
+  verificado sin ninguna diferencia contra las 200 partidas reales),
+  `servicio/herramientas.py` (las 5 funciones, leen
+  `app/public/datos/{partidas,metricas,perfiles}.json`),
+  `servicio/instruccion_asistente.md` (system prompt versionado, no
+  incrustado en código), `servicio/asistente.py` (el bucle de tool calls y
+  `validar_respuesta`, puerto de `validar_informe` de la sección 14 del
+  notebook: mismo regex de cifras y tolerancia de 2, pero contra el JSON de
+  los resultados de herramientas del turno en vez de una sola tabla).
+  `perfil_estilo` ya no está bloqueada: el usuario regeneró `partidas.json`
+  con `grupo_estilo` (entero) antes de esta prueba, así que la herramienta
+  responde con el `nombre` real de `perfiles.json` ("Rotadores", etc.), no el
+  número de grupo.
+  Límite acordado: 10 peticiones/minuto por IP (`@limiter.limit` en
+  `main.py`, igual que `/analizar`).
+  Dos bugs reales encontrados y corregidos al probar de verdad (no solo
+  import): (1) al reinyectar `response.output` como `input` del siguiente
+  turno, `item.model_dump()` sin `by_alias=True` exportaba el campo interno
+  del SDK `async_` en vez de `async` (la API lo rechazaba con "Unknown
+  parameter") — se corrigió con
+  `model_dump(mode="json", by_alias=True, exclude_none=True)`. (2) el
+  registro de consumo de tokens usaba `logger.info(...)` pero no había
+  ningún `logging.basicConfig` en todo el servicio, así que esos logs nunca
+  se emitían (nivel implícito WARNING) — se agregó `logging.basicConfig` al
+  inicio de `main.py`. Ambos bugs solo aparecieron al correr el servidor sin
+  `--reload` y probarlo con `curl` de verdad, no al solo importar el módulo.
+  Nota aparte: `uvicorn --reload` (WatchFiles) dejó de aplicar cambios de
+  archivo a mitad de esta sesión sin avisar (mostraba "Reloading..." pero
+  servía código viejo) — cuando una prueba no refleje un cambio reciente,
+  reiniciar el proceso sin `--reload` antes de sospechar del código.
+  Probadas las 4 preguntas de la primera entrega contra la partida real
+  `053b957b-1`: una herramienta (momento crítico), dos herramientas (momento
+  crítico + comparación contra la referencia), fuera de tema (redirección
+  sin herramientas) y la trampa de bajas (reconoce que no tiene el dato).
+  Pendiente, fuera de esta entrega: interfaz de chat en el frontend y el
+  presupuesto mensual en el panel de OpenAI (no es código).

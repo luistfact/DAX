@@ -165,7 +165,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "053b957b-2",
@@ -271,7 +272,8 @@
    ],
    "confianza": "8 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "053b957b-3",
@@ -440,7 +442,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "053b957b-4",
@@ -556,7 +559,8 @@
    ],
    "confianza": "9 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "053b957b-5",
@@ -724,7 +728,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "053b957b-6",
@@ -890,7 +895,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "053b957b-7",
@@ -1007,7 +1013,8 @@
    ],
    "confianza": "9 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "053b957b-8",
@@ -1174,7 +1181,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "053b957b-9",
@@ -1223,7 +1231,8 @@
    ],
    "confianza": "2 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "053b957b-10",
@@ -1394,7 +1403,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "053b957b-11",
@@ -1562,7 +1572,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "053b957b-12",
@@ -1661,7 +1672,8 @@
    ],
    "confianza": "7 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "053b957b-13",
@@ -1804,7 +1816,8 @@
    ],
    "confianza": "12 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "053b957b-14",
@@ -1973,7 +1986,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "053b957b-15",
@@ -2143,7 +2157,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "053b957b-16",
@@ -2313,7 +2328,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "053b957b-17",
@@ -2475,7 +2491,8 @@
    ],
    "confianza": "14 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "053b957b-18",
@@ -2637,7 +2654,8 @@
    ],
    "confianza": "14 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "053b957b-19",
@@ -2806,7 +2824,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "053b957b-20",
@@ -2857,7 +2876,8 @@
    ],
    "confianza": "2 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "053b957b-21",
@@ -2929,7 +2949,8 @@
    ],
    "confianza": "4 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "09481f95-1",
@@ -3046,7 +3067,8 @@
    ],
    "confianza": "9 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "09481f95-2",
@@ -3216,7 +3238,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "09481f95-3",
@@ -3386,7 +3409,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "09481f95-4",
@@ -3555,7 +3579,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "09481f95-5",
@@ -3685,7 +3710,8 @@
    ],
    "confianza": "11 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "09481f95-200",
@@ -3811,7 +3837,8 @@
    ],
    "confianza": "10 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "09481f95-201",
@@ -3980,7 +4007,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "09481f95-202",
@@ -4150,7 +4178,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "09481f95-203",
@@ -4319,7 +4348,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "09481f95-204",
@@ -4489,7 +4519,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "09481f95-205",
@@ -4642,7 +4673,8 @@
    ],
    "confianza": "13 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "09481f95-206",
@@ -4812,7 +4844,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "09481f95-207",
@@ -4980,7 +5013,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "09481f95-208",
@@ -5151,7 +5185,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "09481f95-209",
@@ -5249,7 +5284,8 @@
    ],
    "confianza": "7 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "09481f95-210",
@@ -5339,7 +5375,8 @@
    ],
    "confianza": "6 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "09481f95-211",
@@ -5456,7 +5493,8 @@
    ],
    "confianza": "9 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "09481f95-212",
@@ -5625,7 +5663,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "09481f95-213",
@@ -5793,7 +5832,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "09481f95-214",
@@ -5892,7 +5932,8 @@
    ],
    "confianza": "7 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "09481f95-215",
@@ -6061,7 +6102,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "09481f95-216",
@@ -6227,7 +6269,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "09481f95-217",
@@ -6335,7 +6378,8 @@
    ],
    "confianza": "8 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "09481f95-218",
@@ -6505,7 +6549,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "09481f95-219",
@@ -6673,7 +6718,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "09481f95-220",
@@ -6843,7 +6889,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "09481f95-221",
@@ -7011,7 +7058,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "09481f95-222",
@@ -7180,7 +7228,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0a5ee5ed-1",
@@ -7349,7 +7398,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0a5ee5ed-2",
@@ -7518,7 +7568,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0a5ee5ed-3",
@@ -7643,7 +7694,8 @@
    ],
    "confianza": "10 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0a5ee5ed-4",
@@ -7703,7 +7755,8 @@
    ],
    "confianza": "3 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0a5ee5ed-5",
@@ -7846,7 +7899,8 @@
    ],
    "confianza": "12 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0a5ee5ed-6",
@@ -7927,7 +7981,8 @@
    ],
    "confianza": "5 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "0a5ee5ed-200",
@@ -8035,7 +8090,8 @@
    ],
    "confianza": "8 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "0a5ee5ed-201",
@@ -8202,7 +8258,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0a5ee5ed-202",
@@ -8327,7 +8384,8 @@
    ],
    "confianza": "10 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0a5ee5ed-203",
@@ -8452,7 +8510,8 @@
    ],
    "confianza": "10 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0a5ee5ed-204",
@@ -8551,7 +8610,8 @@
    ],
    "confianza": "7 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0a5ee5ed-205",
@@ -8641,7 +8701,8 @@
    ],
    "confianza": "6 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "0a5ee5ed-206",
@@ -8767,7 +8828,8 @@
    ],
    "confianza": "10 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0a5ee5ed-207",
@@ -8938,7 +9000,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0a5ee5ed-208",
@@ -9055,7 +9118,8 @@
    ],
    "confianza": "9 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "0a5ee5ed-209",
@@ -9154,7 +9218,8 @@
    ],
    "confianza": "7 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0a5ee5ed-210",
@@ -9253,7 +9318,8 @@
    ],
    "confianza": "7 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "0a5ee5ed-211",
@@ -9421,7 +9487,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0a5ee5ed-212",
@@ -9591,7 +9658,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "0a5ee5ed-213",
@@ -9734,7 +9802,8 @@
    ],
    "confianza": "12 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0a5ee5ed-214",
@@ -9850,7 +9919,8 @@
    ],
    "confianza": "9 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0a5ee5ed-215",
@@ -9949,7 +10019,8 @@
    ],
    "confianza": "7 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "0a5ee5ed-216",
@@ -10083,7 +10154,8 @@
    ],
    "confianza": "11 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0a5ee5ed-217",
@@ -10252,7 +10324,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0a5ee5ed-218",
@@ -10419,7 +10492,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0a5ee5ed-219",
@@ -10587,7 +10661,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0a5ee5ed-220",
@@ -10677,7 +10752,8 @@
    ],
    "confianza": "6 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "0a5ee5ed-221",
@@ -10838,7 +10914,8 @@
    ],
    "confianza": "14 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0a5ee5ed-222",
@@ -10946,7 +11023,8 @@
    ],
    "confianza": "8 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0addc5fd-1",
@@ -11113,7 +11191,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0addc5fd-2",
@@ -11283,7 +11362,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0addc5fd-3",
@@ -11417,7 +11497,8 @@
    ],
    "confianza": "11 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0addc5fd-200",
@@ -11586,7 +11667,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0addc5fd-201",
@@ -11755,7 +11837,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0addc5fd-202",
@@ -11880,7 +11963,8 @@
    ],
    "confianza": "10 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0addc5fd-203",
@@ -12048,7 +12132,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0addc5fd-204",
@@ -12217,7 +12302,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "0addc5fd-205",
@@ -12361,7 +12447,8 @@
    ],
    "confianza": "12 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0addc5fd-206",
@@ -12529,7 +12616,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0addc5fd-207",
@@ -12699,7 +12787,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "0addc5fd-208",
@@ -12869,7 +12958,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0addc5fd-209",
@@ -12994,7 +13084,8 @@
    ],
    "confianza": "10 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0addc5fd-210",
@@ -13075,7 +13166,8 @@
    ],
    "confianza": "5 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "0addc5fd-211",
@@ -13182,7 +13274,8 @@
    ],
    "confianza": "8 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0addc5fd-212",
@@ -13316,7 +13409,8 @@
    ],
    "confianza": "11 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0addc5fd-213",
@@ -13432,7 +13526,8 @@
    ],
    "confianza": "9 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0addc5fd-214",
@@ -13558,7 +13653,8 @@
    ],
    "confianza": "10 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0addc5fd-215",
@@ -13726,7 +13822,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0addc5fd-216",
@@ -13895,7 +13992,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0addc5fd-217",
@@ -14064,7 +14162,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0addc5fd-218",
@@ -14207,7 +14306,8 @@
    ],
    "confianza": "12 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0addc5fd-219",
@@ -14315,7 +14415,8 @@
    ],
    "confianza": "8 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0addc5fd-220",
@@ -14484,7 +14585,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0addc5fd-221",
@@ -14601,7 +14703,8 @@
    ],
    "confianza": "9 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0addc5fd-222",
@@ -14770,7 +14873,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0b1f59de-1",
@@ -14937,7 +15041,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0b1f59de-3",
@@ -15107,7 +15212,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0b1f59de-200",
@@ -15276,7 +15382,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0b1f59de-201",
@@ -15444,7 +15551,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0b1f59de-202",
@@ -15610,7 +15718,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0b1f59de-203",
@@ -15754,7 +15863,8 @@
    ],
    "confianza": "12 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0b1f59de-204",
@@ -15924,7 +16034,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0b1f59de-205",
@@ -16093,7 +16204,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0b1f59de-206",
@@ -16262,7 +16374,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0b1f59de-207",
@@ -16352,7 +16465,8 @@
    ],
    "confianza": "6 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0b1f59de-208",
@@ -16433,7 +16547,8 @@
    ],
    "confianza": "5 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "0b1f59de-209",
@@ -16603,7 +16718,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0b1f59de-210",
@@ -16693,7 +16809,8 @@
    ],
    "confianza": "6 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0b1f59de-211",
@@ -16864,7 +16981,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0b1f59de-212",
@@ -17007,7 +17125,8 @@
    ],
    "confianza": "12 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0b1f59de-213",
@@ -17132,7 +17251,8 @@
    ],
    "confianza": "10 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0b1f59de-214",
@@ -17300,7 +17420,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0b1f59de-215",
@@ -17408,7 +17529,8 @@
    ],
    "confianza": "8 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0b1f59de-216",
@@ -17577,7 +17699,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0b1f59de-217",
@@ -17667,7 +17790,8 @@
    ],
    "confianza": "6 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0b1f59de-218",
@@ -17827,7 +17951,8 @@
    ],
    "confianza": "14 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0b1f59de-219",
@@ -17979,7 +18104,8 @@
    ],
    "confianza": "13 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0b1f59de-220",
@@ -18113,7 +18239,8 @@
    ],
    "confianza": "11 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0b1f59de-221",
@@ -18282,7 +18409,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0b1f59de-222",
@@ -18451,7 +18579,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0f55b02e-1",
@@ -18618,7 +18747,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0f55b02e-2",
@@ -18786,7 +18916,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0f55b02e-3",
@@ -18954,7 +19085,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0f55b02e-4",
@@ -19014,7 +19146,8 @@
    ],
    "confianza": "3 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "0f55b02e-5",
@@ -19131,7 +19264,8 @@
    ],
    "confianza": "9 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0f55b02e-6",
@@ -19302,7 +19436,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0f55b02e-7",
@@ -19453,7 +19588,8 @@
    ],
    "confianza": "13 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0f55b02e-8",
@@ -19621,7 +19757,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0f55b02e-9",
@@ -19720,7 +19857,8 @@
    ],
    "confianza": "7 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0f55b02e-10",
@@ -19818,7 +19956,8 @@
    ],
    "confianza": "7 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0f55b02e-11",
@@ -19987,7 +20126,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0f55b02e-12",
@@ -20121,7 +20261,8 @@
    ],
    "confianza": "11 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0f55b02e-13",
@@ -20211,7 +20352,8 @@
    ],
    "confianza": "6 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "0f55b02e-14",
@@ -20380,7 +20522,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0f55b02e-15",
@@ -20487,7 +20630,8 @@
    ],
    "confianza": "8 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0f55b02e-16",
@@ -20656,7 +20800,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0f55b02e-17",
@@ -20773,7 +20918,8 @@
    ],
    "confianza": "9 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0f55b02e-18",
@@ -20943,7 +21089,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0f55b02e-19",
@@ -21113,7 +21260,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0f55b02e-200",
@@ -21284,7 +21432,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0f55b02e-201",
@@ -21444,7 +21593,8 @@
    ],
    "confianza": "14 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0f55b02e-202",
@@ -21597,7 +21747,8 @@
    ],
    "confianza": "13 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0f55b02e-203",
@@ -21767,7 +21918,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0f55b02e-204",
@@ -21927,7 +22079,8 @@
    ],
    "confianza": "14 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0f55b02e-205",
@@ -22061,7 +22214,8 @@
    ],
    "confianza": "11 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0f55b02e-206",
@@ -22231,7 +22385,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "0f55b02e-207",
@@ -22400,7 +22555,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "0f55b02e-208",
@@ -22498,7 +22654,8 @@
    ],
    "confianza": "7 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "0f55b02e-209",
@@ -22642,7 +22799,8 @@
    ],
    "confianza": "12 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "0f55b02e-210",
@@ -22732,7 +22890,8 @@
    ],
    "confianza": "6 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "111f8aa2-1",
@@ -22893,7 +23052,8 @@
    ],
    "confianza": "14 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "111f8aa2-2",
@@ -23062,7 +23222,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "111f8aa2-200",
@@ -23228,7 +23389,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "111f8aa2-201",
@@ -23396,7 +23558,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "111f8aa2-202",
@@ -23563,7 +23726,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "111f8aa2-203",
@@ -23733,7 +23897,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "111f8aa2-204",
@@ -23903,7 +24068,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "111f8aa2-205",
@@ -24037,7 +24203,8 @@
    ],
    "confianza": "11 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "111f8aa2-206",
@@ -24154,7 +24321,8 @@
    ],
    "confianza": "9 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "111f8aa2-207",
@@ -24324,7 +24492,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "111f8aa2-208",
@@ -24423,7 +24592,8 @@
    ],
    "confianza": "7 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "111f8aa2-209",
@@ -24583,7 +24753,8 @@
    ],
    "confianza": "14 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "111f8aa2-210",
@@ -24752,7 +24923,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "111f8aa2-211",
@@ -24919,7 +25091,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "111f8aa2-212",
@@ -25009,7 +25182,8 @@
    ],
    "confianza": "6 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "111f8aa2-213",
@@ -25170,7 +25344,8 @@
    ],
    "confianza": "14 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "111f8aa2-214",
@@ -25340,7 +25515,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "111f8aa2-215",
@@ -25508,7 +25684,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "111f8aa2-216",
@@ -25677,7 +25854,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "111f8aa2-217",
@@ -25844,7 +26022,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "111f8aa2-218",
@@ -26013,7 +26192,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "111f8aa2-219",
@@ -26120,7 +26300,8 @@
    ],
    "confianza": "8 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "111f8aa2-220",
@@ -26263,7 +26444,8 @@
    ],
    "confianza": "12 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "111f8aa2-221",
@@ -26362,7 +26544,8 @@
    ],
    "confianza": "7 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "111f8aa2-222",
@@ -26532,7 +26715,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 3
  },
  {
   "id": "17199f9c-1",
@@ -26700,7 +26884,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "17199f9c-2",
@@ -26870,7 +27055,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "17199f9c-3",
@@ -27039,7 +27225,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "17199f9c-200",
@@ -27165,7 +27352,8 @@
    ],
    "confianza": "10 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "17199f9c-201",
@@ -27335,7 +27523,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "17199f9c-202",
@@ -27502,7 +27691,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "17199f9c-203",
@@ -27618,7 +27808,8 @@
    ],
    "confianza": "9 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "17199f9c-204",
@@ -27785,7 +27976,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 1
  },
  {
   "id": "17199f9c-205",
@@ -27928,7 +28120,8 @@
    ],
    "confianza": "12 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "17199f9c-206",
@@ -28096,7 +28289,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "17199f9c-207",
@@ -28265,7 +28459,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "17199f9c-208",
@@ -28399,7 +28594,8 @@
    ],
    "confianza": "11 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "17199f9c-209",
@@ -28524,7 +28720,8 @@
    ],
    "confianza": "10 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 0
  },
  {
   "id": "17199f9c-210",
@@ -28691,7 +28888,8 @@
    ],
    "confianza": "15 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "17199f9c-211",
@@ -28843,7 +29041,8 @@
    ],
    "confianza": "13 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  },
  {
   "id": "17199f9c-212",
@@ -28995,6 +29194,7 @@
    ],
    "confianza": "13 de 15 minutos analizados",
    "_origen": "determinista"
-  }
+  },
+  "grupo_estilo": 2
  }
 ]

@@ -96,6 +96,8 @@ export type CentroCaracteristicas = Record<string, number>
 
 export type GrupoPerfil = {
   grupo: number
+  nombre: string
+  descripcion: string
   n: number
   mediana_pct_rank: number
   centro: CentroCaracteristicas

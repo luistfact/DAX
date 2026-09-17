@@ -9,6 +9,8 @@
  "grupos": [
   {
    "grupo": 0,
+   "nombre": "Periféricos",
+   "descripcion": "Caen lejos del centro y se mantienen en posición, con poco movimiento.",
    "n": 1102,
    "mediana_pct_rank": 0.423,
    "centro": {
@@ -21,6 +23,8 @@
   },
   {
    "grupo": 1,
+   "nombre": "Rotadores",
+   "descripcion": "Máxima movilidad y rotación constante: cubren mucho terreno desde el inicio.",
    "n": 1002,
    "mediana_pct_rank": 0.403,
    "centro": {
@@ -33,6 +37,8 @@
   },
   {
    "grupo": 2,
+   "nombre": "Centrales",
+   "descripcion": "Caen cerca del centro del mapa y se desplazan poco, pero reaccionan al cierre.",
    "n": 1275,
    "mediana_pct_rank": 0.52,
    "centro": {
@@ -45,6 +51,8 @@
   },
   {
    "grupo": 3,
+   "nombre": "Castigados",
+   "descripcion": "Llegan a los primeros minutos con la salud muy deteriorada tras un combate temprano.",
    "n": 483,
    "mediana_pct_rank": 0.885,
    "centro": {

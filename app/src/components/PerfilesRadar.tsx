@@ -85,7 +85,7 @@ function TarjetaGrupo({ perfiles, grupo }: { perfiles: Perfiles; grupo: Perfiles
   return (
     <div className="rounded-lg border border-tinta-secundaria/15 bg-superficie p-4">
       <div className="mb-2 flex items-baseline justify-between">
-        <h3 className="text-sm font-medium text-tinta-secundaria">Grupo {grupo.grupo}</h3>
+        <h3 className="text-sm font-medium text-tinta">{grupo.nombre}</h3>
         <span className="text-xs text-tinta-secundaria">
           {grupo.n} escuadrones · percentil mediano {Math.round(grupo.mediana_pct_rank * 100)}%
         </span>
@@ -118,6 +118,7 @@ function TarjetaGrupo({ perfiles, grupo }: { perfiles: Perfiles; grupo: Perfiles
           />
         </RadarChart>
       </ResponsiveContainer>
+      <p className="text-sm text-tinta-secundaria">{grupo.descripcion}</p>
     </div>
   )
 }
