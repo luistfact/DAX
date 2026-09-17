@@ -10,7 +10,7 @@ import {
 import type { TooltipContentProps } from 'recharts'
 import type { Perfiles } from '../types/datos'
 import { EstadoVacio } from './EstadoVacio'
-import { COLOR_ACENTO, COLOR_CONTEXTO } from '../colores'
+import { COLOR_ACENTO, COLOR_CONTEXTO, COLOR_CUADRICULA, COLOR_TINTA_SECUNDARIA } from '../colores'
 
 type Props = {
   perfiles: Perfiles | null
@@ -71,8 +71,8 @@ function PanelHover({ active, payload }: TooltipContentProps) {
   const etiqueta = ETIQUETAS[fila.caracteristica] ?? fila.caracteristica
 
   return (
-    <div className="rounded-md border border-slate-200 bg-white p-3 text-sm shadow-md">
-      <p className="font-medium text-slate-900">{etiqueta}</p>
+    <div className="rounded-md border border-tinta-secundaria/20 bg-superficie p-3 text-sm shadow-md">
+      <p className="font-medium text-tinta">{etiqueta}</p>
       <p style={{ color: COLOR_GRUPO }}>Grupo: {fila.grupoReal}</p>
       <p style={{ color: COLOR_PROMEDIO }}>Promedio general: {fila.promedioReal}</p>
     </div>
@@ -83,19 +83,19 @@ function TarjetaGrupo({ perfiles, grupo }: { perfiles: Perfiles; grupo: Perfiles
   const filas = construirFilas(perfiles, grupo)
 
   return (
-    <div className="rounded-lg border border-slate-200 bg-white p-4">
+    <div className="rounded-lg border border-tinta-secundaria/15 bg-superficie p-4">
       <div className="mb-2 flex items-baseline justify-between">
-        <h3 className="text-sm font-medium text-slate-700">Grupo {grupo.grupo}</h3>
-        <span className="text-xs text-slate-500">
+        <h3 className="text-sm font-medium text-tinta-secundaria">Grupo {grupo.grupo}</h3>
+        <span className="text-xs text-tinta-secundaria">
           {grupo.n} escuadrones · percentil mediano {Math.round(grupo.mediana_pct_rank * 100)}%
         </span>
       </div>
       <ResponsiveContainer width="100%" height={240}>
         <RadarChart data={filas}>
-          <PolarGrid stroke="#e2e8f0" />
+          <PolarGrid stroke={COLOR_CUADRICULA} />
           <PolarAngleAxis
             dataKey="caracteristica"
-            tick={{ fontSize: 11 }}
+            tick={{ fontSize: 11, fill: COLOR_TINTA_SECUNDARIA }}
             tickFormatter={(v: string) => ETIQUETAS[v] ?? v}
           />
           <PolarRadiusAxis domain={[0, 100]} tick={false} axisLine={false} />
@@ -132,7 +132,7 @@ export function PerfilesRadar({ perfiles }: Props) {
 
   return (
     <div className="space-y-3">
-      <div className="flex items-center gap-4 text-xs text-slate-600">
+      <div className="flex items-center gap-4 text-xs text-tinta-secundaria">
         <span className="flex items-center gap-1.5">
           <span className="inline-block h-2.5 w-2.5 rounded-sm" style={{ backgroundColor: COLOR_GRUPO }} />
           Grupo
@@ -142,7 +142,7 @@ export function PerfilesRadar({ perfiles }: Props) {
           Promedio general
         </span>
       </div>
-      <p className="text-xs text-slate-500">
+      <p className="text-xs text-tinta-secundaria">
         Cada eje está normalizado entre el mínimo y el máximo observado para esa característica, para poder
         compararlas en la misma gráfica. Los valores reales aparecen al pasar el cursor.
       </p>

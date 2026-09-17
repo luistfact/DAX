@@ -1,1 +1,38 @@
 @import "tailwindcss";
+
+/* Tipografías cargadas desde <link> en index.html (evita el warning de
+   Tailwind v4 por un @import después de @import "tailwindcss"). */
+@theme {
+  --color-fondo: #0d1420;
+  --color-superficie: #141d2e;
+  --color-tinta: #e8ecf1;
+  --color-tinta-secundaria: #8b96a8;
+  --color-zona: #2f8fd1;
+  --color-peligro: #d9603f;
+
+  --font-cifra: "Barlow Condensed", sans-serif;
+  --font-texto: "Inter", sans-serif;
+}
+
+/*
+ * Textura topográfica: curvas de nivel generadas con feTurbulence/feDisplacementMap
+ * (SVG propio, nada extraído del juego), a muy baja opacidad sobre el fondo.
+ * Documentado en CLAUDE.md junto con la paleta.
+ */
+body {
+  min-height: 100vh;
+  background-color: var(--color-fondo);
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480' viewBox='0 0 480 480'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='2' seed='7' result='n'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='n' scale='18'/%3E%3C/filter%3E%3Cg filter='url(%23t)' fill='none' stroke='%232f8fd1' stroke-opacity='0.07' stroke-width='1'%3E%3Ccircle cx='60' cy='80' r='40'/%3E%3Ccircle cx='60' cy='80' r='80'/%3E%3Ccircle cx='60' cy='80' r='120'/%3E%3Ccircle cx='420' cy='380' r='50'/%3E%3Ccircle cx='420' cy='380' r='100'/%3E%3Ccircle cx='420' cy='380' r='150'/%3E%3C/g%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 480px 480px;
+  color: var(--color-tinta);
+  font-family: var(--font-texto);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

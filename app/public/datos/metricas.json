@@ -75,6 +75,50 @@
    "Brier": 0.214
   }
  ],
+ "referencia_fase": [
+  {
+   "fase_zona": 1.0,
+   "hp_medio": 100.0,
+   "jugadores_vivos": 4.0,
+   "dist_rel": 0.334,
+   "desplazamiento": 0.008
+  },
+  {
+   "fase_zona": 2.0,
+   "hp_medio": 98.248,
+   "jugadores_vivos": 4.0,
+   "dist_rel": 0.362,
+   "desplazamiento": 0.009
+  },
+  {
+   "fase_zona": 3.0,
+   "hp_medio": 96.812,
+   "jugadores_vivos": 4.0,
+   "dist_rel": 0.422,
+   "desplazamiento": 0.01
+  },
+  {
+   "fase_zona": 4.0,
+   "hp_medio": 96.429,
+   "jugadores_vivos": 4.0,
+   "dist_rel": 0.586,
+   "desplazamiento": 0.011
+  },
+  {
+   "fase_zona": 5.0,
+   "hp_medio": 95.156,
+   "jugadores_vivos": 3.0,
+   "dist_rel": 0.678,
+   "desplazamiento": 0.014
+  },
+  {
+   "fase_zona": 6.0,
+   "hp_medio": 92.621,
+   "jugadores_vivos": 3.0,
+   "dist_rel": 0.716,
+   "desplazamiento": 0.015
+  }
+ ],
  "corpus": {
   "partidas": 150,
   "observaciones": 46817,

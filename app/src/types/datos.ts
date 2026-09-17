@@ -30,6 +30,12 @@ export type Informe = {
   _origen: string
 }
 
+/** El minuto y la magnitud (fracción negativa) de la caída de probabilidad que definió la partida. */
+export type MomentoCritico = {
+  minuto: number
+  caida: number
+}
+
 export type Partida = {
   id: string
   match_id: string
@@ -39,6 +45,13 @@ export type Partida = {
   clasifico: boolean
   minutos: Minuto[]
   informe: Informe
+  // Precalculados por el notebook desde la regeneración del 2026-09-16.
+  // Opcionales: la partida devuelta en vivo por el servicio de análisis
+  // (pestaña "Analizar mi partida") todavía no los incluye, así que el
+  // frontend cae de vuelta a calcularlos con `analisisPartida.ts` si faltan.
+  percentil?: number
+  probabilidad_maxima?: number
+  momento_critico?: MomentoCritico
 }
 
 export type ModeloMetrica = {
@@ -62,9 +75,19 @@ export type Corpus = {
   escuadrones: number
 }
 
+/** Mediana de salud/compañeros/distancia/desplazamiento de los equipos que llegan al top 25 %, por fase. */
+export type ReferenciaFase = {
+  fase_zona: number
+  hp_medio: number
+  jugadores_vivos: number
+  dist_rel: number
+  desplazamiento: number
+}
+
 export type Metricas = {
   modelos: ModeloMetrica[]
   por_fase: FaseMetrica[]
+  referencia_fase: ReferenciaFase[]
   corpus: Corpus
 }
 
