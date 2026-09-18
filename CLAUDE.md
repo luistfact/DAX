@@ -362,3 +362,42 @@ discusiones ya cerradas.
   sin herramientas) y la trampa de bajas (reconoce que no tiene el dato).
   Pendiente, fuera de esta entrega: interfaz de chat en el frontend y el
   presupuesto mensual en el panel de OpenAI (no es código).
+- **2026-09-16** — Interfaz de chat del asistente: `AsistenteChat.tsx`, nuevo,
+  dentro de la vista de partida (debajo de `Informe`, no en pestaña aparte),
+  solo cuando hay una partida seleccionada. No se agregó a "Analizar mi
+  partida": esa partida en vivo nunca se persiste en `partidas.json`, así que
+  `servicio/herramientas.py` no podría encontrarla por id (mismo límite ya
+  anotado en el bloque del backend); agregar el chat ahí solo mostraría un
+  error siempre. Tres preguntas sugeridas como chips (solo antes del primer
+  mensaje), indicador "Escribiendo…" sin animación nueva (no hace falta otra
+  después de la del bloque 5), y debajo de cada respuesta del asistente una
+  línea discreta con las herramientas que consultó, en lenguaje llano
+  ("consultó el momento crítico", "consultó tu estilo de juego"...). Errores
+  de red o del servicio se traducen a un mensaje fijo en español, nunca el
+  cuerpo crudo de la API. Conversación sin memoria entre partidas: cambiar de
+  partida reinicia el chat. Probado en el navegador con dos preguntas
+  seguidas sobre la misma partida (momento crítico, luego estilo de juego):
+  cita cifras reales, mantiene el hilo, y muestra el indicador de herramienta
+  bajo cada respuesta.
+- **2026-09-17** — El chat ahora también funciona en "Analizar mi partida"
+  (decisión del usuario, revirtiendo la exclusión del bloque anterior).
+  Cambió el contrato de `/asistente`: `SolicitudAsistente` gana `partida:
+  dict | None` opcional con la partida completa; ausente para las partidas
+  del corpus (el backend ya la tiene), presente para la partida en vivo que
+  nunca se persiste. `herramientas.py` gana `_resolver_partida(partida_id,
+  partida_en_vivo)` — usa la partida en vivo si su `id` coincide, si no cae
+  al corpus — y las 5 herramientas reciben `partida_en_vivo` como kwarg
+  inyectado por `asistente.py` (no por el modelo: no está en el schema de
+  `TOOLS`). En el frontend, `analisisPartida.ts` gana
+  `enriquecerParaAsistente(partida)`: la partida en vivo no trae
+  `percentil`/`probabilidad_maxima`/`momento_critico` (nunca se persiste), así
+  que `AsistenteChat.tsx` los calcula con las mismas funciones de respaldo
+  que ya usaba `Informe.tsx` antes de mandarla al backend — un solo lugar
+  para ese cálculo, no dos. `grupo_estilo` sigue sin equivalente para una
+  partida en vivo (no hay forma de recalcularlo sin el modelo de
+  perfilamiento, que no está desplegado); `perfil_estilo` devuelve "no
+  disponible" ahí, correctamente. `AnalizarPartida.tsx` ahora también monta
+  `AsistenteChat`. Probado por API con una partida sintética fuera del
+  corpus y en el navegador con `laze-9527` real vía "Analizar mi partida":
+  el chat consultó `momento_critico` y `estado_por_minuto` y respondió con
+  las cifras reales de esa partida en vivo.

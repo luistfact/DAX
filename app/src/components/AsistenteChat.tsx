@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react'
+import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import type { Partida } from '../types/datos'
+import { enriquecerParaAsistente } from '../analisisPartida'
 
 type Rol = 'usuario' | 'asistente'
 
@@ -44,6 +45,11 @@ export function AsistenteChat({ partida }: Props) {
   const [error, setError] = useState<string | null>(null)
   const finRef = useRef<HTMLDivElement>(null)
 
+  // La partida en vivo de "Analizar mi partida" no trae percentil/probabilidad
+  // máxima/momento_critico (nunca se persiste en partidas.json); se completan
+  // aquí para que el backend siempre reciba la misma forma.
+  const partidaEnriquecida = useMemo(() => enriquecerParaAsistente(partida), [partida])
+
   // Nueva partida -> conversación limpia (sin memoria entre partidas ni sesiones).
   useEffect(() => {
     setMensajes([])
@@ -72,6 +78,7 @@ export function AsistenteChat({ partida }: Props) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           partida_id: partida.id,
+          partida: partidaEnriquecida,
           mensajes: historial.map((m) => ({ rol: m.rol, texto: m.texto })),
         }),
       })

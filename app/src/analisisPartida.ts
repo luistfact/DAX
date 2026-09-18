@@ -1,4 +1,4 @@
-import type { Minuto, ReferenciaFase } from './types/datos'
+import type { Minuto, Partida, ReferenciaFase } from './types/datos'
 
 /**
  * Percentil de la posición final: 0 % para el último lugar, 100 % para el
@@ -46,4 +46,27 @@ export function proporcionCobertura(confianza: string): number | null {
   if (!coincidencia) return null
   const [, n, total] = coincidencia
   return Number(total) > 0 ? Number(n) / Number(total) : null
+}
+
+/**
+ * Rellena percentil/probabilidad_maxima/momento_critico cuando faltan — la
+ * partida en vivo de "Analizar mi partida" no los trae, a diferencia de
+ * partidas.json — con el mismo cálculo de respaldo que ya usa `Informe.tsx`.
+ * Así el asistente (`AsistenteChat.tsx`) recibe una partida con la misma
+ * forma sin importar si viene del corpus o de un análisis en vivo.
+ */
+export function enriquecerParaAsistente(partida: Partida): Partida {
+  const percentil = partida.percentil ?? calcularPercentil(partida.posicion_final, partida.escuadrones) ?? undefined
+  const probabilidadMax = partida.probabilidad_maxima ?? probabilidadMaxima(partida.minutos) ?? undefined
+
+  let momentoCritico = partida.momento_critico
+  if (!momentoCritico) {
+    const minuto = extraerMinutoCritico(partida.informe.momento_critico)
+    const puntos = minutosDelMomentoCritico(partida.minutos, minuto)
+    if (minuto != null && puntos?.actual.probabilidad != null && puntos.anterior.probabilidad != null) {
+      momentoCritico = { minuto, caida: puntos.actual.probabilidad - puntos.anterior.probabilidad }
+    }
+  }
+
+  return { ...partida, percentil, probabilidad_maxima: probabilidadMax, momento_critico: momentoCritico }
 }

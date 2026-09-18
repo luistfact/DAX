@@ -55,9 +55,18 @@ def _buscar_partida(partida_id: str) -> dict:
     return partida
 
 
-def resumen_partida(partida_id: str) -> dict:
+def _resolver_partida(partida_id: str, partida_en_vivo: dict | None) -> dict:
+    """La partida en vivo que mandó el frontend (Analizar mi partida, nunca
+    persistida) si coincide el id; si no, la del corpus precalculado.
+    """
+    if partida_en_vivo is not None and partida_en_vivo.get("id") == partida_id:
+        return partida_en_vivo
+    return _buscar_partida(partida_id)
+
+
+def resumen_partida(partida_id: str, *, partida_en_vivo: dict | None = None) -> dict:
     """Posición, equipos, percentil, etiqueta de forma de curva."""
-    partida = _buscar_partida(partida_id)
+    partida = _resolver_partida(partida_id, partida_en_vivo)
     percentil = partida.get("percentil")
     return {
         "posicion_final": partida["posicion_final"],
@@ -67,9 +76,9 @@ def resumen_partida(partida_id: str) -> dict:
     }
 
 
-def estado_por_minuto(partida_id: str, desde: int, hasta: int) -> dict:
+def estado_por_minuto(partida_id: str, desde: int, hasta: int, *, partida_en_vivo: dict | None = None) -> dict:
     """Compañeros en pie, salud, distancia al círculo, cierre, en ese rango de minutos."""
-    partida = _buscar_partida(partida_id)
+    partida = _resolver_partida(partida_id, partida_en_vivo)
     filas = [
         {
             "minuto": m["minuto"],
@@ -86,9 +95,9 @@ def estado_por_minuto(partida_id: str, desde: int, hasta: int) -> dict:
     return {"minutos": filas}
 
 
-def momento_critico(partida_id: str) -> dict:
+def momento_critico(partida_id: str, *, partida_en_vivo: dict | None = None) -> dict:
     """El minuto de mayor caída y qué cambió ahí (compañeros, salud, distancia)."""
-    partida = _buscar_partida(partida_id)
+    partida = _resolver_partida(partida_id, partida_en_vivo)
     mc = partida.get("momento_critico")
     if mc is None:
         return {"disponible": False, "razon": "no hay momento crítico calculado para esta partida"}
@@ -105,9 +114,9 @@ def momento_critico(partida_id: str) -> dict:
     return resultado
 
 
-def comparar_con_referencia(partida_id: str, cierre: int) -> dict:
+def comparar_con_referencia(partida_id: str, cierre: int, *, partida_en_vivo: dict | None = None) -> dict:
     """El estado del escuadrón en ese cierre frente a la mediana de los que llegan al top."""
-    partida = _buscar_partida(partida_id)
+    partida = _resolver_partida(partida_id, partida_en_vivo)
     _cargar()
     referencia = next((r for r in _metricas["referencia_fase"] if r["fase_zona"] == cierre), None)
     minutos_en_cierre = [m for m in partida["minutos"] if m["fase"] == cierre]
@@ -125,9 +134,9 @@ def comparar_con_referencia(partida_id: str, cierre: int) -> dict:
     }
 
 
-def perfil_estilo(partida_id: str) -> dict:
+def perfil_estilo(partida_id: str, *, partida_en_vivo: dict | None = None) -> dict:
     """El grupo de estilo de juego asignado a esta partida y sus características."""
-    partida = _buscar_partida(partida_id)
+    partida = _resolver_partida(partida_id, partida_en_vivo)
     _cargar()
     grupo = partida.get("grupo_estilo")
     if grupo is None:

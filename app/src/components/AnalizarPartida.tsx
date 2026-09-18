@@ -4,6 +4,7 @@ import { COLOR_ZONA } from '../colores'
 import { useAnalisis } from '../hooks/useAnalisis'
 import { CurvaProbabilidad } from './CurvaProbabilidad'
 import { Informe } from './Informe'
+import { AsistenteChat } from './AsistenteChat'
 import { EstadoVacio } from './EstadoVacio'
 
 const TIEMPO_MAXIMO_MS = 90_000
@@ -106,6 +107,7 @@ export function AnalizarPartida() {
         <>
           <CurvaProbabilidad partida={estado.partida} />
           <Informe partida={estado.partida} />
+          <AsistenteChat partida={estado.partida} />
         </>
       )}
     </div>

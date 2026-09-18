@@ -3,6 +3,7 @@ import { AvisoTratamiento } from './components/AvisoTratamiento'
 import { SelectorPartida } from './components/SelectorPartida'
 import { CurvaProbabilidad } from './components/CurvaProbabilidad'
 import { Informe } from './components/Informe'
+import { AsistenteChat } from './components/AsistenteChat'
 import { PerfilesRadar } from './components/PerfilesRadar'
 import { TablaModelos } from './components/TablaModelos'
 import { AnalizarPartida } from './components/AnalizarPartida'
@@ -73,6 +74,7 @@ function App() {
                     <div className="space-y-6 lg:sticky lg:top-4 lg:col-span-2">
                       <CurvaProbabilidad partida={partidaActual} />
                       <Informe partida={partidaActual} />
+                      {partidaActual && <AsistenteChat partida={partidaActual} />}
                     </div>
                   </div>
                 )}

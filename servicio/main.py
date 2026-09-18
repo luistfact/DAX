@@ -88,6 +88,10 @@ class Mensaje(BaseModel):
 class SolicitudAsistente(BaseModel):
     partida_id: str
     mensajes: list[Mensaje]
+    # La partida completa de "Analizar mi partida": esa nunca se persiste en
+    # partidas.json, así que sin esto el asistente no podría encontrarla por
+    # id. Ausente (None) para las partidas del corpus precalculado.
+    partida: dict | None = None
 
 
 @app.exception_handler(ErrorAnalisis)
@@ -130,4 +134,6 @@ async def post_analizar(request: Request, solicitud: SolicitudAnalisis) -> dict:
 @app.post("/asistente")
 @limiter.limit("10/minute")
 async def post_asistente(request: Request, solicitud: SolicitudAsistente) -> dict:
-    return responder(solicitud.partida_id, [m.model_dump() for m in solicitud.mensajes])
+    return responder(
+        solicitud.partida_id, [m.model_dump() for m in solicitud.mensajes], solicitud.partida
+    )

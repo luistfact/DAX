@@ -155,12 +155,12 @@ def validar_respuesta(
     return len(sospechosas) <= tolerancia, sorted(sospechosas)
 
 
-def _ejecutar_herramienta(nombre: str, argumentos: dict) -> dict:
+def _ejecutar_herramienta(nombre: str, argumentos: dict, partida_en_vivo: dict | None) -> dict:
     funcion = HERRAMIENTAS_DISPONIBLES.get(nombre)
     if funcion is None:
         return {"disponible": False, "razon": f"herramienta desconocida: {nombre}"}
     try:
-        return funcion(**argumentos)
+        return funcion(**argumentos, partida_en_vivo=partida_en_vivo)
     except ErrorAsistente:
         raise
     except Exception as e:  # una herramienta no debe tumbar la conversación
@@ -168,7 +168,9 @@ def _ejecutar_herramienta(nombre: str, argumentos: dict) -> dict:
         return {"disponible": False, "razon": "la herramienta no pudo completarse"}
 
 
-def _un_turno(cliente: OpenAI, input_list: list, instrucciones: str) -> tuple[str, list[dict], list[dict]]:
+def _un_turno(
+    cliente: OpenAI, input_list: list, instrucciones: str, partida_en_vivo: dict | None
+) -> tuple[str, list[dict], list[dict]]:
     """Corre el bucle de tool calls hasta que el modelo entrega texto final.
 
     Devuelve (texto, herramientas_invocadas, resultados_de_herramientas).
@@ -207,7 +209,7 @@ def _un_turno(cliente: OpenAI, input_list: list, instrucciones: str) -> tuple[st
         )
         for llamada in llamadas:
             argumentos = json.loads(llamada.arguments)
-            resultado = _ejecutar_herramienta(llamada.name, argumentos)
+            resultado = _ejecutar_herramienta(llamada.name, argumentos, partida_en_vivo)
             herramientas_invocadas.append({"herramienta": llamada.name, "argumentos": argumentos})
             resultados.append(resultado)
             input_list.append(
@@ -221,9 +223,13 @@ def _un_turno(cliente: OpenAI, input_list: list, instrucciones: str) -> tuple[st
     return MENSAJE_SIN_VALIDAR, herramientas_invocadas, resultados
 
 
-def responder(partida_id: str, mensajes: list[dict]) -> dict:
-    """Nombre de partida + historial -> respuesta del asistente y herramientas usadas."""
-    herramientas._buscar_partida(partida_id)  # valida que exista, o lanza ErrorAsistente
+def responder(partida_id: str, mensajes: list[dict], partida_en_vivo: dict | None = None) -> dict:
+    """Nombre de partida (+ opcionalmente la partida en vivo de "Analizar mi
+    partida", que nunca se persiste) + historial -> respuesta y herramientas usadas.
+    """
+    # Valida que la partida exista: la propia en vivo (si el id coincide) o,
+    # si no, la del corpus precalculado. Lanza ErrorAsistente si no hay ninguna.
+    herramientas._resolver_partida(partida_id, partida_en_vivo)
 
     if len(mensajes) > MAX_TURNOS:
         return {"respuesta": MENSAJE_LIMITE_TURNOS, "herramientas": []}
@@ -238,7 +244,7 @@ def responder(partida_id: str, mensajes: list[dict]) -> dict:
         {"role": "user" if m["rol"] == "usuario" else "assistant", "content": m["texto"]} for m in mensajes
     ]
 
-    texto, invocadas, resultados = _un_turno(cliente, list(input_list), instrucciones)
+    texto, invocadas, resultados = _un_turno(cliente, list(input_list), instrucciones, partida_en_vivo)
     valido, sospechosas = validar_respuesta(texto, resultados)
 
     if not valido:
@@ -249,7 +255,7 @@ def responder(partida_id: str, mensajes: list[dict]) -> dict:
             "los datos de las herramientas. No repitas ese error: usa solo números "
             "que las herramientas te dieron."
         )
-        texto, invocadas, resultados = _un_turno(cliente, list(input_list), instruccion_estricta)
+        texto, invocadas, resultados = _un_turno(cliente, list(input_list), instruccion_estricta, partida_en_vivo)
         valido, sospechosas = validar_respuesta(texto, resultados)
         if not valido:
             logger.warning("Segunda respuesta tampoco validó. Cifras: %s", sospechosas)
