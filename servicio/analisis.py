@@ -136,10 +136,10 @@ def _descargar_telemetria(cli: za.PubgClient, url: str) -> list[dict]:
 
 
 def _parsear_equipo(eventos: list[dict], map_name: str, team_id: int,
-                    t_max: int = T_MAX) -> tuple[pd.DataFrame, pd.DataFrame]:
+                    t_max: int = T_MAX) -> tuple[pd.DataFrame, pd.DataFrame, pd.DataFrame]:
     """Recorre la bitácora una sola vez; descarta lo que no es del equipo o pasa el minuto 15."""
     escala = za.MAP_SIZES_CM.get(map_name, 816_000)
-    pos, zona = [], []
+    pos, zona, bajas = [], [], []
 
     for ev in eventos:
         t = ev.get("_T")
@@ -154,7 +154,7 @@ def _parsear_equipo(eventos: list[dict], map_name: str, team_id: int,
             loc = ch.get("location") or {}
             x, y = loc.get("x"), loc.get("y")
             pos.append({
-                "t": elapsed, "account_id": ch.get("accountId"),
+                "t": elapsed, "ts": ev.get("_D"), "account_id": ch.get("accountId"),
                 "health": ch.get("health"),
                 "x_norm": x / escala if x is not None else None,
                 "y_norm": y / escala if y is not None else None,
@@ -174,7 +174,18 @@ def _parsear_equipo(eventos: list[dict], map_name: str, team_id: int,
                 "num_alive_teams": gs.get("numAliveTeams"),
             })
 
-    return pd.DataFrame(pos), pd.DataFrame(zona)
+        # Mismos dos nombres de evento que admite el parser del notebook.
+        elif t in ("LogPlayerKillV2", "LogPlayerKill"):
+            v = ev.get("victim") or {}
+            if v.get("teamId") != team_id:
+                continue
+            vl = v.get("location") or {}
+            if vl.get("x") is None or vl.get("y") is None:
+                continue  # sin posición no se dibuja: no se inventa una
+            bajas.append({"ts": ev.get("_D"),
+                          "x_norm": vl["x"] / escala, "y_norm": vl["y"] / escala})
+
+    return pd.DataFrame(pos), pd.DataFrame(zona), pd.DataFrame(bajas)
 
 
 def _construir_tabla(pos: pd.DataFrame, zona: pd.DataFrame) -> pd.DataFrame:
@@ -216,6 +227,43 @@ def _construir_tabla(pos: pd.DataFrame, zona: pd.DataFrame) -> pd.DataFrame:
                               labels=[6, 5, 4, 3, 2, 1]).astype(float)
     agg["fase_zona"] = agg.fase_zona.fillna(1)
     return agg
+
+
+def _construir_mapa(pos: pd.DataFrame, zona: pd.DataFrame, bajas: pd.DataFrame,
+                    t_max: int = T_MAX) -> dict:
+    """Trayectoria, círculo y bajas por minuto, en las coordenadas normalizadas del parser."""
+    pos = pos.dropna(subset=["x_norm", "y_norm"])
+    ventana_pos = (pos.t // VENTANA).astype(int)
+    cen = pos.groupby(ventana_pos)[["x_norm", "y_norm"]].mean()
+    trayectoria = [{"minuto": int(v), "x": round(float(f.x_norm), 4), "y": round(float(f.y_norm), 4)}
+                   for v, f in cen.iterrows()]
+
+    # El círculo "en ese minuto" es el último estado observado dentro de la
+    # ventana; radio 0 significa que la zona aún no existe y no se dibuja.
+    zona = zona.dropna(subset=["safety_x_norm", "safety_y_norm"])
+    zona = zona[zona.safety_r_norm > 0]
+    # Después del último minuto con posiciones el escuadrón ya no está en la
+    # partida: los círculos posteriores no son parte de su recorrido.
+    zona = zona[zona.t // VENTANA <= ventana_pos.max()]
+    ultima = zona.sort_values("t").groupby((zona.t // VENTANA).astype(int)).last()
+    zonas = [{"minuto": int(v), "x": round(float(f.safety_x_norm), 4),
+              "y": round(float(f.safety_y_norm), 4), "r": round(float(f.safety_r_norm), 4)}
+             for v, f in ultima.iterrows()]
+
+    # Las bajas solo traen la marca de tiempo absoluta (_D). Se pasan al reloj
+    # de elapsedTime con el desfase medido en las posiciones del propio equipo,
+    # que traen ambas marcas: así caen en la misma ventana que usa la tabla.
+    eventos = []
+    if not bajas.empty and pos.ts.notna().any():
+        desfase = (pd.to_datetime(pos.ts, utc=True)
+                   - pd.to_timedelta(pos.t, unit="s")).median()
+        t_baja = (pd.to_datetime(bajas.ts, utc=True) - desfase).dt.total_seconds()
+        for t, f in zip(t_baja, bajas.itertuples()):
+            if 0 <= t < t_max:
+                eventos.append({"minuto": int(t // VENTANA),
+                                "x": round(float(f.x_norm), 4), "y": round(float(f.y_norm), 4)})
+
+    return {"trayectoria": trayectoria, "zonas": zonas, "eventos": eventos}
 
 
 def _generar_informe(agg: pd.DataFrame, prob: np.ndarray,
@@ -293,14 +341,15 @@ def analizar(nick: str, plataforma: str = "steam") -> dict:
     del meta, participantes
 
     eventos = _descargar_telemetria(cli, url_telemetria)
-    pos, zona = _parsear_equipo(eventos, info["map_name"], team_id)
+    pos, zona, bajas = _parsear_equipo(eventos, info["map_name"], team_id)
     del eventos
 
     if pos.empty:
         raise ErrorAnalisis("PARTIDA_EXPIRADA", "Esa partida ya no está disponible")
 
     agg = _construir_tabla(pos, zona)
-    del pos, zona
+    mapa = _construir_mapa(pos, zona, bajas)
+    del pos, zona, bajas
 
     prob = modelos.predecir(agg)
 
@@ -326,4 +375,7 @@ def analizar(nick: str, plataforma: str = "steam") -> dict:
         "clasifico": bool(clasifico),
         "minutos": minutos,
         "informe": informe,
+        # Solo en el análisis en vivo: el corpus guarda distancias al círculo,
+        # no posiciones, y con eso no se reconstruye un recorrido.
+        "mapa": mapa,
     }

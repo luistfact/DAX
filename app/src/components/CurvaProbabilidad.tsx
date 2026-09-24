@@ -2,6 +2,7 @@ import {
   Line,
   LineChart,
   ReferenceDot,
+  ReferenceLine,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -12,6 +13,7 @@ import type { TooltipContentProps } from 'recharts'
 import type { Minuto, Partida } from '../types/datos'
 import { EstadoVacio } from './EstadoVacio'
 import { CirculoCierre } from './CirculoCierre'
+import { BotonCompartir } from './BotonCompartir'
 import { LABEL_PROBABILIDAD_TOP25, formatCierre } from '../texto'
 import { extraerMinutoCritico } from '../analisisPartida'
 import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
@@ -19,6 +21,10 @@ import { COLOR_ZONA, COLOR_PELIGRO, COLOR_CUADRICULA, COLOR_TINTA_SECUNDARIA, CO
 
 type Props = {
   partida: Partida | null
+  /** Minuto a resaltar con una línea vertical (el elegido en el mapa de "Analizar mi partida"). */
+  minutoMarcado?: number
+  /** Avisa qué minuto tiene el cursor encima, para sincronizar el mapa. */
+  onMinutoActivo?: (minuto: number) => void
 }
 
 function PanelHover({ active, payload }: TooltipContentProps) {
@@ -45,7 +51,7 @@ function PanelHover({ active, payload }: TooltipContentProps) {
 }
 
 /** Curva de probabilidad minuto a minuto, con el momento crítico marcado sobre la línea. */
-export function CurvaProbabilidad({ partida }: Props) {
+export function CurvaProbabilidad({ partida, minutoMarcado, onMinutoActivo }: Props) {
   const reducido = usePrefersReducedMotion()
 
   if (!partida) {
@@ -59,10 +65,20 @@ export function CurvaProbabilidad({ partida }: Props) {
     <div className="rounded-lg border border-tinta-secundaria/15 bg-superficie p-4">
       <div className="mb-1 flex items-center justify-between gap-3">
         <h3 className="text-sm font-medium text-tinta-secundaria">{LABEL_PROBABILIDAD_TOP25}</h3>
-        <CirculoCierre claveAnimacion={partida.id} clasifico={partida.clasifico} duracionMs={900} />
+        <div className="flex items-center gap-3">
+          <BotonCompartir partida={partida} />
+          <CirculoCierre claveAnimacion={partida.id} clasifico={partida.clasifico} duracionMs={900} />
+        </div>
       </div>
       <ResponsiveContainer width="100%" height={280}>
-        <LineChart data={partida.minutos} margin={{ top: 10, right: 20, bottom: 0, left: 0 }}>
+        <LineChart
+          data={partida.minutos}
+          margin={{ top: 10, right: 20, bottom: 0, left: 0 }}
+          onMouseMove={(estado) => {
+            // activeLabel es el valor del XAxis (dataKey "minuto").
+            if (onMinutoActivo && estado.activeLabel != null) onMinutoActivo(Number(estado.activeLabel))
+          }}
+        >
           <CartesianGrid strokeDasharray="3 3" stroke={COLOR_CUADRICULA} />
           <XAxis
             dataKey="minuto"
@@ -78,6 +94,9 @@ export function CurvaProbabilidad({ partida }: Props) {
             width={45}
           />
           <Tooltip content={PanelHover} />
+          {minutoMarcado != null && (
+            <ReferenceLine x={minutoMarcado} stroke={COLOR_TINTA_SECUNDARIA} strokeDasharray="4 4" />
+          )}
           <Line
             type="monotone"
             dataKey="probabilidad"

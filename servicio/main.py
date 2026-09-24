@@ -86,7 +86,10 @@ class Mensaje(BaseModel):
 
 
 class SolicitudAsistente(BaseModel):
-    partida_id: str
+    # Ausente cuando no hay ninguna partida cargada (botón flotante en
+    # Perfiles o Cómo funciona, por ejemplo): ahí el asistente solo puede
+    # hablar del proyecto en general, con la ficha de instruccion_asistente.md.
+    partida_id: str | None = None
     mensajes: list[Mensaje]
     # La partida completa de "Analizar mi partida": esa nunca se persiste en
     # partidas.json, así que sin esto el asistente no podría encontrarla por

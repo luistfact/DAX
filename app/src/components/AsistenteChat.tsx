@@ -33,11 +33,15 @@ function describirHerramienta(h: HerramientaInvocada): string {
   return describir ? describir(h.argumentos) : `consultó ${h.herramienta}`
 }
 
+const PREGUNTAS_SUGERIDAS_PROYECTO = ['¿Esto cómo funciona?', '¿Qué tan preciso es?', '¿Qué datos usa?']
+
 type Props = {
-  partida: Partida
+  /** null cuando no hay ninguna partida cargada (p. ej. en Perfiles o Cómo
+   * funciona): el asistente solo puede hablar del proyecto en general. */
+  partida: Partida | null
 }
 
-/** Chat del asistente, dentro de la vista de la partida: habla solo de esta. */
+/** Chat del asistente: habla de la partida cargada o, si no hay ninguna, del proyecto. */
 export function AsistenteChat({ partida }: Props) {
   const [mensajes, setMensajes] = useState<MensajeChat[]>([])
   const [texto, setTexto] = useState('')
@@ -48,15 +52,16 @@ export function AsistenteChat({ partida }: Props) {
   // La partida en vivo de "Analizar mi partida" no trae percentil/probabilidad
   // máxima/momento_critico (nunca se persiste en partidas.json); se completan
   // aquí para que el backend siempre reciba la misma forma.
-  const partidaEnriquecida = useMemo(() => enriquecerParaAsistente(partida), [partida])
+  const partidaEnriquecida = useMemo(() => (partida ? enriquecerParaAsistente(partida) : null), [partida])
 
-  // Nueva partida -> conversación limpia (sin memoria entre partidas ni sesiones).
+  // Cambia el contexto (otra partida, o partida <-> sin partida) -> conversación
+  // limpia (sin memoria entre partidas ni sesiones).
   useEffect(() => {
     setMensajes([])
     setTexto('')
     setError(null)
     setCargando(false)
-  }, [partida.id])
+  }, [partida?.id])
 
   useEffect(() => {
     finRef.current?.scrollIntoView({ block: 'nearest' })
@@ -77,7 +82,7 @@ export function AsistenteChat({ partida }: Props) {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          partida_id: partida.id,
+          partida_id: partida?.id ?? null,
           partida: partidaEnriquecida,
           mensajes: historial.map((m) => ({ rol: m.rol, texto: m.texto })),
         }),
@@ -101,13 +106,17 @@ export function AsistenteChat({ partida }: Props) {
     enviar(texto)
   }
 
+  const preguntasSugeridas = partida ? PREGUNTAS_SUGERIDAS : PREGUNTAS_SUGERIDAS_PROYECTO
+
   return (
     <div className="space-y-3 rounded-lg border border-tinta-secundaria/15 bg-superficie p-4">
-      <h4 className="text-sm font-semibold text-tinta">Pregúntale a la partida</h4>
+      <h4 className="text-sm font-semibold text-tinta">
+        {partida ? 'Pregúntale a la partida' : 'Pregúntale al proyecto'}
+      </h4>
 
       {mensajes.length === 0 ? (
         <div className="flex flex-wrap gap-2">
-          {PREGUNTAS_SUGERIDAS.map((pregunta) => (
+          {preguntasSugeridas.map((pregunta) => (
             <button
               key={pregunta}
               type="button"
@@ -150,7 +159,7 @@ export function AsistenteChat({ partida }: Props) {
           type="text"
           value={texto}
           onChange={(e) => setTexto(e.target.value)}
-          placeholder="Pregunta sobre esta partida"
+          placeholder={partida ? 'Pregunta sobre esta partida' : 'Pregunta sobre el proyecto'}
           disabled={cargando}
           className="min-w-0 flex-1 rounded-md border border-tinta-secundaria/30 bg-superficie px-3 py-2 text-sm text-tinta placeholder:text-tinta-secundaria focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zona disabled:opacity-50"
         />

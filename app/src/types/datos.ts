@@ -36,6 +36,33 @@ export type MomentoCritico = {
   caida: number
 }
 
+/**
+ * Probabilidad media de la partida recalculada por el modelo alterando una sola
+ * variable. `aplica === false`: el escuadrón ya estaba en ese valor, y
+ * `probabilidad_alterna`/`diferencia` vienen en `null`.
+ */
+export type Escenario = {
+  escenario: string
+  probabilidad_base: number
+  probabilidad_alterna: number | null
+  diferencia: number | null
+  aplica: boolean
+}
+
+/** Punto en coordenadas normalizadas del mapa (0-1, divididas por el tamaño del mapa, como en el parser). */
+export type PuntoMapa = { minuto: number; x: number; y: number }
+
+/** Último estado del círculo dentro de ese minuto; `r` en la misma escala normalizada. */
+export type ZonaMapa = PuntoMapa & { r: number }
+
+/** Solo en la partida en vivo: el corpus guarda distancias al círculo, no posiciones. */
+export type Mapa = {
+  trayectoria: PuntoMapa[]
+  zonas: ZonaMapa[]
+  /** Bajas del escuadrón, con la posición de quien cayó. */
+  eventos: PuntoMapa[]
+}
+
 export type Partida = {
   id: string
   match_id: string
@@ -52,6 +79,9 @@ export type Partida = {
   percentil?: number
   probabilidad_maxima?: number
   momento_critico?: MomentoCritico
+  /** Solo en el corpus: salen de la red recurrente, que el servicio en vivo no usa. */
+  escenarios?: Escenario[]
+  mapa?: Mapa
 }
 
 export type ModeloMetrica = {

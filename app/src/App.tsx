@@ -3,7 +3,7 @@ import { AvisoTratamiento } from './components/AvisoTratamiento'
 import { SelectorPartida } from './components/SelectorPartida'
 import { CurvaProbabilidad } from './components/CurvaProbabilidad'
 import { Informe } from './components/Informe'
-import { AsistenteChat } from './components/AsistenteChat'
+import { AsistenteFlotante } from './components/AsistenteFlotante'
 import { PerfilesRadar } from './components/PerfilesRadar'
 import { TablaModelos } from './components/TablaModelos'
 import { AnalizarPartida } from './components/AnalizarPartida'
@@ -11,6 +11,7 @@ import { EstadoVacio } from './components/EstadoVacio'
 import { usePartidas } from './hooks/usePartidas'
 import { usePerfiles } from './hooks/usePerfiles'
 import { useMetricas } from './hooks/useMetricas'
+import { useAnalisis } from './hooks/useAnalisis'
 
 const PESTANAS = ['Partida', 'Perfiles', 'Analizar mi partida', 'Cómo funciona'] as const
 type Pestana = (typeof PESTANAS)[number]
@@ -23,6 +24,17 @@ function App() {
   const partidaActual = partidas?.find((p) => p.id === partidaSeleccionada) ?? null
   const { cargando: cargandoPerfiles, error: errorPerfiles, perfiles } = usePerfiles()
   const { cargando: cargandoMetricas, error: errorMetricas, metricas } = useMetricas()
+  const analisis = useAnalisis()
+
+  // La partida que conoce el botón flotante del asistente: la seleccionada en
+  // Partida, o la del análisis en vivo si ya terminó; en cualquier otra
+  // pestaña o estado, ninguna (el asistente solo habla del proyecto).
+  const partidaParaAsistente =
+    pestana === 'Partida'
+      ? partidaActual
+      : pestana === 'Analizar mi partida' && analisis.estado.fase === 'listo'
+        ? analisis.estado.partida
+        : null
 
   return (
     <div className="min-h-screen">
@@ -74,7 +86,6 @@ function App() {
                     <div className="space-y-6 lg:sticky lg:top-4 lg:col-span-2">
                       <CurvaProbabilidad partida={partidaActual} />
                       <Informe partida={partidaActual} />
-                      {partidaActual && <AsistenteChat partida={partidaActual} />}
                     </div>
                   </div>
                 )}
@@ -89,7 +100,13 @@ function App() {
                 {perfiles && <PerfilesRadar perfiles={perfiles} />}
               </>
             )}
-            {pestana === 'Analizar mi partida' && <AnalizarPartida />}
+            {pestana === 'Analizar mi partida' && (
+              <AnalizarPartida
+                estado={analisis.estado}
+                analizar={analisis.analizar}
+                reiniciar={analisis.reiniciar}
+              />
+            )}
             {pestana === 'Cómo funciona' && (
               <>
                 {cargandoMetricas && <EstadoVacio mensaje="Cargando métricas…" />}
@@ -100,6 +117,8 @@ function App() {
               </>
             )}
           </main>
+
+          <AsistenteFlotante partida={partidaParaAsistente} />
         </>
       )}
     </div>

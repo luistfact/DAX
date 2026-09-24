@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import type { Partida } from '../types/datos'
 import { EstadoVacio } from './EstadoVacio'
+import { Escenarios } from './Escenarios'
 import { useMetricas } from '../hooks/useMetricas'
 import { FRASE_VICTORIA } from '../texto'
 import {
@@ -164,6 +165,10 @@ export function Informe({ partida }: Props) {
 
       <Pregunta titulo="¿Qué hago la próxima?">
         <Lista items={informe.recomendaciones} vacio="Sin recomendaciones registradas." />
+        <h5 className="pt-2 text-xs font-semibold uppercase tracking-wide text-tinta-secundaria">
+          ¿Qué habría cambiado?
+        </h5>
+        <Escenarios escenarios={partida.escenarios} />
       </Pregunta>
     </div>
   )

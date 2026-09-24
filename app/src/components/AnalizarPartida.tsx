@@ -1,10 +1,11 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { motion } from 'motion/react'
 import { COLOR_ZONA } from '../colores'
-import { useAnalisis } from '../hooks/useAnalisis'
+import type { useAnalisis } from '../hooks/useAnalisis'
+import type { Partida } from '../types/datos'
 import { CurvaProbabilidad } from './CurvaProbabilidad'
 import { Informe } from './Informe'
-import { AsistenteChat } from './AsistenteChat'
+import { MapaPartida } from './MapaPartida'
 import { EstadoVacio } from './EstadoVacio'
 
 const TIEMPO_MAXIMO_MS = 90_000
@@ -61,10 +62,38 @@ function BarraProgreso({ inicio }: { inicio: number }) {
   )
 }
 
-/** Pestaña "Analizar mi partida": nick de Steam -> análisis en vivo con los mismos componentes que la pestaña Partida. */
-export function AnalizarPartida() {
+/**
+ * Curva, mapa e informe de la partida en vivo. El minuto elegido vive aquí
+ * para que la curva y el mapa se muevan juntos; se monta con `key` por
+ * partida, así un análisis nuevo arranca en su propio último minuto.
+ */
+function VistaEnVivo({ partida }: { partida: Partida }) {
+  const ultimo = partida.mapa?.trayectoria.at(-1)?.minuto ?? partida.minutos.at(-1)?.minuto ?? 0
+  const [minuto, setMinuto] = useState(ultimo)
+
+  return (
+    <>
+      <CurvaProbabilidad
+        partida={partida}
+        minutoMarcado={partida.mapa ? minuto : undefined}
+        onMinutoActivo={partida.mapa ? setMinuto : undefined}
+      />
+      {partida.mapa && <MapaPartida mapa={partida.mapa} minuto={minuto} onMinuto={setMinuto} />}
+      <Informe partida={partida} />
+    </>
+  )
+}
+
+type Props = ReturnType<typeof useAnalisis>
+
+/**
+ * Pestaña "Analizar mi partida": nick de Steam -> análisis en vivo con los
+ * mismos componentes que la pestaña Partida. El estado vive en App.tsx (no
+ * en un hook propio) para que el botón flotante del asistente conozca la
+ * partida activa incluso fuera de esta pestaña.
+ */
+export function AnalizarPartida({ estado, analizar, reiniciar }: Props) {
   const [nick, setNick] = useState('')
-  const { estado, analizar, reiniciar } = useAnalisis()
 
   const enviar = (e: FormEvent) => {
     e.preventDefault()
@@ -104,11 +133,7 @@ export function AnalizarPartida() {
         </div>
       )}
       {estado.fase === 'listo' && (
-        <>
-          <CurvaProbabilidad partida={estado.partida} />
-          <Informe partida={estado.partida} />
-          <AsistenteChat partida={estado.partida} />
-        </>
+        <VistaEnVivo key={estado.partida.id} partida={estado.partida} />
       )}
     </div>
   )

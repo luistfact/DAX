@@ -401,3 +401,77 @@ discusiones ya cerradas.
   corpus y en el navegador con `laze-9527` real vía "Analizar mi partida":
   el chat consultó `momento_critico` y `estado_por_minuto` y respondió con
   las cifras reales de esa partida en vivo.
+- **2026-09-19** — Botón flotante del asistente en las 4 pestañas, y cuarta
+  capa de dominio: el proyecto en sí. `AsistenteChat.tsx` ya no vive
+  incrustado en la vista de partida; `AsistenteFlotante.tsx` (nuevo) lo
+  envuelve en un botón fijo (`fixed bottom-4 right-4`) montado una sola vez
+  en `App.tsx`, visible siempre tras aceptar el aviso de tratamiento.
+  `useAnalisis()` subió de `AnalizarPartida.tsx` a `App.tsx` (esta ahora
+  recibe `estado`/`analizar`/`reiniciar` por props, tipados con
+  `ReturnType<typeof useAnalisis>`) para que el botón flotante sepa cuál es
+  la partida activa del análisis en vivo sin duplicar el hook.
+  `partida_id` pasó a ser opcional en `SolicitudAsistente` (`main.py`) y en
+  `responder()` (`asistente.py`): sin partida cargada (Perfiles, Cómo
+  funciona, o Partida/Analizar sin selección) el asistente solo puede hablar
+  del proyecto en general, con la ficha técnica agregada a
+  `instruccion_asistente.md` (fuente, corpus, unidad de análisis, objetivo,
+  los 11 predictores, los 5 modelos con su rango de AUC, el agrupamiento
+  K-medias y su ARI, los 3 hallazgos y las limitaciones) — dos registros
+  según cómo pregunten (llano vs. técnico), a elección del propio modelo.
+  Corregí una consecuencia real de esto: `validar_respuesta` comparaba las
+  cifras de la ficha (150 partidas, AUC 0.677–0.698, etc.) contra los
+  resultados de herramientas de ese turno, que están vacíos en una respuesta
+  de nivel "proyecto" — todas esas cifras habrían salido "sospechosas" y
+  activado el reintento/rechazo. Ahora `_validar_si_corresponde` salta la
+  validación por completo cuando no se invocó ninguna herramienta en el
+  turno (nivel proyecto, un "no lo sé", o una redirección), y solo valida
+  cuando sí hubo herramientas de por medio (nivel partida). Probado por API:
+  pregunta llana ("¿Esto cómo funciona?") sin tecnicismos; pregunta técnica
+  (AUC, modelos, agrupamiento) con las cifras exactas de la ficha; pregunta
+  sobre "esta partida" sin ninguna cargada → "no tengo esa información".
+  Probado en el navegador: el botón aparece en las 4 pestañas, y desde
+  Perfiles (sin partida) responde en modo "Pregúntale al proyecto".
+- **2026-09-23** — Tres mejoras de `PROMPT_TRES_MEJORAS.md` (paso 2).
+  **Escenarios** (`Escenarios.tsx`, dentro de «¿Qué hago la próxima?» de
+  `Informe.tsx`): tarjetas con barra base→alterna y diferencia en puntos;
+  se destaca la de mayor ganancia solo si `aplica` y sube ≥ 1 punto (32 de
+  200 partidas no tienen ninguna así, y no se destaca nada). `|diferencia|`
+  < 1 punto → «Apenas cambia», sin cifra. `aplica === false` → logro
+  («Ya llegaste completo, bien ahí»; «salud casi entera», porque el peor
+  momento de esos escuadrones va de 91 a 100). **Solo dos escenarios**
+  (completo, sin daño): el usuario retiró «Rotar antes» del notebook porque
+  `dist_rel` está confundida con la fase y fijarla en 0.30 toda la partida
+  genera estados que ningún escuadrón tiene en las fases finales — daba
+  caídas de hasta 19 puntos que se habrían leído como consejo falso. `aplica`
+  se calcula sobre el peor momento de la partida, no el promedio (con el
+  promedio, 51 partidas marcaban "completo" aunque perdieron gente al
+  final). Si aparece una diferencia negativa ≥ 1 punto con `aplica = true`,
+  se muestra: «Según el modelo, esto no habría mejorado tu resultado: la
+  probabilidad baja de X a Y» (hoy las 11 negativas son < 1 punto y salen
+  como «Apenas cambia»). Aviso de asociación vs. causalidad con el texto exacto
+  del prompt, a tamaño normal. En «Analizar mi partida» no hay escenarios
+  (salen de la red recurrente; el servicio usa el bosque aleatorio): aviso
+  breve, decisión del usuario.
+  **Compartir** (`compartir.ts` + `BotonCompartir.tsx`, en la cabecera de
+  `CurvaProbabilidad`, ambas pestañas): Canvas 2D nativo, sin dependencias
+  (decisión del usuario), 1080×1080 PNG dibujado desde los datos —no una
+  captura—; espera `document.fonts.load` porque el canvas cae en silencio a
+  la fuente genérica si Barlow/Inter no están cargadas. Descarga local con
+  `toBlob` + `<a download>`, nada se sube.
+  **Mapa** (solo en vivo): `servicio/analisis.py` agrega `mapa` a la
+  respuesta de `/analizar` (`_construir_mapa`): `trayectoria` (centroide por
+  minuto), `zonas` (último estado del círculo en cada minuto, radio > 0,
+  recortadas al último minuto con posiciones del escuadrón) y `eventos`
+  (bajas del escuadrón de `LogPlayerKillV2`/`LogPlayerKill`). Las bajas solo
+  traen `_D`: se pasan al reloj de `elapsedTime` con el desfase mediano
+  `_D − elapsedTime` de las posiciones del propio equipo. Verificado contra
+  `time_survived` de la API con `laze-9527` (251/438/495 s → minutos 4/7/8,
+  exactos). La columna `vivos` de la tabla va rezagada respecto de las bajas
+  porque los muertos siguen emitiendo `LogPlayerPosition` un rato; es el
+  mismo comportamiento del entrenamiento y no se tocó. `MapaPartida.tsx`:
+  SVG propio en coordenadas normalizadas, encuadre alrededor del recorrido,
+  las bajas y el círculo más pequeño (el mapa completo dejaría el recorrido
+  como un punto), deslizador de minuto sincronizado con la curva
+  (`onMouseMove` de `LineChart` → `activeLabel`, firma verificada en los
+  tipos de Recharts 3.10; la curva marca el minuto elegido con una
+  `ReferenceLine`).

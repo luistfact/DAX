@@ -223,29 +223,49 @@ def _un_turno(
     return MENSAJE_SIN_VALIDAR, herramientas_invocadas, resultados
 
 
-def responder(partida_id: str, mensajes: list[dict], partida_en_vivo: dict | None = None) -> dict:
-    """Nombre de partida (+ opcionalmente la partida en vivo de "Analizar mi
-    partida", que nunca se persiste) + historial -> respuesta y herramientas usadas.
+def _validar_si_corresponde(invocadas: list[dict], texto: str, resultados: list[dict]) -> tuple[bool, list[float]]:
+    """Sin herramientas invocadas, la respuesta es de nivel "proyecto" (o un
+    "no lo sé" / una redirección): sus cifras vienen de la ficha técnica de
+    `instruccion_asistente.md`, no de una herramienta, así que no hay nada
+    contra qué validarlas.
     """
-    # Valida que la partida exista: la propia en vivo (si el id coincide) o,
-    # si no, la del corpus precalculado. Lanza ErrorAsistente si no hay ninguna.
-    herramientas._resolver_partida(partida_id, partida_en_vivo)
+    if not invocadas:
+        return True, []
+    return validar_respuesta(texto, resultados)
+
+
+def responder(partida_id: str | None, mensajes: list[dict], partida_en_vivo: dict | None = None) -> dict:
+    """Nombre de partida (opcional: puede no haber ninguna cargada) +
+    historial -> respuesta del asistente y herramientas usadas.
+    """
+    if partida_id is not None:
+        # Valida que exista: la propia en vivo (si el id coincide) o, si no,
+        # la del corpus precalculado. Lanza ErrorAsistente si no hay ninguna.
+        herramientas._resolver_partida(partida_id, partida_en_vivo)
 
     if len(mensajes) > MAX_TURNOS:
         return {"respuesta": MENSAJE_LIMITE_TURNOS, "herramientas": []}
 
     cliente = _cliente()
-    instrucciones = (
-        INSTRUCCION
-        + f'\n\nLa partida cargada es "{partida_id}". Usa siempre este valor '
-        "exacto como partida_id en cualquier herramienta que lo requiera."
-    )
+    if partida_id is not None:
+        instrucciones = (
+            INSTRUCCION
+            + f'\n\nLa partida cargada es "{partida_id}". Usa siempre este valor '
+            "exacto como partida_id en cualquier herramienta que lo requiera."
+        )
+    else:
+        instrucciones = (
+            INSTRUCCION
+            + "\n\nNo hay ninguna partida cargada en esta conversación: no puedes "
+            "usar las herramientas de partida (todas piden un partida_id que no "
+            "tienes). Solo puedes hablar del proyecto en general con la ficha técnica."
+        )
     input_list = [
         {"role": "user" if m["rol"] == "usuario" else "assistant", "content": m["texto"]} for m in mensajes
     ]
 
     texto, invocadas, resultados = _un_turno(cliente, list(input_list), instrucciones, partida_en_vivo)
-    valido, sospechosas = validar_respuesta(texto, resultados)
+    valido, sospechosas = _validar_si_corresponde(invocadas, texto, resultados)
 
     if not valido:
         logger.warning("Respuesta no validada, cifras sospechosas: %s. Reintentando.", sospechosas)
@@ -256,7 +276,7 @@ def responder(partida_id: str, mensajes: list[dict], partida_en_vivo: dict | Non
             "que las herramientas te dieron."
         )
         texto, invocadas, resultados = _un_turno(cliente, list(input_list), instruccion_estricta, partida_en_vivo)
-        valido, sospechosas = validar_respuesta(texto, resultados)
+        valido, sospechosas = _validar_si_corresponde(invocadas, texto, resultados)
         if not valido:
             logger.warning("Segunda respuesta tampoco validó. Cifras: %s", sospechosas)
             return {"respuesta": MENSAJE_SIN_VALIDAR, "herramientas": invocadas}
