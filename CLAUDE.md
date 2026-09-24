@@ -86,6 +86,15 @@ cd app && npm run dev                # app React (Vite) en local
 cd app && npm run build              # build de producción de la app React
 ```
 
+## Despliegue
+
+- El servicio (`servicio/`) corre en Render con Auto-Deploy desde `main`:
+  cada push a `main` lo redespliega sin intervención.
+- **Al configurar variables de entorno en Render, pega el contenido del
+  archivo de la clave, nunca su nombre**, y verifica el prefijo antes de
+  guardar: `eyJ` para `PUBG_API_KEY`, `sk-` para `OPENAI_API_KEY`. Ya pasó
+  dos veces que el valor quedó como `pubg_key.txt` u `openai_key.txt`.
+
 ## Bitácora de decisiones
 
 Añade aquí lo que se resuelva en cada sesión, con fecha. Evita repetir
@@ -489,5 +498,10 @@ discusiones ya cerradas.
   ahora solo el primero, y el resto sale como `SERVICIO_NO_DISPONIBLE` con
   el código real de PUBG en el log (`logger.error`). Motivo: en Render
   `/analizar` devolvía 429 a todas las peticiones mientras la clave local
-  tenía cuota (9 de 10 restantes); sospecha de `PUBG_API_KEY` inválida en
-  Render, pendiente de confirmar con el log nuevo.
+  tenía cuota (9 de 10 restantes). **Causa confirmada** con el log nuevo
+  (`HTTP 401: Unauthorized` de `/players`): el valor de `PUBG_API_KEY` en
+  Render era el nombre del archivo, `"pubg_key.txt"`, no su contenido — el
+  mismo error que ya había ocurrido con `OPENAI_API_KEY`. El usuario lo
+  corrigió en Render; `/analizar` en `dax-li6v.onrender.com` respondió 200
+  con `mapa` (9 minutos, 9 zonas, 3 bajas), idéntico al servicio local.
+  Regla agregada en la sección «Despliegue».
