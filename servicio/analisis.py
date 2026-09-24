@@ -8,6 +8,7 @@ predicciones del modelo.
 """
 from __future__ import annotations
 
+import logging
 import os
 import sys
 from pathlib import Path
@@ -21,6 +22,8 @@ sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
 import zonaazul as za  # noqa: E402  (después de ajustar sys.path)
 
 import modelos
+
+logger = logging.getLogger(__name__)
 
 # Mismos valores que en la celda 2 del notebook: deben coincidir con los
 # usados para construir la tabla analítica de entrenamiento.
@@ -73,9 +76,16 @@ def _buscar_jugador(cli: za.PubgClient, nick: str) -> tuple[str, list[str]]:
         raise ErrorAnalisis("USUARIO_NO_ENCONTRADO",
                             "No encontramos ese nombre de usuario en Steam") from e
     except RuntimeError as e:
-        # El único recurso limitado por cuota en este flujo es /players.
-        raise ErrorAnalisis("LIMITE_ALCANZADO",
-                            "Demasiadas consultas, intenta en un minuto") from e
+        # `_get` agota sus reintentos solo tras respuestas 429 o 5xx; en /players,
+        # el único recurso limitado por cuota de este flujo, eso es la cuota.
+        # Cualquier otro código (p. ej. 401 por una clave inválida) llega como
+        # "HTTP nnn: ..." y no debe disfrazarse de límite: se registra el
+        # código real para que se vea en los logs del despliegue.
+        if str(e).startswith("Reintentos agotados"):
+            raise ErrorAnalisis("LIMITE_ALCANZADO",
+                                "Demasiadas consultas, intenta en un minuto") from e
+        logger.error("La API de PUBG rechazó /players: %s", e)
+        raise ErrorAnalisis("SERVICIO_NO_DISPONIBLE", "La API de PUBG no responde") from e
 
     jugadores = datos.get("data") or []
     if not jugadores:
@@ -104,6 +114,7 @@ def _elegir_partida(cli: za.PubgClient, match_ids: list[str]) -> tuple[str, dict
             hubo_expirada = True
             continue
         except RuntimeError as e:
+            logger.error("La API de PUBG rechazó /matches: %s", e)
             raise ErrorAnalisis("SERVICIO_NO_DISPONIBLE",
                                 "La API de PUBG no responde") from e
 

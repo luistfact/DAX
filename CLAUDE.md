@@ -481,3 +481,13 @@ discusiones ya cerradas.
   bosque aleatorio. Actualizados el docstring de `servicio/modelos.py` y la
   entrada anterior de esta bitácora. `instruccion_asistente.md` solo lista
   los modelos comparados y no dice cuál sirve el servicio; no se tocó.
+- **2026-09-23** — `servicio/analisis.py`: `LIMITE_ALCANZADO` ya no disfraza
+  otros errores. `_get` (en `zonaazul.py`, que no se toca porque lo regenera
+  el notebook) lanza `RuntimeError("Reintentos agotados…")` solo tras 429/5xx
+  repetidos, y `RuntimeError("HTTP nnn: …")` para cualquier otro código.
+  Antes todo `RuntimeError` de `/players` salía como "Demasiadas consultas";
+  ahora solo el primero, y el resto sale como `SERVICIO_NO_DISPONIBLE` con
+  el código real de PUBG en el log (`logger.error`). Motivo: en Render
+  `/analizar` devolvía 429 a todas las peticiones mientras la clave local
+  tenía cuota (9 de 10 restantes); sospecha de `PUBG_API_KEY` inválida en
+  Render, pendiente de confirmar con el log nuevo.
