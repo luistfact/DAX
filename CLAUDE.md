@@ -450,7 +450,7 @@ discusiones ya cerradas.
   probabilidad baja de X a Y» (hoy las 11 negativas son < 1 punto y salen
   como «Apenas cambia»). Aviso de asociación vs. causalidad con el texto exacto
   del prompt, a tamaño normal. En «Analizar mi partida» no hay escenarios
-  (salen de la red recurrente; el servicio usa el bosque aleatorio): aviso
+  (salen de la red recurrente; el servicio usa la red densa): aviso
   breve, decisión del usuario.
   **Compartir** (`compartir.ts` + `BotonCompartir.tsx`, en la cabecera de
   `CurvaProbabilidad`, ambas pestañas): Canvas 2D nativo, sin dependencias
@@ -475,3 +475,9 @@ discusiones ya cerradas.
   (`onMouseMove` de `LineChart` → `activeLabel`, firma verificada en los
   tipos de Recharts 3.10; la curva marca el minuto elegido con una
   `ReferenceLine`).
+- **2026-09-23** — Corrección de documentación: el servicio en vivo usa la
+  **red densa** (`modelo_supervisado.pkl` = Pipeline imputación + escalado +
+  `MLPClassifier` (64, 32), 78 KB, verificado cargando el archivo), no el
+  bosque aleatorio. Actualizados el docstring de `servicio/modelos.py` y la
+  entrada anterior de esta bitácora. `instruccion_asistente.md` solo lista
+  los modelos comparados y no dice cuál sirve el servicio; no se tocó.
