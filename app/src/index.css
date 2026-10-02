@@ -53,7 +53,7 @@
   --color-on-brand: #0C0F0E;
   --color-zone: #1069CB;
   --color-danger: #BE2420;
-  --color-alive: #008C56;
+  --color-alive: #007A4B;
   --color-violet: #874197;
   --color-sand: #8A7A5A;
   --color-zone-wash: rgb(16 105 203 / 0.12);
@@ -121,4 +121,21 @@ body {
 .recharts-surface:focus-visible {
   outline: 2px solid var(--color-zone);
   outline-offset: 2px;
+}
+
+/*
+ * Navegación de cristal. Respaldo sólido para navegadores sin
+ * backdrop-filter; con soporte, --card al 90 %: con contenido blanco detrás
+ * (oscuro) o casi negro (claro), el texto secundario sigue en 5.3:1 y 5.1:1.
+ * Al 80 % bajaba a 3.7:1 y 4.0:1, por debajo de AA.
+ */
+.nav-cristal {
+  background-color: var(--color-card);
+}
+@supports (backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px)) {
+  .nav-cristal {
+    background-color: color-mix(in srgb, var(--color-card) 90%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(140%);
+    backdrop-filter: blur(14px) saturate(140%);
+  }
 }

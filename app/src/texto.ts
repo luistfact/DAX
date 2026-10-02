@@ -28,20 +28,21 @@ export function nombreModelo(nombre: string, primeraVez = false): string {
   return primeraVez ? alias.primera : alias.siguientes
 }
 
-// Nombres de los 11 predictores del modelo en el lenguaje de la app (para la
-// importancia de variables). Uno nuevo se muestra con su nombre técnico.
+// Nombres de los 11 predictores del modelo en lenguaje de jugador, no de base
+// de datos (lista aprobada por el usuario). Uno nuevo se muestra con su
+// nombre técnico.
 const ETIQUETA_VARIABLE: Record<string, string> = {
-  jugadores_vivos: LABEL_COMPANEROS_EN_PIE,
   hp_medio: LABEL_SALUD_EQUIPO,
   hp_minimo: 'Salud del más herido',
-  tam_real: 'Tamaño del escuadrón',
-  dist_rel: 'Distancia al círculo',
+  jugadores_vivos: LABEL_COMPANEROS_EN_PIE,
+  tam_real: 'Con cuántos empezaste',
+  equipos_vivos: 'Equipos que quedan',
+  radio_zona: 'Qué tan cerrada está la zona',
+  fase_zona: 'En qué cierre vas',
+  dist_rel: 'Qué tan lejos estás del círculo',
   dist_centro: 'Distancia al centro de la zona',
   frac_fuera: 'Tiempo fuera de la zona',
-  radio_zona: 'Tamaño de la zona',
-  fase_zona: 'Fase del círculo',
-  equipos_vivos: 'Equipos restantes',
-  desplazamiento: 'Desplazamiento',
+  desplazamiento: 'Cuánto te mueves',
 }
 
 /** Nombre legible de un predictor del modelo. */

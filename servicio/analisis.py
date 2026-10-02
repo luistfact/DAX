@@ -193,8 +193,12 @@ def _parsear_equipo(eventos: list[dict], map_name: str, team_id: int,
             vl = v.get("location") or {}
             if vl.get("x") is None or vl.get("y") is None:
                 continue  # sin posición no se dibuja: no se inventa una
+            # Mismo campo que el parser del notebook: el daño que remató.
+            di = ev.get("finishDamageInfo") or {}
+            categoria = di.get("damageTypeCategory") or ev.get("damageTypeCategory")
             bajas.append({"ts": ev.get("_D"),
-                          "x_norm": vl["x"] / escala, "y_norm": vl["y"] / escala})
+                          "x_norm": vl["x"] / escala, "y_norm": vl["y"] / escala,
+                          "causa": _categoria_causa(categoria)})
 
     return pd.DataFrame(pos), pd.DataFrame(zona), pd.DataFrame(bajas)
 
@@ -240,6 +244,19 @@ def _construir_tabla(pos: pd.DataFrame, zona: pd.DataFrame) -> pd.DataFrame:
     return agg
 
 
+def _categoria_causa(categoria: str | None) -> str:
+    """Las cuatro categorías de `causas_eliminacion`; copia de `categoria_causa` del notebook."""
+    c = str(categoria)
+    if c == "Damage_Gun":
+        return "Arma de fuego"
+    # Remate tras derribo: DBNO en las versiones recientes del juego, Groggy en las antiguas.
+    if c in ("Damage_DBNO", "Damage_Groggy"):
+        return "Remate tras derribo"
+    if c == "Damage_BlueZone":
+        return "Zona de gas"
+    return "Otros"
+
+
 def _construir_mapa(pos: pd.DataFrame, zona: pd.DataFrame, bajas: pd.DataFrame,
                     t_max: int = T_MAX) -> dict:
     """Trayectoria, círculo y bajas por minuto, en las coordenadas normalizadas del parser."""
@@ -272,7 +289,8 @@ def _construir_mapa(pos: pd.DataFrame, zona: pd.DataFrame, bajas: pd.DataFrame,
         for t, f in zip(t_baja, bajas.itertuples()):
             if 0 <= t < t_max:
                 eventos.append({"minuto": int(t // VENTANA),
-                                "x": round(float(f.x_norm), 4), "y": round(float(f.y_norm), 4)})
+                                "x": round(float(f.x_norm), 4), "y": round(float(f.y_norm), 4),
+                                "causa": f.causa})
 
     return {"trayectoria": trayectoria, "zonas": zonas, "eventos": eventos}
 

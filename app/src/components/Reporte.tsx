@@ -1,5 +1,16 @@
 import type { ReactNode } from 'react'
-import { Trophy } from 'lucide-react'
+import {
+  ArrowDownRight,
+  ArrowUpRight,
+  BarChart3,
+  Clock,
+  Crown,
+  Medal,
+  TrendingDown,
+  TrendingUp,
+  Trophy,
+  type LucideIcon,
+} from 'lucide-react'
 import type { Partida, PuntoReferencia } from '../types/datos'
 import { CurvaProbabilidad } from './CurvaProbabilidad'
 import { Informe } from './Informe'
@@ -26,29 +37,54 @@ type Props = {
   children?: ReactNode
 }
 
-function Indicador({
+type Delta = { texto: string; positivo: boolean }
+
+/**
+ * Tarjeta de KPI: etiqueta, número grande e ícono de contexto. El delta solo
+ * aparece donde hay una comparación real; verde si es mejor, rojo si es peor.
+ */
+function Kpi({
   etiqueta,
   valor,
   detalle,
   tono,
-  icono,
+  Icono,
+  delta,
 }: {
   etiqueta: string
   valor: string
   detalle?: string
   tono?: string
-  icono?: ReactNode
+  Icono: LucideIcon
+  delta?: Delta | null
 }) {
+  const Flecha = delta?.positivo ? ArrowUpRight : ArrowDownRight
   return (
-    <div className="min-w-0 px-4 py-3">
-      <dt className="etiqueta">{etiqueta}</dt>
-      <dd className={`flex items-baseline gap-1 font-cifra text-4xl font-semibold leading-tight ${tono ?? 'text-text'}`}>
-        {icono}
+    <div className="flex min-w-0 flex-col gap-1 rounded-lg border border-line bg-card p-4">
+      <div className="flex items-start justify-between gap-2">
+        <dt className="etiqueta">{etiqueta}</dt>
+        <Icono className="h-5 w-5 shrink-0 text-muted" aria-hidden="true" />
+      </div>
+      <dd className={`font-cifra text-5xl font-semibold leading-none ${tono ?? 'text-text'}`}>
         {valor}
         {detalle && <span className="ml-1 font-texto text-sm font-normal text-muted">{detalle}</span>}
       </dd>
+      {delta && (
+        <dd className={`flex items-center gap-1 text-sm font-medium ${delta.positivo ? 'text-alive' : 'text-danger'}`}>
+          <Flecha className="h-4 w-4 shrink-0" aria-hidden="true" />
+          {delta.texto}
+        </dd>
+      )}
     </div>
   )
+}
+
+/** Posición contra el corte del top 25 % de esa partida. */
+function deltaPosicion(partida: Partida): Delta {
+  const corte = lugaresTop25(partida.escuadrones)
+  if (partida.posicion_final <= corte) return { texto: `Dentro del top (corte en el ${corte}°)`, positivo: true }
+  const lugares = partida.posicion_final - corte
+  return { texto: `A ${lugares} ${lugares === 1 ? 'lugar' : 'lugares'} del top`, positivo: false }
 }
 
 /** La meta en palabras, con la cifra de esa partida: «top 25 %» solo no dice cuántos lugares son. */
@@ -72,6 +108,22 @@ export function Reporte({ partida, titulo, subtitulo, referencia, minutoMarcado,
   const probMaxima = partida.probabilidad_maxima ?? probabilidadMaxima(partida.minutos)
   const minutoCritico = partida.momento_critico?.minuto ?? extraerMinutoCritico(partida.informe.momento_critico)
   const caida = caidaDesdePico(partida.minutos)
+  // Solo con la curva de referencia (catálogo): misma red y misma calibración,
+  // así que la comparación es real. En vivo no hay contra qué comparar.
+  const maxReferencia = referencia && referencia.length > 0 ? Math.max(...referencia.map((r) => r.probabilidad)) : null
+  // El signo sale de la diferencia ya redondeada a puntos enteros: con los
+  // valores crudos, 53.9 % contra 53.92 % daba «−0 pp» en rojo.
+  const puntosVsReferencia =
+    probMaxima != null && maxReferencia != null ? Math.round((probMaxima - maxReferencia) * 100) : null
+  const deltaProbMaxima: Delta | null =
+    puntosVsReferencia == null
+      ? null
+      : puntosVsReferencia === 0
+        ? { texto: 'Igual que el máximo de los que llegaron al top', positivo: true }
+        : {
+            texto: `${puntosVsReferencia > 0 ? '+' : '−'}${pp(puntosVsReferencia / 100)} vs. el máximo de los que llegaron al top`,
+            positivo: puntosVsReferencia > 0,
+          }
 
   return (
     <div className="space-y-4">
@@ -81,28 +133,29 @@ export function Reporte({ partida, titulo, subtitulo, referencia, minutoMarcado,
       </div>
 
       <Mira>
-      <dl className="grid grid-cols-2 divide-line rounded-lg border border-line bg-card sm:grid-cols-3 xl:grid-cols-5 xl:divide-x">
-        <Indicador
-          etiqueta="Posición"
-          valor={`${partida.posicion_final}°`}
-          detalle={`de ${partida.escuadrones}`}
-          icono={
-            partida.clasifico ? <Trophy className="h-6 w-6 self-center text-text" aria-label="Top 25 %" /> : undefined
-          }
-        />
-        <Indicador etiqueta="Percentil" valor={pct100(percentil)} />
-        <Indicador etiqueta="Probabilidad máxima" valor={pct(probMaxima)} />
-        <Indicador
-          etiqueta="Caída desde el pico"
-          valor={caida == null ? '—' : caida > 0 ? `−${pp(caida)}` : pp(caida)}
-          tono={caida != null && caida >= 0.1 ? 'text-danger' : undefined}
-        />
-        <Indicador
-          etiqueta="Minuto crítico"
-          valor={minutoCritico != null ? String(minutoCritico) : '—'}
-          tono={minutoCritico != null ? 'text-danger' : undefined}
-        />
-      </dl>
+        <dl className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-5">
+          <Kpi
+            etiqueta="Posición"
+            valor={`${partida.posicion_final}°`}
+            detalle={`de ${partida.escuadrones}`}
+            Icono={partida.posicion_final === 1 ? Crown : partida.clasifico ? Trophy : Medal}
+            delta={deltaPosicion(partida)}
+          />
+          <Kpi etiqueta="Percentil" valor={pct100(percentil)} Icono={BarChart3} />
+          <Kpi etiqueta="Probabilidad máxima" valor={pct(probMaxima)} Icono={TrendingUp} delta={deltaProbMaxima} />
+          <Kpi
+            etiqueta="Caída desde el pico"
+            valor={caida == null ? '—' : caida > 0 ? `−${pp(caida)}` : pp(caida)}
+            tono={caida != null && caida >= 0.1 ? 'text-danger' : undefined}
+            Icono={TrendingDown}
+          />
+          <Kpi
+            etiqueta="Minuto crítico"
+            valor={minutoCritico != null ? String(minutoCritico) : '—'}
+            tono={minutoCritico != null ? 'text-danger' : undefined}
+            Icono={Clock}
+          />
+        </dl>
       </Mira>
       <p className="text-sm text-muted">{fraseMeta(partida)}</p>
 

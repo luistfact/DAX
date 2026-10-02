@@ -79,7 +79,7 @@ export const PALETA_CLARA: Paleta = {
   onBrand: '#0C0F0E',
   zone: '#1069CB',
   danger: '#BE2420',
-  alive: '#008C56',
+  alive: '#007A4B',
   violet: '#874197',
   sand: '#8A7A5A',
   zoneWash: 'rgba(16, 105, 203, 0.12)',

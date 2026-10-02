@@ -782,3 +782,85 @@ discusiones ya cerradas.
   imágenes que genera el botón Compartir al probarlo. Bajo el mapa del
   análisis en vivo: «El trazo une las posiciones de cada minuto; no es el
   camino exacto».
+- **2026-10-01** — Commit `8b0a830` del rediseño BI completo (fases 0–4 y
+  complemento), sin push. Pulido final (`PROMPT_PULIDO_FINAL.md`), bloque 1.
+  Regla de color nueva: **verde = positivo, rojo = negativo** (`alive` /
+  `danger`); verde claro `#008C56` → `#007A4B` (4.18:1 no pasaba AA como
+  texto; ahora 5.3:1 en `card`, 4.6:1 en `card-2`). **Navegación de cristal**:
+  el encabezado completo es `sticky` con `.nav-cristal` (`--card` al 90 % +
+  `blur(14px)`; respaldo sólido con `@supports`). 90 % y no 80 % por el peor
+  caso: con contenido blanco detrás (oscuro) o casi negro (claro), el texto
+  secundario queda en 5.3 / 5.1:1; al 80 % bajaba a 3.7 / 4.0. La columna fija
+  de Partidas usa `--alto-encabezado`, que `App.tsx` mide con un
+  `ResizeObserver`. **Héroe** más bajo (título 3xl/5xl, anillo de 200 px):
+  a 1366 × 768, «Lo que encontramos» queda a 491 px. **Resumen sin jerga**:
+  el hallazgo 4 es «64 → 76 de cada 100» y «La predicción se vuelve más exacta
+  conforme avanza la partida» (el AUC queda en el ícono de ayuda); la
+  importancia se explica como «cuánto empeora el modelo si esa variable deja
+  de aportar información» (la permutación revuelve, no quita; corrección del
+  usuario), con el término técnico y el modelo en la ayuda.
+- **2026-10-01** — Pulido final, bloque 2 (la partida). **KPI**: la franja
+  pasa a tarjetas (`Kpi` en `Reporte.tsx`) con número grande e ícono
+  (corona si ganó, trofeo si llegó al top, medalla si no; barras, tendencia
+  arriba/abajo, reloj). Dos deltas, los únicos con comparación real
+  (aprobados por el usuario): posición contra el corte del top («A 11 lugares
+  del top» / «Dentro del top»), y probabilidad máxima contra el máximo de
+  `curva_referencia`, solo en el catálogo (en vivo no hay referencia de la
+  misma red). El signo del delta sale de la diferencia ya redondeada: con los
+  valores crudos, 53.9 % contra 53.92 % salía «−0 pp» en rojo; con 0 se lee
+  «Igual que el máximo…» y cuenta como a la altura. **Viñetas**
+  (`VinetasTop.tsx`) en lugar del párrafo «¿Qué hicieron distinto…?»: por
+  variable y fase, barra = mediana del escuadrón en la fase
+  (`estadoPorFase`), marca = mediana de los que llegaron al top
+  (`referencia_fase`); salud y compañeros en verde/rojo; **distancia al
+  círculo en neutro** (ajuste del usuario: el hallazgo central es que la
+  posición casi no pesa; por eso se retiró «rotar antes»). **Factores** como
+  insignias: pulgar arriba verde / alerta roja (la calavera queda para las
+  bajas). Eliminado `buscarReferenciaFase`, sin uso.
+- **2026-10-01** — Pulido final, bloque 3 (perfiles e importancia).
+  `HuellaPerfil.tsx`: radar pequeño (72 px, SVG propio) en el color de cada
+  perfil en las tarjetas de arquetipos del Resumen; insignia de identidad,
+  sin cifras ni interacción (`aria-hidden`). Ejes normalizados con el mismo
+  mínimo y máximo para los cuatro (grupos + promedio general), con un piso de
+  15 % del radio para que un eje en cero no colapse la forma. La pestaña
+  Perfiles conserva las barras divergentes. **Importancia**: barra de peso
+  relativo (parte del total de importancia positiva; la barra se escala a la
+  más pesada para que se lea, la cifra es el peso: salud del equipo 25 %);
+  las dos variables con importancia negativa (−0.001) dicen «sin peso».
+  Nombres en lenguaje de jugador en `texto.ts` (`etiquetaVariable`, lista
+  aprobada): «Cuánto te mueves», «En qué cierre vas», «Qué tan cerrada está la
+  zona», «Con cuántos empezaste», etc.
+- **2026-10-01** — Pulido final, bloque 4 (mapa y eventos). **Causa de las
+  bajas** en `servicio/analisis.py` (opción b del usuario): mismo campo que el
+  parser del notebook (`finishDamageInfo.damageTypeCategory`, con el del
+  evento de respaldo) y `_categoria_causa`, copia de `categoria_causa` de la
+  celda de exportación (Gun → arma de fuego; DBNO o Groggy → remate tras
+  derribo; BlueZone → zona de gas; el resto → otros). Cada evento de `mapa`
+  trae `causa`; verificado con `laze-9527` (4 bajas, arma de fuego). **La
+  cuenta de vivos de la curva va 1-2 minutos detrás de la hora de cada baja**
+  (bajas en 2, 3, 5 y 11; caídas de vivos en 4, 5, 7 y 12; y los vivos
+  vuelven a subir por reanimaciones), así que la causa se muestra donde el
+  minuto es exacto: en el `<title>` de cada marcador del mapa y en la lista
+  bajo el mapa; en la tarjeta de la curva solo si hay una baja del mapa en
+  ese mismo minuto. **Tarjetas de evento** en la curva: al pasar el cursor o
+  enfocar un ícono (tabulable), «Minuto 12 · Cae un compañero · Salud del
+  equipo 4 · 3 en pie», encima de la gráfica, fuera del trazo. (Con la
+  pestaña de automatización en segundo plano, `focus()` no dispara eventos
+  de foco: se verificó con `focusin` explícito.) **Play** en el mapa: avanza
+  un minuto cada 0.7 s, desde el final vuelve a empezar, tomar el deslizador
+  pausa; el escuadrón y la zona del minuto se deslizan entre minutos
+  (`motion`, 0.6 s), sin deslizamiento con `prefers-reduced-motion`.
+- **2026-10-01** — Pulido final, bloque 5 (animaciones). La regla de una sola
+  animación se relaja con límites: `useAnimarUnaVez(clave)` devuelve true
+  solo la primera vez que se muestra esa clave en la visita (un `Set` fuera
+  de React: desmontar al cambiar de pestaña no la repite) y solo durante la
+  entrada (a los 850 ms pasa a false, así que redimensionar o pasar el cursor
+  no la repiten, y la gráfica termina en su estado final aunque la pestaña
+  esté en segundo plano); con `prefers-reduced-motion`, siempre false. Se usa
+  en la curva (`Area`: de izquierda a derecha, `curva-<id>`; un escuadrón
+  nuevo sí se anima) y en la dona de causas del Resumen (se llena,
+  `dona-causas`). Las dos con 800 ms y ease-out (`DURACION_ENTRADA_MS`,
+  `ACELERACION_ENTRADA`; en `motion`, `easeOut`, la misma curva). El anillo
+  del héroe sigue siendo la animación principal. Verificado por DOM: hay
+  animación al entrar a Partidas, ninguna al volver a la pestaña, sí con otro
+  escuadrón; la dona aparece llena al volver al Resumen.

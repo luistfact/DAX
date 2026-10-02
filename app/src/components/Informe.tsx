@@ -1,13 +1,13 @@
 import type { ReactNode } from 'react'
-import { Trophy } from 'lucide-react'
+import { AlertTriangle, ThumbsUp, Trophy } from 'lucide-react'
 import type { Partida } from '../types/datos'
 import { EstadoVacio } from './EstadoVacio'
 import { Escenarios } from './Escenarios'
+import { VinetasTop } from './VinetasTop'
 import { useMetricas } from '../hooks/useMetricas'
 import { FRASE_VICTORIA } from '../texto'
 import { cambioDistancia, espaciarPorcentajes } from '../formato'
 import {
-  buscarReferenciaFase,
   extraerMinutoCritico,
   minutosDelMomentoCritico,
   proporcionCobertura,
@@ -35,6 +35,29 @@ function Lista({ items, vacio }: { items: string[]; vacio: string }) {
     <ul className="list-disc space-y-1 pl-5 text-sm text-text">
       {items.map((item, i) => (
         <li key={i}>{espaciarPorcentajes(item)}</li>
+      ))}
+    </ul>
+  )
+}
+
+/**
+ * Factores como insignias en cuadrícula: a favor con pulgar arriba en verde,
+ * en contra con alerta en rojo. La calavera no: en un juego significa
+ * eliminación y queda reservada para las bajas.
+ */
+function Insignias({ items, tipo, vacio }: { items: string[]; tipo: 'favor' | 'contra'; vacio: string }) {
+  if (items.length === 0) {
+    return <p className="text-sm text-muted">{vacio}</p>
+  }
+  const Icono = tipo === 'favor' ? ThumbsUp : AlertTriangle
+  const color = tipo === 'favor' ? 'text-alive' : 'text-danger'
+  return (
+    <ul className="grid gap-2 sm:grid-cols-2">
+      {items.map((item, i) => (
+        <li key={i} className="flex items-start gap-2 rounded-md border border-line bg-card-2 px-3 py-2 text-sm text-text">
+          <Icono className={`mt-0.5 h-4 w-4 shrink-0 ${color}`} aria-hidden="true" />
+          {espaciarPorcentajes(item)}
+        </li>
       ))}
     </ul>
   )
@@ -90,8 +113,6 @@ export function Informe({ partida }: Props) {
   const minutoCritico = partida.momento_critico?.minuto ?? extraerMinutoCritico(informe.momento_critico)
 
   const puntosCriticos = minutosDelMomentoCritico(partida.minutos, minutoCritico)
-  const referencia =
-    metricas && puntosCriticos ? buscarReferenciaFase(metricas.referencia_fase, puntosCriticos.actual.fase) : null
 
   return (
     <div className="space-y-6 rounded-lg border border-line bg-card p-4">
@@ -109,18 +130,14 @@ export function Informe({ partida }: Props) {
           </p>
         )}
         <p className="text-sm text-text">{espaciarPorcentajes(informe.resumen)}</p>
-        <div className="grid gap-4 sm:grid-cols-2">
+        <div className="grid gap-4 xl:grid-cols-2">
           <div>
-            <h5 className="mb-1 titulo-seccion text-sm text-muted">
-              Factores a favor
-            </h5>
-            <Lista items={informe.factores_favorables} vacio="Sin factores a favor registrados." />
+            <h5 className="mb-2 titulo-seccion text-sm text-muted">Factores a favor</h5>
+            <Insignias items={informe.factores_favorables} tipo="favor" vacio="Sin factores a favor registrados." />
           </div>
           <div>
-            <h5 className="mb-1 titulo-seccion text-sm text-muted">
-              Factores en contra
-            </h5>
-            <Lista items={informe.factores_adversos} vacio="Sin factores en contra registrados." />
+            <h5 className="mb-2 titulo-seccion text-sm text-muted">Factores en contra</h5>
+            <Insignias items={informe.factores_adversos} tipo="contra" vacio="Sin factores en contra registrados." />
           </div>
         </div>
       </Pregunta>
@@ -148,14 +165,10 @@ export function Informe({ partida }: Props) {
         )}
       </Pregunta>
 
-      {/* Sin referencia para esa fase, la sección entera sobra: no se muestra un aviso vacío. */}
-      {puntosCriticos && referencia && (
+      {/* Sin referencia, la sección entera sobra: no se muestra un aviso vacío. */}
+      {metricas && metricas.referencia_fase.length > 0 && (
         <Pregunta titulo="¿Qué hicieron distinto los que llegaron?">
-          <p className="text-sm text-text">
-            Llegaste a F{puntosCriticos.actual.fase} con {puntosCriticos.actual.salud} de salud y{' '}
-            {puntosCriticos.actual.vivos} compañeros; los equipos que llegan al top 25 % lo hacen, en mediana, con{' '}
-            {Math.round(referencia.hp_medio * 10) / 10} y {Math.round(referencia.jugadores_vivos * 10) / 10}.
-          </p>
+          <VinetasTop minutos={partida.minutos} referencia={metricas.referencia_fase} />
         </Pregunta>
       )}
 

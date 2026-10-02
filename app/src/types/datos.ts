@@ -60,8 +60,8 @@ export type ZonaMapa = PuntoMapa & { r: number }
 export type Mapa = {
   trayectoria: PuntoMapa[]
   zonas: ZonaMapa[]
-  /** Bajas del escuadrón, con la posición de quien cayó. */
-  eventos: PuntoMapa[]
+  /** Bajas del escuadrón, con la posición de quien cayó y la causa en las cuatro categorías de `causas_eliminacion`. */
+  eventos: (PuntoMapa & { causa?: string })[]
 }
 
 export type Partida = {

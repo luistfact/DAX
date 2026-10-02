@@ -1,4 +1,7 @@
-import { useId } from 'react'
+import { useEffect, useId, useState } from 'react'
+import { motion } from 'motion/react'
+import { Pause, Play } from 'lucide-react'
+import { usePrefersReducedMotion } from '../hooks/usePrefersReducedMotion'
 import type { Mapa, PuntoMapa, ZonaMapa } from '../types/datos'
 import { PALETA_OSCURA } from '../colores'
 
@@ -61,6 +64,27 @@ export function MapaPartida({ mapa, minuto, onMinuto }: Props) {
   const minutos = mapa.trayectoria.map((p) => p.minuto)
   const minMinuto = minutos.length ? Math.min(...minutos) : 0
   const maxMinuto = minutos.length ? Math.max(...minutos) : 0
+  const reducido = usePrefersReducedMotion()
+  const [reproduciendo, setReproduciendo] = useState(false)
+  // Con movimiento reducido, el Play avanza por pasos: sin deslizamiento entre minutos.
+  const transicion = reducido ? { duration: 0 } : { duration: 0.6, ease: 'easeInOut' as const }
+
+  // Timelapse: un minuto cada 0.7 s hasta el último; ahí se detiene solo.
+  useEffect(() => {
+    if (!reproduciendo) return
+    if (minuto >= maxMinuto) {
+      setReproduciendo(false)
+      return
+    }
+    const siguiente = setTimeout(() => onMinuto(minuto + 1), 700)
+    return () => clearTimeout(siguiente)
+  }, [reproduciendo, minuto, maxMinuto, onMinuto])
+
+  const alternarReproduccion = () => {
+    // Desde el final, Play vuelve a empezar.
+    if (!reproduciendo && minuto >= maxMinuto) onMinuto(minMinuto)
+    setReproduciendo((v) => !v)
+  }
 
   // Los círculos se ordenan del más grande al más pequeño y ganan opacidad al cerrarse.
   const circulos = circulosDistintos(mapa.zonas).sort((a, b) => b.r - a.r)
@@ -104,14 +128,25 @@ export function MapaPartida({ mapa, minuto, onMinuto }: Props) {
                   cx={z.x}
                   cy={z.y}
                   r={z.r}
-                  fill={paleta.zone}
-                  fillOpacity={esActual ? 0.1 : 0}
+                  fill="none"
                   stroke={paleta.zone}
-                  strokeOpacity={esActual ? 1 : 0.2 + (0.5 * (i + 1)) / circulos.length}
-                  strokeWidth={(esActual ? 0.8 : 0.4) * u}
+                  strokeOpacity={esActual ? 0 : 0.2 + (0.5 * (i + 1)) / circulos.length}
+                  strokeWidth={0.4 * u}
                 />
               )
             })}
+            {/* La zona del minuto elegido, aparte: se cierra deslizándose al avanzar. */}
+            {zonaActual && (
+              <motion.circle
+                initial={false}
+                animate={{ cx: zonaActual.x, cy: zonaActual.y, r: zonaActual.r }}
+                transition={transicion}
+                fill={paleta.zone}
+                fillOpacity={0.1}
+                stroke={paleta.zone}
+                strokeWidth={0.8 * u}
+              />
+            )}
 
             {/* Recorrido completo tenue y, encima, lo recorrido hasta el minuto elegido. */}
             <polyline points={recorrido} fill="none" stroke={paleta.text} strokeOpacity={0.25} strokeWidth={0.5 * u} />
@@ -144,13 +179,16 @@ export function MapaPartida({ mapa, minuto, onMinuto }: Props) {
                 fillOpacity={e.minuto <= minuto ? 1 : 0.3}
                 stroke={paleta.bg}
                 strokeWidth={0.4 * u}
-              />
+              >
+                <title>{`Minuto ${e.minuto}${e.causa ? ` · ${e.causa}` : ''}`}</title>
+              </circle>
             ))}
 
             {posicionActual && (
-              <circle
-                cx={posicionActual.x}
-                cy={posicionActual.y}
+              <motion.circle
+                initial={false}
+                animate={{ cx: posicionActual.x, cy: posicionActual.y }}
+                transition={transicion}
                 r={2.4 * u}
                 fill="none"
                 stroke={paleta.text}
@@ -165,22 +203,49 @@ export function MapaPartida({ mapa, minuto, onMinuto }: Props) {
         </div>
         {/* Un punto por minuto (centroide del escuadrón): una línea recta entre dos puede cruzar agua aunque se haya ido por el puente. */}
         <p className="mt-2 text-xs text-muted">El trazo une las posiciones de cada minuto; no es el camino exacto.</p>
+        {mapa.eventos.length > 0 && (
+          <ul className="mt-2 flex flex-wrap gap-x-3 gap-y-1 text-xs text-muted">
+            {mapa.eventos.map((e, i) => (
+              <li key={i} className="flex items-center gap-1.5">
+                <span className="h-2 w-2 rounded-full bg-danger" aria-hidden="true" />
+                Baja en el minuto {e.minuto}
+                {e.causa && <span className="text-text"> · {e.causa.toLowerCase()}</span>}
+              </li>
+            ))}
+          </ul>
+        )}
 
-        <label className="mt-3 block text-sm text-muted">
-          <span className="flex justify-between">
-            <span>Minuto</span>
-            <span className="font-cifra text-lg text-text">{minuto}</span>
-          </span>
-          <input
-            type="range"
-            min={minMinuto}
-            max={maxMinuto}
-            step={1}
-            value={Math.min(Math.max(minuto, minMinuto), maxMinuto)}
-            onChange={(e) => onMinuto(Number(e.target.value))}
-            className="w-full accent-zone"
-          />
-        </label>
+        <div className="mt-3 flex items-end gap-3">
+          <button
+            type="button"
+            onClick={alternarReproduccion}
+            aria-label={reproduciendo ? 'Pausar' : 'Reproducir la partida minuto a minuto'}
+            aria-pressed={reproduciendo}
+            className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full border border-zone text-text hover:bg-zone/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zone"
+          >
+            {reproduciendo ? <Pause className="h-4 w-4" aria-hidden="true" /> : <Play className="h-4 w-4" aria-hidden="true" />}
+          </button>
+          <label className="block flex-1 text-sm text-muted">
+            <span className="flex justify-between">
+              <span>Minuto</span>
+              <span className="font-cifra text-lg text-text">{minuto}</span>
+            </span>
+            <input
+              type="range"
+              min={minMinuto}
+              max={maxMinuto}
+              step={1}
+              value={Math.min(Math.max(minuto, minMinuto), maxMinuto)}
+              // Tomar el deslizador pausa la reproducción: el control es del usuario.
+              onPointerDown={() => setReproduciendo(false)}
+              onChange={(e) => {
+                setReproduciendo(false)
+                onMinuto(Number(e.target.value))
+              }}
+              className="w-full accent-zone"
+            />
+          </label>
+        </div>
         <p className="text-xs text-muted">Pasa el cursor por la curva de probabilidad para moverte en el mapa.</p>
       </div>
     </div>

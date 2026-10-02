@@ -1,12 +1,16 @@
 import type { ReactNode } from 'react'
+import { motion } from 'motion/react'
 import type { CausaEliminacion, FaseMetrica, Importancia, Metricas, Partida, Perfiles } from '../types/datos'
 import { percentilDeRango } from '../analisisPartida'
 import { metrica, miles, pct, pct100 } from '../formato'
 import { LABEL_MINUTOS_ANALIZADOS, etiquetaVariable, rotuloFase } from '../texto'
 import { estiloPerfil } from '../estiloPerfil'
 import { usePaleta } from '../hooks/useTema'
+import { DURACION_ENTRADA_MS, useAnimarUnaVez } from '../hooks/useAnimarUnaVez'
 import { AnilloZona } from './AnilloZona'
+import { Ayuda } from './Ayuda'
 import { Mira } from './Mira'
+import { HuellaPerfil } from './HuellaPerfil'
 
 type Props = {
   metricas: Metricas | null
@@ -25,13 +29,37 @@ const POSICION = new Set(['dist_rel', 'dist_centro', 'frac_fuera'])
 const CAUSA_ZONA = 'Zona de gas'
 
 /** Tarjeta de hallazgo: número enorme y frase a la izquierda, su evidencia a la derecha. */
-function Hallazgo({ cifra, frase, detalle, children }: { cifra: string; frase: string; detalle?: string; children?: ReactNode }) {
+function Hallazgo({
+  cifra,
+  sufijo,
+  frase,
+  detalle,
+  ayuda,
+  children,
+}: {
+  cifra: string
+  /** Unidad pequeña junto a la cifra, p. ej. «de cada 100». */
+  sufijo?: string
+  frase: string
+  detalle?: string
+  /** El término técnico detrás del hallazgo, a demanda: fuera de Metodología no va a la vista. */
+  ayuda?: { texto: string; etiqueta: string }
+  children?: ReactNode
+}) {
   return (
     <li className="grid gap-4 rounded-lg border border-line bg-card p-5 sm:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] sm:items-center">
       <div>
-        <p className="font-cifra text-6xl font-bold leading-none text-text">{cifra}</p>
+        <p className="font-cifra text-6xl font-bold leading-none text-text">
+          {cifra}
+          {sufijo && <span className="ml-2 inline-block whitespace-nowrap font-texto text-base font-medium text-muted">{sufijo}</span>}
+        </p>
         <p className="mt-3 text-base font-medium text-text">{frase}</p>
-        {detalle && <p className="mt-1 text-sm text-muted">{detalle}</p>}
+        {detalle && (
+          <p className="mt-1 text-sm text-muted">
+            {detalle}
+            {ayuda && <Ayuda texto={ayuda.texto} etiqueta={ayuda.etiqueta} />}
+          </p>
+        )}
       </div>
       {children && <div className="min-w-0">{children}</div>}
     </li>
@@ -41,6 +69,8 @@ function Hallazgo({ cifra, frase, detalle, children }: { cifra: string; frase: s
 /** Mini dona de causas de eliminación: la zona en su color, el resto en grises. */
 function DonaCausas({ causas }: { causas: CausaEliminacion[] }) {
   const paleta = usePaleta()
+  // Se llena una vez por visita; al volver al Resumen aparece ya llena.
+  const animar = useAnimarUnaVez('dona-causas')
   const radio = 38
   const circunferencia = 2 * Math.PI * radio
   // La zona primero, para que su porción arranque arriba y se lea sola.
@@ -65,7 +95,7 @@ function DonaCausas({ causas }: { causas: CausaEliminacion[] }) {
     <div className="flex items-center gap-4">
       <svg viewBox="0 0 100 100" className="h-28 w-28 shrink-0 -rotate-90" aria-hidden="true">
         {porciones.map((p) => (
-          <circle
+          <motion.circle
             key={p.causa}
             cx="50"
             cy="50"
@@ -75,8 +105,10 @@ function DonaCausas({ causas }: { causas: CausaEliminacion[] }) {
             strokeOpacity={p.opacidad}
             strokeWidth={16}
             // 1.5 de hueco entre porciones, del color de la tarjeta.
-            strokeDasharray={`${Math.max(0, p.largo - 1.5)} ${circunferencia}`}
-            strokeDashoffset={-p.desde}
+            initial={animar ? { strokeDasharray: `0 ${circunferencia}`, strokeDashoffset: 0 } : false}
+            animate={{ strokeDasharray: `${Math.max(0, p.largo - 1.5)} ${circunferencia}`, strokeDashoffset: -p.desde }}
+            // Misma duración y aceleración (ease-out) que la curva de probabilidad.
+            transition={animar ? { duration: DURACION_ENTRADA_MS / 1000, ease: 'easeOut' } : { duration: 0 }}
           />
         ))}
       </svg>
@@ -97,25 +129,37 @@ function DonaCausas({ causas }: { causas: CausaEliminacion[] }) {
   )
 }
 
-/** Importancia por permutación: el estado del escuadrón resaltado contra la posición. */
+/**
+ * Peso relativo de cada variable: su parte del total de importancia positiva.
+ * La barra se escala a la más pesada para que se lea; la cifra es el peso.
+ * El estado del escuadrón, resaltado contra la posición.
+ */
 function BarrasImportancia({ importancia }: { importancia: Importancia }) {
-  const maximo = Math.max(...importancia.variables.map((v) => v.importancia))
+  const total = importancia.variables.reduce((s, v) => s + Math.max(0, v.importancia), 0)
+  const peso = (v: number) => (total > 0 ? Math.max(0, v) / total : 0)
+  const maximo = Math.max(...importancia.variables.map((v) => peso(v.importancia)))
   const clase = (variable: string) => (ESTADO.has(variable) ? 'bg-alive' : POSICION.has(variable) ? 'bg-muted' : 'bg-line')
   return (
     <div className="space-y-2">
-      <ul className="space-y-1">
-        {importancia.variables.map((v) => (
-          <li key={v.variable} className="grid grid-cols-[minmax(0,10rem)_1fr_3.5rem] items-center gap-2 text-xs">
-            <span className="truncate text-text">{etiquetaVariable(v.variable)}</span>
-            <span className="h-2 rounded-sm bg-text/5">
-              <span
-                className={`block h-full rounded-sm ${clase(v.variable)}`}
-                style={{ width: `${(Math.max(0, v.importancia) / maximo) * 100}%` }}
-              />
-            </span>
-            <span className="text-right font-cifra text-sm text-muted">{v.importancia.toFixed(3)}</span>
-          </li>
-        ))}
+      <ul className="space-y-1.5">
+        {importancia.variables.map((v) => {
+          const p = peso(v.importancia)
+          return (
+            <li key={v.variable} className="text-xs">
+              <span className="flex items-baseline justify-between gap-2">
+                <span className="text-text">{etiquetaVariable(v.variable)}</span>
+                {/* Por debajo de cero (–0.001) la variable no aporta: «sin peso», no un porcentaje negativo. */}
+                <span className="shrink-0 text-muted">{p > 0 ? pct(p) : 'sin peso'}</span>
+              </span>
+              <span className="mt-0.5 block h-1.5 rounded-sm bg-text/5">
+                <span
+                  className={`block h-full rounded-sm ${clase(v.variable)}`}
+                  style={{ width: `${maximo > 0 ? (p / maximo) * 100 : 0}%` }}
+                />
+              </span>
+            </li>
+          )
+        })}
       </ul>
       <p className="flex flex-wrap gap-x-3 gap-y-1 text-xs text-muted">
         <span className="flex items-center gap-1.5">
@@ -126,7 +170,7 @@ function BarrasImportancia({ importancia }: { importancia: Importancia }) {
         </span>
       </p>
       <p className="text-xs text-muted">
-        {importancia.metrica.charAt(0).toUpperCase() + importancia.metrica.slice(1)}, modelo: {importancia.modelo}.
+        Peso de cada variable: cuánto empeora el modelo si deja de aportar información, como parte del total.
       </p>
     </div>
   )
@@ -165,7 +209,7 @@ function BarrasAucFase({ fases }: { fases: FaseMetrica[] }) {
       <div className="flex h-28 items-end gap-2">
         {fases.map((f) => (
           <div key={f.Fase} className="flex h-full flex-1 flex-col items-center justify-end gap-1">
-            <span className="font-cifra text-sm text-muted">{metrica(f.AUC)}</span>
+            <span className="font-cifra text-sm text-muted">{Math.round(f.AUC * 100)}</span>
             <span
               className="w-full rounded-t-sm bg-zone"
               style={{ height: `${((f.AUC - piso) / (techo - piso)) * 100}%` }}
@@ -180,7 +224,7 @@ function BarrasAucFase({ fases }: { fases: FaseMetrica[] }) {
           </span>
         ))}
       </div>
-      <p className="mt-1 text-xs text-muted">AUC por fase del círculo; las barras arrancan en 0.5, el azar.</p>
+      <p className="mt-1 text-xs text-muted">Aciertos de cada 100 por fase del círculo; las barras arrancan en 50, el azar.</p>
     </div>
   )
 }
@@ -215,14 +259,14 @@ export function Resumen({ metricas, perfiles, partidas, onExplorar, onVerPerfile
   return (
     <div className="space-y-10">
       <Mira>
-        <section className="relative overflow-hidden rounded-lg border border-line bg-card px-6 py-10 sm:px-10">
+        <section className="relative overflow-hidden rounded-lg border border-line bg-card px-6 py-6 sm:px-10">
           <AnilloZona
-            tamano={320}
+            tamano={200}
             modo="unaVez"
             className="pointer-events-none absolute left-1/2 top-20 -translate-x-1/2 -translate-y-1/2 text-zone opacity-40 sm:left-[30rem]"
           />
-          <div className="relative max-w-3xl space-y-4">
-            <h2 className="font-stencil text-4xl leading-tight text-text sm:text-6xl">¿Llega tu escuadrón al top 25 %?</h2>
+          <div className="relative max-w-3xl space-y-3">
+            <h2 className="font-stencil text-3xl leading-tight text-text sm:text-5xl">¿Llega tu escuadrón al top 25 %?</h2>
             <p className="max-w-2xl text-base text-muted">
               ZonaAzul estima, minuto a minuto, la probabilidad de que un escuadrón de PUBG termine en el cuarto
               superior de su partida, a partir de la telemetría oficial del juego. Revisa escuadrones reales, o escribe
@@ -280,6 +324,10 @@ export function Resumen({ metricas, perfiles, partidas, onExplorar, onVerPerfile
               cifra={`${razon.toFixed(1)}×`}
               frase="Llegar con el escuadrón completo y sano pesa más que el lugar donde estés parado."
               detalle="Cuánto pesa en el modelo la variable de estado más importante frente a la de posición más importante."
+              ayuda={{
+                etiqueta: '¿Cómo se mide el peso?',
+                texto: `Importancia por permutación en el ${importancia.modelo.toLowerCase()} (${importancia.metrica}): se revuelven los valores de una variable y se mide cuánto empeora el modelo. Detalle en Metodología.`,
+              }}
             >
               <BarrasImportancia importancia={importancia} />
             </Hallazgo>
@@ -295,9 +343,14 @@ export function Resumen({ metricas, perfiles, partidas, onExplorar, onVerPerfile
           )}
           {primeraFase && ultimaFase && (
             <Hallazgo
-              cifra={`${metrica(primeraFase.AUC)} → ${metrica(ultimaFase.AUC)}`}
-              frase="La probabilidad se vuelve más predecible conforme avanza la partida."
-              detalle={`AUC en ${rotuloFase(primeraFase.Fase)} y en ${rotuloFase(ultimaFase.Fase)}.`}
+              cifra={`${Math.round(primeraFase.AUC * 100)} → ${Math.round(ultimaFase.AUC * 100)}`}
+              sufijo="de cada 100"
+              frase="La predicción se vuelve más exacta conforme avanza la partida."
+              detalle={`De cada 100 comparaciones entre un escuadrón que llegó al top y uno que no, cuántas acierta, en ${rotuloFase(primeraFase.Fase)} y en ${rotuloFase(ultimaFase.Fase)}.`}
+              ayuda={{
+                etiqueta: '¿De dónde sale esta cifra?',
+                texto: `Es el AUC del modelo en cada fase del círculo (${metrica(primeraFase.AUC)} en ${rotuloFase(primeraFase.Fase)} y ${metrica(ultimaFase.AUC)} en ${rotuloFase(ultimaFase.Fase)}): la proporción de pares de escuadrones que ordena bien. 50 de cada 100 sería azar. Detalle en Metodología.`,
+              }}
             >
               <BarrasAucFase fases={fases} />
             </Hallazgo>
@@ -324,12 +377,15 @@ export function Resumen({ metricas, perfiles, partidas, onExplorar, onVerPerfile
               const { Icono, fondo } = estiloPerfil(g.nombre)
               return (
                 <li key={g.grupo} className="flex flex-col gap-2 rounded-lg border border-line bg-card p-4">
-                  <h4 className="flex items-center gap-2 titulo-seccion text-lg text-text">
-                    <span className={`flex h-7 w-7 items-center justify-center rounded-full ${fondo}`}>
-                      <Icono className="h-4 w-4 text-bg" aria-hidden="true" />
-                    </span>
-                    {g.nombre}
-                  </h4>
+                  <div className="flex items-start justify-between gap-2">
+                    <h4 className="flex items-center gap-2 titulo-seccion text-lg text-text">
+                      <span className={`flex h-7 w-7 items-center justify-center rounded-full ${fondo}`}>
+                        <Icono className="h-4 w-4 text-bg" aria-hidden="true" />
+                      </span>
+                      {g.nombre}
+                    </h4>
+                    {perfiles && <HuellaPerfil perfiles={perfiles} grupo={g} />}
+                  </div>
                   <div>
                     <p className="etiqueta">percentil mediano</p>
                     <p className="font-cifra text-4xl font-semibold text-text">{pct100(g.percentil)}</p>

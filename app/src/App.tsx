@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { AvisoTratamiento } from './components/AvisoTratamiento'
 import { BotonTema } from './components/BotonTema'
 import { BuscadorJugador } from './components/BuscadorJugador'
@@ -38,6 +38,21 @@ function App() {
   const partidaActual = entradaActual?.partida ?? null
   const { cargando: cargandoMetricas, error: errorMetricas, metricas } = useMetricas()
   const analisis = useAnalisis()
+  const refEncabezado = useRef<HTMLElement>(null)
+
+  // La altura del encabezado fijo cambia con el ancho (el buscador baja de
+  // fila en el teléfono); la columna fija de Partidas la necesita para no
+  // quedar debajo de él.
+  useEffect(() => {
+    const encabezado = refEncabezado.current
+    if (!encabezado) return
+    const medir = () =>
+      document.documentElement.style.setProperty('--alto-encabezado', `${encabezado.offsetHeight}px`)
+    medir()
+    const observador = new ResizeObserver(medir)
+    observador.observe(encabezado)
+    return () => observador.disconnect()
+  }, [])
   // El análisis en vivo ocupa la columna del reporte mientras no se cierre.
   const enVivo = analisis.estado.fase !== 'inactivo'
 
@@ -67,7 +82,7 @@ function App() {
       <FondoMapa />
       <AvisoTratamiento aceptado={aceptoTratamiento} onAceptar={setAceptoTratamiento} />
 
-      <header className="border-b border-line bg-bg/80 backdrop-blur">
+      <header ref={refEncabezado} className="nav-cristal sticky top-0 z-30 border-b border-line">
         <div className="flex flex-wrap items-center gap-x-6 gap-y-3 px-4 py-3 sm:px-6 lg:px-8">
           <div className="min-w-0 flex-1">
             <h1 className="titulo-seccion text-2xl text-text">ZonaAzul</h1>
@@ -122,7 +137,7 @@ function App() {
                 {partidas && (
                   <div className="grid grid-cols-1 gap-6 lg:grid-cols-[minmax(320px,400px)_minmax(0,1fr)] lg:items-start">
                     {/* La lista queda fija con su propio scroll; el reporte, más alto que la pantalla, avanza con la página. */}
-                    <div className="flex flex-col lg:sticky lg:top-4 lg:h-[calc(100vh-2rem)]">
+                    <div className="flex flex-col lg:sticky lg:top-[calc(var(--alto-encabezado,7rem)+1rem)] lg:h-[calc(100vh-var(--alto-encabezado,7rem)-2rem)]">
                       <SelectorPartida
                         catalogo={catalogo}
                         partidaSeleccionada={enVivo ? null : (partidaActual?.id ?? null)}

@@ -21,6 +21,7 @@ import { LABEL_COMPANEROS_EN_PIE, LABEL_FASE_CIRCULO, LABEL_PROBABILIDAD_TOP25, 
 import { eventosPorMinuto, extraerMinutoCritico, type EventoMinuto } from '../analisisPartida'
 import { distanciaCirculo, miles, pct, pp } from '../formato'
 import { usePaleta } from '../hooks/useTema'
+import { ACELERACION_ENTRADA, DURACION_ENTRADA_MS, useAnimarUnaVez } from '../hooks/useAnimarUnaVez'
 
 type Props = {
   partida: Partida | null
@@ -45,6 +46,52 @@ function tramosDeFase(minutos: Minuto[]): TramoFase[] {
     else tramos.push({ fase: m.fase, desde: m.minuto, hasta: m.minuto })
   }
   return tramos
+}
+
+/**
+ * Causas de las bajas que el mapa del análisis en vivo registra en ese mismo
+ * minuto. El catálogo no las guarda. Solo coincidencia exacta: la cuenta de
+ * vivos de la curva va uno o dos minutos detrás de la hora de cada baja, así
+ * que emparejar por cercanía sería adivinar a cuál ícono le toca cada causa.
+ */
+function causasDelMinuto(partida: Partida, minuto: number): string[] {
+  const causas = (partida.mapa?.eventos ?? []).filter((e) => e.minuto === minuto && e.causa).map((e) => e.causa as string)
+  return [...new Set(causas)]
+}
+
+/**
+ * Qué pasó en ese minuto, en una tarjeta pequeña. Va encima de la gráfica,
+ * fuera del trazo, alineada con el ícono.
+ */
+function TarjetaEvento({
+  evento,
+  minuto,
+  causas,
+  x,
+}: {
+  evento: EventoMinuto | undefined
+  minuto: Minuto | undefined
+  causas: string[]
+  x: number
+}) {
+  if (!evento || !minuto) return null
+  const queFue = describirEvento(evento)
+  return (
+    <div
+      role="tooltip"
+      className="pointer-events-none absolute bottom-full z-10 mb-1 w-max max-w-64 -translate-x-1/2 rounded-md border border-line bg-card-2 px-3 py-2 text-xs text-muted shadow-md"
+      style={{ left: Math.max(90, x) }}
+    >
+      <p className="font-medium text-text">
+        Minuto {minuto.minuto}
+        {queFue && ` · ${queFue.charAt(0).toUpperCase()}${queFue.slice(1)}`}
+      </p>
+      <p>
+        Salud del equipo {minuto.salud.toFixed(0)} · {minuto.vivos} en pie
+      </p>
+      {causas.length > 0 && <p>Causa: {causas.map((c) => c.toLowerCase()).join(', ')}</p>}
+    </div>
+  )
 }
 
 /** Lo que pasó en el escuadrón ese minuto, en palabras. */
@@ -182,6 +229,11 @@ function PanelMinuto({
 export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinutoActivo }: Props) {
   const paleta = usePaleta()
   const [minutoPropio, setMinutoPropio] = useState<number | null>(null)
+  // La curva se dibuja de izquierda a derecha la primera vez que se muestra
+  // este escuadrón; no al volver a la pestaña ni al redimensionar.
+  const animar = useAnimarUnaVez(`curva-${partida?.id ?? 'vacia'}`)
+  // Ícono de evento bajo el cursor o con foco: su minuto y su x en la gráfica.
+  const [eventoActivo, setEventoActivo] = useState<{ minuto: number; x: number } | null>(null)
 
   if (!partida) {
     return <EstadoVacio mensaje="Selecciona un escuadrón para ver su probabilidad de llegar al top 25 %." />
@@ -246,6 +298,15 @@ export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinuto
 
         <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_240px]">
           <div className="min-w-0">
+            <div className="relative">
+            {eventoActivo && (
+              <TarjetaEvento
+                evento={eventos.find((e) => e.minuto === eventoActivo.minuto)}
+                minuto={minutos.find((m) => m.minuto === eventoActivo.minuto)}
+                causas={causasDelMinuto(partida, eventoActivo.minuto)}
+                x={eventoActivo.x}
+              />
+            )}
             <ResponsiveContainer width="100%" height={320}>
               <ComposedChart
                 data={filas}
@@ -334,8 +395,9 @@ export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinuto
                   dot={{ r: 3, fill: paleta.zone, stroke: paleta.zone }}
                   activeDot={false}
                   connectNulls={false}
-                  // La única animación de la app es el anillo de zona del Resumen.
-                  isAnimationActive={false}
+                  isAnimationActive={animar}
+                  animationDuration={DURACION_ENTRADA_MS}
+                  animationEasing={ACELERACION_ENTRADA}
                 />
                 {puntoCritico && (
                   <ReferenceDot
@@ -360,7 +422,17 @@ export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinuto
                       r={0}
                       shape={({ cx, cy }: { cx?: number; cy?: number }) => (
                         // Por encima de la curva, para no tapar el punto del minuto.
-                        <g transform={`translate(${(cx ?? 0) - 9}, ${(cy ?? 0) - 30})`}>
+                        <g
+                          transform={`translate(${(cx ?? 0) - 9}, ${(cy ?? 0) - 30})`}
+                          tabIndex={0}
+                          role="img"
+                          aria-label={`Minuto ${e.minuto}: ${describirEvento(e) ?? ''}`}
+                          className="cursor-pointer focus:outline-none"
+                          onMouseEnter={() => setEventoActivo({ minuto: e.minuto, x: cx ?? 0 })}
+                          onMouseLeave={() => setEventoActivo(null)}
+                          onFocus={() => setEventoActivo({ minuto: e.minuto, x: cx ?? 0 })}
+                          onBlur={() => setEventoActivo(null)}
+                        >
                           <circle cx={9} cy={9} r={10} fill={paleta.card} stroke={color} strokeWidth={1} />
                           <Icono x={3} y={3} width={12} height={12} color={color} aria-hidden="true" />
                         </g>
@@ -370,6 +442,7 @@ export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinuto
                 })}
               </ComposedChart>
             </ResponsiveContainer>
+            </div>
             <ul className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted">
               <li className="flex items-center gap-1.5">
                 <span className="h-3 w-3 rounded-sm bg-danger-wash ring-1 ring-danger" aria-hidden="true" />

@@ -1,4 +1,4 @@
-import type { Minuto, Partida, ReferenciaFase } from './types/datos'
+import type { Minuto, Partida } from './types/datos'
 
 /**
  * Percentil de la posición final: 0 % para el último lugar, 100 % para el
@@ -33,11 +33,6 @@ export function minutosDelMomentoCritico(
   const anterior = minutos.find((m) => m.minuto === minutoCritico - 1)
   if (!actual || !anterior) return null
   return { actual, anterior }
-}
-
-/** Busca la referencia de esa fase en `metricas.referencia_fase` (mediana real, no un agregado del cliente). */
-export function buscarReferenciaFase(referencias: ReferenciaFase[], fase: number): ReferenciaFase | null {
-  return referencias.find((r) => r.fase_zona === fase) ?? null
 }
 
 /** "N de M minutos analizados" -> proporción, para colorear la cobertura sin inventar una escala nueva. */
@@ -124,4 +119,31 @@ export function eventosPorMinuto(minutos: Minuto[]): EventoMinuto[] {
     if (bajas > 0 || golpe != null) eventos.push({ minuto: actual.minuto, bajas, golpe })
   }
   return eventos
+}
+
+function mediana(valores: number[]): number {
+  const ordenados = [...valores].sort((a, b) => a - b)
+  const medio = Math.floor(ordenados.length / 2)
+  return ordenados.length % 2 ? ordenados[medio] : (ordenados[medio - 1] + ordenados[medio]) / 2
+}
+
+export type EstadoFase = { fase: number; salud: number; vivos: number; dist_rel: number; minutos: number }
+
+/**
+ * Mediana de salud, compañeros en pie y distancia al círculo del escuadrón
+ * en cada fase que vivió. Mediana y no promedio: la referencia
+ * (`metricas.referencia_fase`) es la mediana de los que llegaron al top.
+ */
+export function estadoPorFase(minutos: Minuto[]): EstadoFase[] {
+  const porFase = new Map<number, Minuto[]>()
+  for (const m of minutos) porFase.set(m.fase, [...(porFase.get(m.fase) ?? []), m])
+  return [...porFase.entries()]
+    .sort(([a], [b]) => a - b)
+    .map(([fase, ms]) => ({
+      fase,
+      salud: mediana(ms.map((m) => m.salud)),
+      vivos: mediana(ms.map((m) => m.vivos)),
+      dist_rel: mediana(ms.map((m) => m.dist_rel)),
+      minutos: ms.length,
+    }))
 }
