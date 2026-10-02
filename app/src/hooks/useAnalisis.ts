@@ -12,6 +12,11 @@ type Estado =
 
 type ErrorServicio = { error: { codigo: string; mensaje: string } }
 
+/** Error con un mensaje ya redactado en español por el servicio: se muestra tal cual. */
+class ErrorDelServicio extends Error {}
+
+const MENSAJE_SIN_CONEXION = 'No se pudo conectar con el servicio de análisis. Intenta de nuevo en un momento.'
+
 /** Llama a POST /analizar del servicio en vivo; nunca a la API de PUBG desde el navegador. */
 export function useAnalisis() {
   const [estado, setEstado] = useState<Estado>({ fase: 'inactivo' })
@@ -31,14 +36,16 @@ export function useAnalisis() {
       signal: controlador.signal,
     })
       .then(async (res) => {
-        const cuerpo: unknown = await res.json()
+        const cuerpo: unknown = await res.json().catch(() => null)
         if (!res.ok) {
-          const mensaje = (cuerpo as ErrorServicio).error?.mensaje ?? `HTTP ${res.status}`
-          throw new Error(mensaje)
+          const mensaje = (cuerpo as ErrorServicio | null)?.error?.mensaje
+          throw mensaje ? new ErrorDelServicio(mensaje) : new Error(`HTTP ${res.status}`)
         }
-        setEstado({ fase: 'listo', partida: cuerpo as Partida })
+        if (controladorRef.current === controlador) setEstado({ fase: 'listo', partida: cuerpo as Partida })
       })
       .catch((err: unknown) => {
+        // Cancelada por el usuario o reemplazada por otra búsqueda: ya no es la vigente.
+        if (controladorRef.current !== controlador) return
         if (controlador.signal.aborted) {
           setEstado({
             fase: 'error',
@@ -46,13 +53,20 @@ export function useAnalisis() {
           })
           return
         }
-        const mensaje = err instanceof Error ? err.message : 'No se pudo conectar con el servicio.'
+        // Los errores del navegador ("Failed to fetch") y los códigos HTTP sueltos
+        // no le dicen nada al jugador: solo se muestra el mensaje del servicio.
+        const mensaje = err instanceof ErrorDelServicio ? err.message : MENSAJE_SIN_CONEXION
         setEstado({ fase: 'error', mensaje })
       })
       .finally(() => clearTimeout(temporizador))
   }, [])
 
-  const reiniciar = useCallback(() => setEstado({ fase: 'inactivo' }), [])
+  const reiniciar = useCallback(() => {
+    const vigente = controladorRef.current
+    controladorRef.current = null
+    vigente?.abort()
+    setEstado({ fase: 'inactivo' })
+  }, [])
 
   return { estado, analizar, reiniciar }
 }

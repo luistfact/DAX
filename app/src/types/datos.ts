@@ -1,5 +1,6 @@
 // Tipos de los JSON precalculados en public/datos/, verificados contra los
-// archivos reales generados por el notebook (40 partidas, 150 en el corpus).
+// archivos reales generados por el notebook (200 escuadrones de 45 partidas
+// del conjunto de prueba; el corpus completo tiene 150 partidas).
 
 /** Estado del escuadrón en un minuto de la ventana de 15 min observada. */
 export type Minuto = {
@@ -19,7 +20,7 @@ export type Minuto = {
 /** Informe generado por `generar_resumen` para una partida. */
 export type Informe = {
   // No se tipa como unión literal: solo se observaron 5 valores de veredicto
-  // y 3 de confianza en 40 partidas, insuficiente para asumir el conjunto completo.
+  // en el catálogo, insuficiente para asumir el conjunto completo.
   veredicto: string
   resumen: string
   momento_critico: string
@@ -70,11 +71,15 @@ export type Partida = {
   posicion_final: number
   escuadrones: number
   clasifico: boolean
+  /** Integrantes reales del escuadrón (1 a 4); no siempre son cuatro. */
+  tam_real?: number
+  /** Grupo de estilo de juego (llave de perfiles.json). Solo en el catálogo. */
+  grupo_estilo?: number
   minutos: Minuto[]
   informe: Informe
   // Precalculados por el notebook desde la regeneración del 2026-09-16.
   // Opcionales: la partida devuelta en vivo por el servicio de análisis
-  // (pestaña "Analizar mi partida") todavía no los incluye, así que el
+  // (el análisis en vivo del encabezado) todavía no los incluye, así que el
   // frontend cae de vuelta a calcularlos con `analisisPartida.ts` si faltan.
   percentil?: number
   probabilidad_maxima?: number
@@ -82,6 +87,8 @@ export type Partida = {
   /** Solo en el corpus: salen de la red recurrente, que el servicio en vivo no usa. */
   escenarios?: Escenario[]
   mapa?: Mapa
+  /** Solo en el análisis en vivo: inicio de la partida (ISO 8601, UTC). El corpus no guardó la fecha. */
+  fecha?: string | null
 }
 
 export type ModeloMetrica = {
@@ -97,6 +104,45 @@ export type FaseMetrica = {
   'Tasa base': number
   AUC: number
   Brier: number
+  /** Precisión promedio en esa fase; su referencia al azar es la tasa base, no 0.5. */
+  AP: number
+}
+
+/** Un punto de la curva de calibración: probabilidad predicha vs. proporción observada en ese tramo. */
+export type PuntoCalibracion = {
+  predicha: number
+  observada: number
+}
+
+/** Curvas de calibración en el conjunto de prueba de los dos modelos que usa la aplicación. */
+export type Calibracion = {
+  conjunto: string
+  red_densa: PuntoCalibracion[]
+  /** Ya recalibrada: es la que corresponde a lo que ve el usuario. */
+  red_recurrente: PuntoCalibracion[]
+  /** La red recurrente antes de recalibrar, para mostrar el antes y el después. */
+  red_recurrente_sin_recalibrar?: PuntoCalibracion[]
+  recalibracion?: { metodo: string; brier_antes: number; brier_despues: number }
+}
+
+/** Proporción de las eliminaciones del corpus por causa; las categorías suman 1, incluida «Otros». */
+export type CausaEliminacion = {
+  causa: string
+  proporcion: number
+}
+
+/** Importancia por permutación de cada predictor, de mayor a menor. */
+export type Importancia = {
+  modelo: string
+  metrica: string
+  variables: { variable: string; importancia: number; desviacion: number }[]
+}
+
+/** Probabilidad media por minuto de los escuadrones del conjunto de prueba que llegaron al top. */
+export type PuntoReferencia = {
+  minuto: number
+  probabilidad: number
+  escuadrones: number
 }
 
 export type Corpus = {
@@ -117,6 +163,10 @@ export type ReferenciaFase = {
 export type Metricas = {
   modelos: ModeloMetrica[]
   por_fase: FaseMetrica[]
+  calibracion: Calibracion
+  causas_eliminacion?: CausaEliminacion[]
+  importancia?: Importancia
+  curva_referencia?: PuntoReferencia[]
   referencia_fase: ReferenciaFase[]
   corpus: Corpus
 }

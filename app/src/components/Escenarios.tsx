@@ -1,4 +1,5 @@
 import type { Escenario } from '../types/datos'
+import { pct, pp } from '../formato'
 
 type Props = {
   /** `undefined` en la partida en vivo: los escenarios salen de la red recurrente, que el servicio no usa. */
@@ -18,32 +19,30 @@ const LOGROS: Record<string, string> = {
   'Llegar sin daño acumulado': 'Ya llegaste con la salud casi entera, bien ahí.',
 }
 
-const pct = (p: number) => `${Math.round(p * 100)} %`
-
 /** Barra 0-100 % con la probabilidad base (marca gris) y el tramo hasta la alterna. */
 function BarraCambio({ base, alterna }: { base: number; alterna: number }) {
   const desde = Math.min(base, alterna)
   const ancho = Math.abs(alterna - base)
   const sube = alterna > base
   return (
-    <div className="relative h-2 w-full rounded-full bg-white/10" aria-hidden="true">
+    <div className="relative h-2 w-full rounded-full bg-text/10" aria-hidden="true">
       <div
-        className={`absolute inset-y-0 rounded-full ${sube ? 'bg-zona' : 'bg-tinta-secundaria/60'}`}
+        className={`absolute inset-y-0 rounded-full ${sube ? 'bg-zone' : 'bg-muted/60'}`}
         style={{ left: `${desde * 100}%`, width: `${ancho * 100}%` }}
       />
-      <div className="absolute -inset-y-1 w-0.5 bg-tinta" style={{ left: `${base * 100}%` }} />
+      <div className="absolute -inset-y-1 w-0.5 bg-text" style={{ left: `${base * 100}%` }} />
     </div>
   )
 }
 
 function TarjetaEscenario({ esc, destacada }: { esc: Escenario; destacada: boolean }) {
-  const borde = destacada ? 'border-zona' : 'border-tinta-secundaria/15'
+  const borde = destacada ? 'border-zone' : 'border-line'
 
   if (!esc.aplica || esc.diferencia == null || esc.probabilidad_alterna == null) {
     return (
-      <li className={`rounded-md border ${borde} bg-white/5 p-3`}>
-        <p className="text-sm font-medium text-tinta">{esc.escenario}</p>
-        <p className="mt-1 text-sm text-zona">{LOGROS[esc.escenario] ?? 'Ya estabas en ese valor, bien ahí.'}</p>
+      <li className={`rounded-md border ${borde} bg-text/5 p-3`}>
+        <p className="text-sm font-medium text-text">{esc.escenario}</p>
+        <p className="mt-1 text-sm text-text">{LOGROS[esc.escenario] ?? 'Ya estabas en ese valor, bien ahí.'}</p>
       </li>
     )
   }
@@ -60,22 +59,22 @@ function TarjetaEscenario({ esc, destacada }: { esc: Escenario; destacada: boole
     lectura = `Según el modelo, esto no habría mejorado tu resultado: la probabilidad baja de ${pct(esc.probabilidad_base)} a ${pct(esc.probabilidad_alterna)}.`
   } else {
     lectura = `Tu probabilidad media pasaría de ${pct(esc.probabilidad_base)} a ${pct(esc.probabilidad_alterna)}.`
-    cifra = `+${Math.round(d * 100)} pts`
+    cifra = pp(d, { signo: true })
   }
 
   return (
-    <li className={`rounded-md border ${borde} bg-white/5 p-3`}>
+    <li className={`rounded-md border ${borde} bg-text/5 p-3`}>
       <div className="flex items-baseline justify-between gap-2">
-        <p className="text-sm font-medium text-tinta">{esc.escenario}</p>
-        {cifra && <span className="whitespace-nowrap font-cifra text-2xl font-semibold text-zona">{cifra}</span>}
+        <p className="text-sm font-medium text-text">{esc.escenario}</p>
+        {cifra && <span className="whitespace-nowrap font-cifra text-2xl font-semibold text-zone">{cifra}</span>}
       </div>
       {destacada && (
-        <p className="text-xs font-semibold uppercase tracking-wide text-zona">Lo primero en lo que enfocarte</p>
+        <p className="titulo-seccion text-xs text-zone">Lo primero en lo que enfocarte</p>
       )}
       <div className="mt-2">
         <BarraCambio base={esc.probabilidad_base} alterna={esc.probabilidad_alterna} />
       </div>
-      <p className="mt-2 text-sm text-tinta-secundaria">{lectura}</p>
+      <p className="mt-2 text-sm text-muted">{lectura}</p>
     </li>
   )
 }
@@ -84,14 +83,14 @@ function TarjetaEscenario({ esc, destacada }: { esc: Escenario; destacada: boole
 export function Escenarios({ escenarios }: Props) {
   if (escenarios === undefined) {
     return (
-      <p className="text-sm text-tinta-secundaria">
+      <p className="text-sm text-muted">
         Los escenarios alternativos solo existen para las partidas del corpus: se calculan con un modelo distinto al del
         análisis en vivo, y mezclarlos los haría incomparables.
       </p>
     )
   }
   if (escenarios.length === 0) {
-    return <p className="text-sm text-tinta-secundaria">Sin escenarios registrados para esta partida.</p>
+    return <p className="text-sm text-muted">Sin escenarios registrados para esta partida.</p>
   }
 
   // Los que aplican, de mayor a menor ganancia; los logros al final.
@@ -106,7 +105,7 @@ export function Escenarios({ escenarios }: Props) {
           <TarjetaEscenario key={esc.escenario} esc={esc} destacada={hayDestacada && i === 0} />
         ))}
       </ul>
-      <p className="rounded-md border border-tinta-secundaria/30 p-3 text-sm text-tinta">
+      <p className="rounded-md border border-muted/30 p-3 text-sm text-text">
         Esto compara escenarios dentro del modelo, no lo que habría pasado en realidad. El modelo encuentra relaciones,
         no causas: los equipos que llegan completos suelen ir mejor, pero no sabemos si es por llegar completos o porque
         son mejores jugadores en general.

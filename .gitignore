@@ -24,7 +24,7 @@ datos/raw/
 # MB, como posiciones.parquet— y no se versionan aunque vivan en datos/ y no
 # en datos/raw/. Si tabla_analitica.parquet supera los 50 MB, súbela a Drive
 # y comenta la línea "!datos/tabla_analitica.parquet" de abajo.
-datos/*.parquet
+# datos/*.parquet
 !datos/tabla_analitica.parquet
 datos/*.csv.gz
 
@@ -81,3 +81,6 @@ desktop.ini
 .idea/
 
 openai_key.txt
+
+# Imágenes que genera el botón Compartir al probarlo
+zonaazul-*.png

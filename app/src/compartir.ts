@@ -4,12 +4,23 @@
 import type { Partida } from './types/datos'
 import { enriquecerParaAsistente } from './analisisPartida'
 import { LABEL_PROBABILIDAD_TOP25 } from './texto'
-import { COLOR_FONDO, COLOR_PELIGRO, COLOR_SUPERFICIE, COLOR_TINTA, COLOR_TINTA_SECUNDARIA, COLOR_ZONA } from './colores'
+import { PALETA_OSCURA } from './colores'
+
+// Siempre en oscuro, sea cual sea el tema de quien la genera: es una pieza de
+// marca y debe verse igual en redes.
+const {
+  bg: COLOR_FONDO,
+  card: COLOR_SUPERFICIE,
+  text: COLOR_TINTA,
+  muted: COLOR_TINTA_SECUNDARIA,
+  zone: COLOR_ZONA,
+  danger: COLOR_PELIGRO,
+} = PALETA_OSCURA
 
 const LADO = 1080 // cuadrado: funciona en la mayoría de redes sin recorte
 const MARGEN = 72
 const CIFRA = '"Barlow Condensed", sans-serif'
-const TEXTO = '"Inter", sans-serif'
+const TEXTO = '"Barlow", sans-serif'
 
 /** El canvas solo usa una fuente web si ya está cargada; si no, cae en silencio a la genérica. */
 async function cargarFuentes(): Promise<void> {
@@ -41,7 +52,7 @@ function dibujarCurva(ctx: CanvasRenderingContext2D, partida: Partida, minutoCri
   ctx.textAlign = 'right'
   ctx.textBaseline = 'middle'
   for (const p of [0, 0.5, 1]) {
-    ctx.strokeStyle = 'rgba(139, 150, 168, 0.2)'
+    ctx.strokeStyle = PALETA_OSCURA.cuadricula
     ctx.lineWidth = 2
     ctx.beginPath()
     ctx.moveTo(x0, escalaY(p))
@@ -110,7 +121,7 @@ export async function dibujarImagen(partidaOriginal: Partida): Promise<HTMLCanva
   ctx.fillStyle = COLOR_TINTA
   ctx.font = `700 170px ${CIFRA}`
   ctx.fillText(`${partida.posicion_final}° de ${partida.escuadrones}`, MARGEN, MARGEN + 190)
-  ctx.fillStyle = partida.clasifico ? COLOR_ZONA : COLOR_PELIGRO
+  ctx.fillStyle = partida.clasifico ? COLOR_TINTA : COLOR_TINTA_SECUNDARIA
   ctx.font = `600 34px ${TEXTO}`
   ctx.fillText(partida.clasifico ? 'Top 25 % de su partida' : 'Fuera del top 25 %', MARGEN, MARGEN + 245)
 
@@ -130,7 +141,7 @@ export async function dibujarImagen(partidaOriginal: Partida): Promise<HTMLCanva
   ctx.textAlign = 'left'
   ctx.textBaseline = 'alphabetic'
   const frase = critico
-    ? `Momento crítico: minuto ${critico.minuto}, la probabilidad cayó ${Math.round(Math.abs(critico.caida) * 100)} pts.`
+    ? `Momento crítico: minuto ${critico.minuto}, la probabilidad cayó ${Math.round(Math.abs(critico.caida) * 100)} pp.`
     : 'Momento crítico: —'
   if (critico) {
     // Mismo punto rojo que marca el minuto sobre la curva, como leyenda.

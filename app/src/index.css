@@ -3,30 +3,103 @@
 /* Tipografías cargadas desde <link> en index.html (evita el warning de
    Tailwind v4 por un @import después de @import "tailwindcss"). */
 @theme {
-  --color-fondo: #0d1420;
-  --color-superficie: #141d2e;
-  --color-tinta: #e8ecf1;
-  --color-tinta-secundaria: #8b96a8;
-  --color-zona: #2f8fd1;
-  --color-peligro: #d9603f;
+  /* Nombres del complemento al rediseño (PROMPT_BI_COMPLEMENTO.md): los dos
+     temas usan las mismas variables y solo cambian los valores. */
+  --color-bg: #0C0F0E;
+  --color-card: #151A18;
+  --color-card-2: #1D2422;
+  --color-line: #2A3430;
+  --color-text: #ECEFE9;
+  --color-muted: #9BA79F;
+  --color-brand: #F2A900;
+  --color-on-brand: #0C0F0E;
+  --color-zone: #4594F7;
+  --color-danger: #F75247;
+  --color-alive: #3DDC97;
+  --color-violet: #AF62C1;
+  --color-sand: #A0906F;
+  --color-zone-wash: rgb(69 148 247 / 0.14);
+  --color-phase-band: rgb(69 148 247 / 0.07);
+  --color-danger-wash: rgb(247 82 71 / 0.14);
+  /* Velo detrás del aviso modal. */
+  --color-velo: rgb(0 0 0 / 0.7);
 
   --font-cifra: "Barlow Condensed", sans-serif;
-  --font-texto: "Inter", sans-serif;
+  --font-texto: "Barlow", sans-serif;
+  /* Solo el título del héroe del Resumen. */
+  --font-stencil: "Saira Stencil One", sans-serif;
 }
 
 /*
- * Textura topográfica: curvas de nivel generadas con feTurbulence/feDisplacementMap
- * (SVG propio, nada extraído del juego), a muy baja opacidad sobre el fondo.
+ * Modo claro: segundo juego de tokens. Sobrescribe las variables que genera
+ * @theme, así las clases de Tailwind (bg-bg, text-zone/15…) cambian solas.
+ * Debe coincidir con PALETA_CLARA en src/colores.ts. El atributo lo fija el
+ * script en línea de index.html antes de montar React (sin destello).
+ */
+:root {
+  color-scheme: dark;
+  --textura: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480' viewBox='0 0 480 480'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='2' seed='7' result='n'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='n' scale='18'/%3E%3C/filter%3E%3Cg filter='url(%23t)' fill='none' stroke='%234594F7' stroke-opacity='0.07' stroke-width='1'%3E%3Ccircle cx='60' cy='80' r='40'/%3E%3Ccircle cx='60' cy='80' r='80'/%3E%3Ccircle cx='60' cy='80' r='120'/%3E%3Ccircle cx='420' cy='380' r='50'/%3E%3Ccircle cx='420' cy='380' r='100'/%3E%3Ccircle cx='420' cy='380' r='150'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+  --color-bg: #F3F4EE;
+  --color-card: #FCFCF8;
+  --color-card-2: #ECEEE6;
+  --color-line: #D6D8CB;
+  --color-text: #1B1D17;
+  --color-muted: #5D604F;
+  --color-brand: #F2A900;
+  --color-on-brand: #0C0F0E;
+  --color-zone: #1069CB;
+  --color-danger: #BE2420;
+  --color-alive: #008C56;
+  --color-violet: #874197;
+  --color-sand: #8A7A5A;
+  --color-zone-wash: rgb(16 105 203 / 0.12);
+  --color-phase-band: rgb(16 105 203 / 0.06);
+  --color-danger-wash: rgb(190 36 32 / 0.12);
+  --color-velo: rgb(12 15 14 / 0.45);
+  --textura: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480' viewBox='0 0 480 480'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='2' seed='7' result='n'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='n' scale='18'/%3E%3C/filter%3E%3Cg filter='url(%23t)' fill='none' stroke='%231069CB' stroke-opacity='0.08' stroke-width='1'%3E%3Ccircle cx='60' cy='80' r='40'/%3E%3Ccircle cx='60' cy='80' r='80'/%3E%3Ccircle cx='60' cy='80' r='120'/%3E%3Ccircle cx='420' cy='380' r='50'/%3E%3Ccircle cx='420' cy='380' r='100'/%3E%3Ccircle cx='420' cy='380' r='150'/%3E%3C/g%3E%3C/svg%3E");
+}
+
+/*
+ * Textura: anillos concéntricos (los círculos de la zona) deformados con
+ * feTurbulence/feDisplacementMap (SVG propio, nada extraído del juego), a muy baja opacidad sobre el fondo. Una versión por tema (--textura).
  * Documentado en CLAUDE.md junto con la paleta.
  */
 body {
   min-height: 100vh;
-  background-color: var(--color-fondo);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480' viewBox='0 0 480 480'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='2' seed='7' result='n'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='n' scale='18'/%3E%3C/filter%3E%3Cg filter='url(%23t)' fill='none' stroke='%232f8fd1' stroke-opacity='0.07' stroke-width='1'%3E%3Ccircle cx='60' cy='80' r='40'/%3E%3Ccircle cx='60' cy='80' r='80'/%3E%3Ccircle cx='60' cy='80' r='120'/%3E%3Ccircle cx='420' cy='380' r='50'/%3E%3Ccircle cx='420' cy='380' r='100'/%3E%3Ccircle cx='420' cy='380' r='150'/%3E%3C/g%3E%3C/svg%3E");
+  background-color: var(--color-bg);
+  background-image: var(--textura);
   background-repeat: repeat;
   background-size: 480px 480px;
-  color: var(--color-tinta);
+  color: var(--color-text);
   font-family: var(--font-texto);
+  /* Base de 15 px en body y no en html: las clases de Tailwind se miden en
+     rem, y bajar el html dejaría text-xs por debajo de 12 px. */
+  font-size: 15px;
+  /* Cifras de ancho fijo en toda la app, para que se alineen en columnas y franjas. */
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+ * Títulos de sección estilo tracker: condensada y en mayúsculas. La
+ * condensada solo se usa así o en cifras; en minúsculas pierde legibilidad.
+ */
+@utility titulo-seccion {
+  font-family: var(--font-cifra);
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+/* Etiqueta pequeña en minúsculas sobre una cifra grande. */
+@utility etiqueta {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  color: var(--color-muted);
+  text-transform: lowercase;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -35,4 +108,17 @@ body {
     animation-iteration-count: 1 !important;
     transition-duration: 0.001ms !important;
   }
+}
+
+/*
+ * Recharts 3 hace enfocable el SVG de cada gráfica (accessibilityLayer:
+ * flechas del teclado para recorrer los puntos). Se conserva el foco, pero
+ * con el contorno de la app y solo al navegar con teclado, no al hacer clic.
+ */
+.recharts-surface:focus {
+  outline: none;
+}
+.recharts-surface:focus-visible {
+  outline: 2px solid var(--color-zone);
+  outline-offset: 2px;
 }

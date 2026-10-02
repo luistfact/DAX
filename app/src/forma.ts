@@ -62,19 +62,6 @@ export function clasificarForma(minutos: Minuto[]): Forma {
   return 'Reñida'
 }
 
-// El color solo codifica dos cosas: zona (curva favorable) y peligro (curva
-// adversa) — nunca decoración. Reñida y "sin datos" son neutrales. Se
-// exporta para que las tarjetas de la lista completa y las de "casos
-// destacados" usen exactamente el mismo criterio.
-export const ESTILO_FORMA: Record<Forma, string> = {
-  Dominante: 'bg-zona/15 text-zona border-zona/30',
-  Remontada: 'bg-zona/15 text-zona border-zona/30',
-  Reñida: 'bg-tinta-secundaria/15 text-tinta-secundaria border-tinta-secundaria/30',
-  'Caída temprana': 'bg-peligro/15 text-peligro border-peligro/30',
-  Desplome: 'bg-peligro/15 text-peligro border-peligro/30',
-  'Sin datos suficientes': 'bg-tinta-secundaria/10 text-tinta-secundaria border-tinta-secundaria/20',
-}
-
 function valoresValidos(minutos: Minuto[]): number[] {
   return minutos.map((m) => m.probabilidad).filter((p): p is number => p != null)
 }

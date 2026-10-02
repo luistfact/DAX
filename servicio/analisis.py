@@ -288,8 +288,10 @@ def _generar_informe(agg: pd.DataFrame, prob: np.ndarray,
     if len(prob) > 1:
         caida = int(np.argmin(np.diff(prob))) + 1
         magnitud = float(np.min(np.diff(prob)))
+        # Diferencia entre dos probabilidades: en puntos porcentuales. "Cayó 6 %"
+        # se leería como caída relativa.
         critico = (f"Minuto {caida}: la probabilidad cayó "
-                   f"{abs(magnitud):.0%} respecto del minuto anterior.")
+                   f"{abs(magnitud) * 100:.0f} pp respecto del minuto anterior.")
     else:
         critico = "No se dispone de curva de probabilidad para esta partida."
 
@@ -302,7 +304,7 @@ def _generar_informe(agg: pd.DataFrame, prob: np.ndarray,
         adversos.append(f"Se perdieron {bajas} integrantes")
         recomendaciones.append("Revisar la coordinación en los enfrentamientos")
     if fuera > 0.15:
-        adversos.append(f"Permaneció fuera de la zona el {fuera:.0%} del tiempo")
+        adversos.append(f"Permaneció fuera de la zona el {fuera * 100:.0f} % del tiempo")
         recomendaciones.append("Iniciar la rotación antes del cierre del círculo")
     else:
         favorables.append("Posicionamiento dentro de la zona sostenido")
@@ -349,6 +351,9 @@ def analizar(nick: str, plataforma: str = "steam") -> dict:
     team_id = int(fila.team_id.iloc[0])
     team_rank = int(fila.team_rank.iloc[0])
     n_rosters = int(participantes.team_id.nunique())
+    # Fecha de inicio (ISO 8601, UTC) tal como la da la API. El corpus no la
+    # guardó; aquí sí se tiene y el frontend la muestra.
+    fecha = meta["data"]["attributes"].get("createdAt")
     del meta, participantes
 
     eventos = _descargar_telemetria(cli, url_telemetria)
@@ -384,6 +389,7 @@ def analizar(nick: str, plataforma: str = "steam") -> dict:
         "posicion_final": team_rank,
         "escuadrones": n_rosters,
         "clasifico": bool(clasifico),
+        "fecha": fecha,
         "minutos": minutos,
         "informe": informe,
         # Solo en el análisis en vivo: el corpus guarda distancias al círculo,

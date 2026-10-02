@@ -37,42 +37,338 @@
    "n": 3600,
    "Tasa base": 0.273,
    "AUC": 0.637,
-   "Brier": 0.208
+   "Brier": 0.208,
+   "AP": 0.386
   },
   {
    "Fase": 2,
    "n": 575,
    "Tasa base": 0.313,
    "AUC": 0.671,
-   "Brier": 0.224
+   "Brier": 0.224,
+   "AP": 0.417
   },
   {
    "Fase": 3,
    "n": 442,
    "Tasa base": 0.326,
    "AUC": 0.731,
-   "Brier": 0.209
+   "Brier": 0.209,
+   "AP": 0.535
   },
   {
    "Fase": 4,
    "n": 418,
    "Tasa base": 0.344,
    "AUC": 0.73,
-   "Brier": 0.211
+   "Brier": 0.211,
+   "AP": 0.55
   },
   {
    "Fase": 5,
    "n": 1040,
    "Tasa base": 0.401,
    "AUC": 0.75,
-   "Brier": 0.207
+   "Brier": 0.207,
+   "AP": 0.626
   },
   {
    "Fase": 6,
    "n": 681,
    "Tasa base": 0.471,
    "AUC": 0.759,
-   "Brier": 0.214
+   "Brier": 0.214,
+   "AP": 0.689
+  }
+ ],
+ "calibracion": {
+  "conjunto": "prueba",
+  "red_densa": [
+   {
+    "predicha": 0.0416,
+    "observada": 0.0624
+   },
+   {
+    "predicha": 0.1487,
+    "observada": 0.1774
+   },
+   {
+    "predicha": 0.2071,
+    "observada": 0.2307
+   },
+   {
+    "predicha": 0.2506,
+    "observada": 0.2981
+   },
+   {
+    "predicha": 0.2754,
+    "observada": 0.2889
+   },
+   {
+    "predicha": 0.3087,
+    "observada": 0.3208
+   },
+   {
+    "predicha": 0.3595,
+    "observada": 0.3456
+   },
+   {
+    "predicha": 0.423,
+    "observada": 0.4237
+   },
+   {
+    "predicha": 0.4978,
+    "observada": 0.5153
+   },
+   {
+    "predicha": 0.622,
+    "observada": 0.6054
+   }
+  ],
+  "red_recurrente": [
+   {
+    "predicha": 0.0584,
+    "observada": 0.066
+   },
+   {
+    "predicha": 0.1618,
+    "observada": 0.1952
+   },
+   {
+    "predicha": 0.2304,
+    "observada": 0.2527
+   },
+   {
+    "predicha": 0.2677,
+    "observada": 0.2654
+   },
+   {
+    "predicha": 0.2871,
+    "observada": 0.2889
+   },
+   {
+    "predicha": 0.3162,
+    "observada": 0.3378
+   },
+   {
+    "predicha": 0.3533,
+    "observada": 0.3463
+   },
+   {
+    "predicha": 0.4021,
+    "observada": 0.4074
+   },
+   {
+    "predicha": 0.4744,
+    "observada": 0.4727
+   },
+   {
+    "predicha": 0.6206,
+    "observada": 0.6359
+   }
+  ],
+  "red_recurrente_sin_recalibrar": [
+   {
+    "predicha": 0.1399,
+    "observada": 0.066
+   },
+   {
+    "predicha": 0.3378,
+    "observada": 0.1952
+   },
+   {
+    "predicha": 0.4412,
+    "observada": 0.2527
+   },
+   {
+    "predicha": 0.4906,
+    "observada": 0.2654
+   },
+   {
+    "predicha": 0.5144,
+    "observada": 0.2889
+   },
+   {
+    "predicha": 0.5483,
+    "observada": 0.3378
+   },
+   {
+    "predicha": 0.5885,
+    "observada": 0.3463
+   },
+   {
+    "predicha": 0.6371,
+    "observada": 0.4074
+   },
+   {
+    "predicha": 0.7009,
+    "observada": 0.4727
+   },
+   {
+    "predicha": 0.8054,
+    "observada": 0.6359
+   }
+  ],
+  "recalibracion": {
+   "metodo": "escalado de Platt ajustado en validación",
+   "brier_antes": 0.2373,
+   "brier_despues": 0.1976
+  }
+ },
+ "causas_eliminacion": [
+  {
+   "causa": "Arma de fuego",
+   "proporcion": 0.6034
+  },
+  {
+   "causa": "Remate tras derribo",
+   "proporcion": 0.2909
+  },
+  {
+   "causa": "Zona de gas",
+   "proporcion": 0.0541
+  },
+  {
+   "causa": "Otros",
+   "proporcion": 0.0517
+  }
+ ],
+ "importancia": {
+  "modelo": "Bosque aleatorio",
+  "metrica": "caída de AUC al permutar",
+  "variables": [
+   {
+    "variable": "hp_medio",
+    "importancia": 0.0501,
+    "desviacion": 0.0032
+   },
+   {
+    "variable": "hp_minimo",
+    "importancia": 0.0358,
+    "desviacion": 0.0029
+   },
+   {
+    "variable": "radio_zona",
+    "importancia": 0.0302,
+    "desviacion": 0.0018
+   },
+   {
+    "variable": "jugadores_vivos",
+    "importancia": 0.0295,
+    "desviacion": 0.0038
+   },
+   {
+    "variable": "equipos_vivos",
+    "importancia": 0.0257,
+    "desviacion": 0.0019
+   },
+   {
+    "variable": "dist_rel",
+    "importancia": 0.0128,
+    "desviacion": 0.0024
+   },
+   {
+    "variable": "desplazamiento",
+    "importancia": 0.0082,
+    "desviacion": 0.0017
+   },
+   {
+    "variable": "fase_zona",
+    "importancia": 0.004,
+    "desviacion": 0.0006
+   },
+   {
+    "variable": "tam_real",
+    "importancia": 0.0038,
+    "desviacion": 0.0007
+   },
+   {
+    "variable": "frac_fuera",
+    "importancia": -0.0008,
+    "desviacion": 0.0006
+   },
+   {
+    "variable": "dist_centro",
+    "importancia": -0.0008,
+    "desviacion": 0.0012
+   }
+  ]
+ },
+ "curva_referencia": [
+  {
+   "minuto": 0,
+   "probabilidad": 0.2743,
+   "escuadrones": 307
+  },
+  {
+   "minuto": 1,
+   "probabilidad": 0.2885,
+   "escuadrones": 307
+  },
+  {
+   "minuto": 2,
+   "probabilidad": 0.2988,
+   "escuadrones": 307
+  },
+  {
+   "minuto": 3,
+   "probabilidad": 0.3102,
+   "escuadrones": 307
+  },
+  {
+   "minuto": 4,
+   "probabilidad": 0.3194,
+   "escuadrones": 307
+  },
+  {
+   "minuto": 5,
+   "probabilidad": 0.3341,
+   "escuadrones": 307
+  },
+  {
+   "minuto": 6,
+   "probabilidad": 0.3516,
+   "escuadrones": 307
+  },
+  {
+   "minuto": 7,
+   "probabilidad": 0.3754,
+   "escuadrones": 307
+  },
+  {
+   "minuto": 8,
+   "probabilidad": 0.4002,
+   "escuadrones": 307
+  },
+  {
+   "minuto": 9,
+   "probabilidad": 0.4258,
+   "escuadrones": 307
+  },
+  {
+   "minuto": 10,
+   "probabilidad": 0.4407,
+   "escuadrones": 307
+  },
+  {
+   "minuto": 11,
+   "probabilidad": 0.4571,
+   "escuadrones": 307
+  },
+  {
+   "minuto": 12,
+   "probabilidad": 0.4861,
+   "escuadrones": 307
+  },
+  {
+   "minuto": 13,
+   "probabilidad": 0.5164,
+   "escuadrones": 307
+  },
+  {
+   "minuto": 14,
+   "probabilidad": 0.5392,
+   "escuadrones": 307
   }
  ],
  "referencia_fase": [

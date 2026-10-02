@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useRef, useState, type FormEvent } from 'react'
 import type { Partida } from '../types/datos'
 import { enriquecerParaAsistente } from '../analisisPartida'
+import { espaciarPorcentajes } from '../formato'
 
 type Rol = 'usuario' | 'asistente'
 
@@ -14,9 +15,7 @@ type MensajeChat = {
 
 const URL_SERVICIO: string = import.meta.env.VITE_SERVICIO_URL ?? 'http://localhost:8000'
 
-const PREGUNTAS_SUGERIDAS = ['¿En qué minuto perdí?', '¿Qué hice mal?', '¿Qué hago la próxima?']
-
-const MENSAJE_ERROR_GENERICO = 'El asistente no pudo responder. Intenta de nuevo.'
+const MENSAJE_ERROR_GENERICO = 'Botsito no pudo responder. Intenta de nuevo.'
 
 // Frases discretas para mostrar qué consultó el asistente, en el mismo
 // lenguaje llano que el resto de la interfaz — nunca el nombre técnico solo.
@@ -24,7 +23,7 @@ const ETIQUETAS_HERRAMIENTA: Record<string, (args: Record<string, unknown>) => s
   resumen_partida: () => 'consultó el resumen de la partida',
   estado_por_minuto: (a) => `consultó el estado entre los minutos ${a.desde} y ${a.hasta}`,
   momento_critico: () => 'consultó el momento crítico',
-  comparar_con_referencia: (a) => `consultó la comparación en el cierre ${a.cierre}`,
+  comparar_con_referencia: (a) => `consultó la comparación en F${a.cierre}`,
   perfil_estilo: () => 'consultó tu estilo de juego',
 }
 
@@ -33,23 +32,23 @@ function describirHerramienta(h: HerramientaInvocada): string {
   return describir ? describir(h.argumentos) : `consultó ${h.herramienta}`
 }
 
-const PREGUNTAS_SUGERIDAS_PROYECTO = ['¿Esto cómo funciona?', '¿Qué tan preciso es?', '¿Qué datos usa?']
-
 type Props = {
-  /** null cuando no hay ninguna partida cargada (p. ej. en Perfiles o Cómo
-   * funciona): el asistente solo puede hablar del proyecto en general. */
+  /** null cuando no hay ninguna partida cargada (p. ej. en Perfiles o
+   * Metodología): Botsito solo puede hablar del proyecto en general. */
   partida: Partida | null
+  /** Preguntas sugeridas según la pantalla; se muestran solo antes del primer mensaje. */
+  sugerencias: string[]
 }
 
-/** Chat del asistente: habla de la partida cargada o, si no hay ninguna, del proyecto. */
-export function AsistenteChat({ partida }: Props) {
+/** Chat de Botsito: habla del escuadrón cargado o, si no hay ninguno, del proyecto. */
+export function AsistenteChat({ partida, sugerencias }: Props) {
   const [mensajes, setMensajes] = useState<MensajeChat[]>([])
   const [texto, setTexto] = useState('')
   const [cargando, setCargando] = useState(false)
   const [error, setError] = useState<string | null>(null)
-  const finRef = useRef<HTMLDivElement>(null)
+  const listaRef = useRef<HTMLDivElement>(null)
 
-  // La partida en vivo de "Analizar mi partida" no trae percentil/probabilidad
+  // La partida del análisis en vivo no trae percentil/probabilidad
   // máxima/momento_critico (nunca se persiste en partidas.json); se completan
   // aquí para que el backend siempre reciba la misma forma.
   const partidaEnriquecida = useMemo(() => (partida ? enriquecerParaAsistente(partida) : null), [partida])
@@ -63,8 +62,10 @@ export function AsistenteChat({ partida }: Props) {
     setCargando(false)
   }, [partida?.id])
 
+  // Solo el scroll de la conversación: scrollIntoView movería también la página.
   useEffect(() => {
-    finRef.current?.scrollIntoView({ block: 'nearest' })
+    const lista = listaRef.current
+    if (lista) lista.scrollTop = lista.scrollHeight
   }, [mensajes, cargando])
 
   const enviar = async (pregunta: string) => {
@@ -106,67 +107,70 @@ export function AsistenteChat({ partida }: Props) {
     enviar(texto)
   }
 
-  const preguntasSugeridas = partida ? PREGUNTAS_SUGERIDAS : PREGUNTAS_SUGERIDAS_PROYECTO
-
   return (
-    <div className="space-y-3 rounded-lg border border-tinta-secundaria/15 bg-superficie p-4">
-      <h4 className="text-sm font-semibold text-tinta">
-        {partida ? 'Pregúntale a la partida' : 'Pregúntale al proyecto'}
-      </h4>
+    <div className="space-y-3 rounded-lg border border-line bg-card p-4 shadow-xl">
+      <div>
+        <h4 className="titulo-seccion text-lg text-text">Botsito</h4>
+        <p className="text-xs text-muted">
+          {partida
+            ? 'Pregúntale por este escuadrón: responde con sus datos, minuto a minuto.'
+            : 'Pregúntale cómo funciona ZonaAzul y qué encontramos.'}
+        </p>
+      </div>
 
       {mensajes.length === 0 ? (
         <div className="flex flex-wrap gap-2">
-          {preguntasSugeridas.map((pregunta) => (
+          {sugerencias.map((pregunta) => (
             <button
               key={pregunta}
               type="button"
               onClick={() => enviar(pregunta)}
               disabled={cargando}
-              className="rounded-full border border-tinta-secundaria/20 bg-white/5 px-3 py-1 text-xs text-tinta-secundaria hover:bg-white/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zona disabled:opacity-50"
+              className="rounded-full border border-line bg-text/5 px-3 py-1 text-left text-sm text-text hover:bg-text/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zone disabled:opacity-50"
             >
               {pregunta}
             </button>
           ))}
         </div>
       ) : (
-        <div className="max-h-80 space-y-3 overflow-y-auto pr-1">
+        <div ref={listaRef} className="max-h-80 space-y-3 overflow-y-auto pr-1">
           {mensajes.map((m, i) => (
             <div key={i} className={m.rol === 'usuario' ? 'text-right' : 'text-left'}>
               <p
                 className={
-                  'inline-block max-w-[85%] rounded-lg px-3 py-2 text-left text-sm text-tinta ' +
-                  (m.rol === 'usuario' ? 'bg-white/10' : 'bg-white/5')
+                  'inline-block max-w-[85%] rounded-lg px-3 py-2 text-left text-sm text-text ' +
+                  (m.rol === 'usuario' ? 'bg-text/10' : 'bg-text/5')
                 }
               >
-                {m.texto}
+                {/* El modelo escribe «12%»; se normaliza como el resto de la app. Solo tipografía. */}
+                {m.rol === 'asistente' ? espaciarPorcentajes(m.texto) : m.texto}
               </p>
               {m.herramientas && m.herramientas.length > 0 && (
-                <p className="mt-1 text-xs text-tinta-secundaria">
+                <p className="mt-1 text-xs text-muted">
                   {m.herramientas.map(describirHerramienta).join(' · ')}
                 </p>
               )}
             </div>
           ))}
-          {cargando && <p className="text-left text-sm text-tinta-secundaria">Escribiendo…</p>}
-          <div ref={finRef} />
+          {cargando && <p className="text-left text-sm text-muted">Botsito está escribiendo…</p>}
         </div>
       )}
 
-      {error && <p className="text-sm text-peligro">{error}</p>}
+      {error && <p className="border-l-2 border-danger pl-2 text-sm text-text">{error}</p>}
 
       <form onSubmit={enviarFormulario} className="flex gap-2">
         <input
           type="text"
           value={texto}
           onChange={(e) => setTexto(e.target.value)}
-          placeholder={partida ? 'Pregunta sobre esta partida' : 'Pregunta sobre el proyecto'}
+          placeholder={partida ? 'Pregunta sobre este escuadrón' : 'Pregunta sobre el proyecto'}
           disabled={cargando}
-          className="min-w-0 flex-1 rounded-md border border-tinta-secundaria/30 bg-superficie px-3 py-2 text-sm text-tinta placeholder:text-tinta-secundaria focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zona disabled:opacity-50"
+          className="min-w-0 flex-1 rounded-md border border-muted/30 bg-card px-3 py-2 text-sm text-text placeholder:text-muted focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zone disabled:opacity-50"
         />
         <button
           type="submit"
           disabled={cargando || !texto.trim()}
-          className="rounded-md bg-zona px-4 py-2 text-sm font-medium text-fondo hover:brightness-110 disabled:opacity-50"
+          className="rounded-md bg-zone px-4 py-2 text-sm font-medium text-bg hover:brightness-110 disabled:opacity-50"
         >
           Preguntar
         </button>

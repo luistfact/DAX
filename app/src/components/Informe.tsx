@@ -1,15 +1,15 @@
 import type { ReactNode } from 'react'
+import { Trophy } from 'lucide-react'
 import type { Partida } from '../types/datos'
 import { EstadoVacio } from './EstadoVacio'
 import { Escenarios } from './Escenarios'
 import { useMetricas } from '../hooks/useMetricas'
 import { FRASE_VICTORIA } from '../texto'
+import { cambioDistancia, espaciarPorcentajes } from '../formato'
 import {
   buscarReferenciaFase,
-  calcularPercentil,
   extraerMinutoCritico,
   minutosDelMomentoCritico,
-  probabilidadMaxima,
   proporcionCobertura,
 } from '../analisisPartida'
 
@@ -17,23 +17,24 @@ type Props = {
   partida: Partida | null
 }
 
-/** Colorea la cobertura ("N de 15 minutos analizados") por proporción real, no por una etiqueta subjetiva. */
+/**
+ * Cobertura ("N de 15 minutos analizados"): neutral salvo cuando es baja. Sin
+ * acento de color: el azul y el rojo ya significan otra cosa en la app.
+ */
 function estiloCobertura(confianza: string): string {
   const proporcion = proporcionCobertura(confianza)
-  if (proporcion == null) return 'bg-tinta-secundaria/15 text-tinta-secundaria'
-  if (proporcion >= 0.8) return 'bg-zona/15 text-zona'
-  if (proporcion >= 0.4) return 'bg-tinta-secundaria/15 text-tinta-secundaria'
-  return 'bg-peligro/15 text-peligro'
+  if (proporcion != null && proporcion < 0.4) return 'border border-muted text-text'
+  return 'bg-muted/15 text-muted'
 }
 
 function Lista({ items, vacio }: { items: string[]; vacio: string }) {
   if (items.length === 0) {
-    return <p className="text-sm text-tinta-secundaria">{vacio}</p>
+    return <p className="text-sm text-muted">{vacio}</p>
   }
   return (
-    <ul className="list-disc space-y-1 pl-5 text-sm text-tinta">
+    <ul className="list-disc space-y-1 pl-5 text-sm text-text">
       {items.map((item, i) => (
-        <li key={i}>{item}</li>
+        <li key={i}>{espaciarPorcentajes(item)}</li>
       ))}
     </ul>
   )
@@ -42,17 +43,20 @@ function Lista({ items, vacio }: { items: string[]; vacio: string }) {
 function Pregunta({ titulo, children }: { titulo: string; children: ReactNode }) {
   return (
     <div className="space-y-2">
-      <h4 className="text-sm font-semibold text-tinta">{titulo}</h4>
+      <h4 className="text-sm font-semibold text-text">{titulo}</h4>
       {children}
     </div>
   )
 }
 
-function Estadistica({ etiqueta, valor }: { etiqueta: string; valor: string }) {
+/** `texto`: el valor es una frase (p. ej. la distancia al círculo en palabras), no una cifra grande. */
+function Estadistica({ etiqueta, valor, texto }: { etiqueta: string; valor: string; texto?: boolean }) {
   return (
-    <div className="rounded-md bg-white/5 p-2">
-      <dt className="text-xs text-tinta-secundaria">{etiqueta}</dt>
-      <dd className="font-cifra text-2xl font-semibold text-tinta">{valor}</dd>
+    <div className="rounded-md bg-text/5 p-2">
+      <dt className="etiqueta">{etiqueta}</dt>
+      <dd className={texto ? 'pt-1 text-sm font-medium text-text' : 'font-cifra text-2xl font-semibold text-text'}>
+        {valor}
+      </dd>
     </div>
   )
 }
@@ -82,10 +86,7 @@ export function Informe({ partida }: Props) {
 
   const { informe } = partida
 
-  // Precalculados por el notebook; si faltan (partida en vivo de "Analizar
-  // mi partida"), se recalculan en el cliente como respaldo.
-  const percentil = partida.percentil ?? calcularPercentil(partida.posicion_final, partida.escuadrones)
-  const probMaxima = partida.probabilidad_maxima ?? probabilidadMaxima(partida.minutos)
+  // Precalculado por el notebook; la partida en vivo no lo trae y se extrae del texto.
   const minutoCritico = partida.momento_critico?.minuto ?? extraerMinutoCritico(informe.momento_critico)
 
   const puntosCriticos = minutosDelMomentoCritico(partida.minutos, minutoCritico)
@@ -93,35 +94,30 @@ export function Informe({ partida }: Props) {
     metricas && puntosCriticos ? buscarReferenciaFase(metricas.referencia_fase, puntosCriticos.actual.fase) : null
 
   return (
-    <div className="space-y-6 rounded-lg border border-tinta-secundaria/15 bg-superficie p-4">
+    <div className="space-y-6 rounded-lg border border-line bg-card p-4">
       <Pregunta titulo="¿Cómo te fue?">
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h3 className="font-cifra text-2xl font-semibold text-tinta">{informe.veredicto}</h3>
+          <h3 className="font-cifra text-2xl font-semibold text-text">{informe.veredicto}</h3>
           <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${estiloCobertura(informe.confianza)}`}>
             {informe.confianza}
           </span>
         </div>
         {partida.posicion_final === 1 && (
-          <p className="font-cifra text-lg text-zona">{FRASE_VICTORIA}</p>
+          <p className="flex items-center gap-2 text-base font-medium text-text">
+            <Trophy className="h-4 w-4 shrink-0 text-text" aria-hidden="true" />
+            {FRASE_VICTORIA}
+          </p>
         )}
-        <p className="text-sm text-tinta">{informe.resumen}</p>
-        <dl className="grid grid-cols-3 gap-2 text-center">
-          <Estadistica etiqueta="Posición" valor={`${partida.posicion_final}° de ${partida.escuadrones}`} />
-          <Estadistica etiqueta="Percentil" valor={percentil != null ? `${Math.round(percentil)}%` : '—'} />
-          <Estadistica
-            etiqueta="Probabilidad máxima"
-            valor={probMaxima != null ? `${Math.round(probMaxima * 100)}%` : '—'}
-          />
-        </dl>
+        <p className="text-sm text-text">{espaciarPorcentajes(informe.resumen)}</p>
         <div className="grid gap-4 sm:grid-cols-2">
           <div>
-            <h5 className="mb-1 text-xs font-semibold uppercase tracking-wide text-tinta-secundaria">
+            <h5 className="mb-1 titulo-seccion text-sm text-muted">
               Factores a favor
             </h5>
             <Lista items={informe.factores_favorables} vacio="Sin factores a favor registrados." />
           </div>
           <div>
-            <h5 className="mb-1 text-xs font-semibold uppercase tracking-wide text-tinta-secundaria">
+            <h5 className="mb-1 titulo-seccion text-sm text-muted">
               Factores en contra
             </h5>
             <Lista items={informe.factores_adversos} vacio="Sin factores en contra registrados." />
@@ -130,7 +126,7 @@ export function Informe({ partida }: Props) {
       </Pregunta>
 
       <Pregunta titulo="¿Dónde se decidió?">
-        <div className="rounded-md bg-white/5 p-3 text-sm text-tinta">{informe.momento_critico}</div>
+        <div className="rounded-md bg-text/5 p-3 text-sm text-text">{espaciarPorcentajes(informe.momento_critico)}</div>
         {puntosCriticos ? (
           <dl className="grid grid-cols-3 gap-2 text-center">
             <Estadistica
@@ -138,34 +134,34 @@ export function Informe({ partida }: Props) {
               valor={formatCompanerosPerdidos(puntosCriticos.actual.vivos, puntosCriticos.anterior.vivos)}
             />
             <Estadistica
-              etiqueta="Salud del equipo"
+              etiqueta="Salud del equipo (puntos)"
               valor={formatDelta(puntosCriticos.actual.salud, puntosCriticos.anterior.salud)}
             />
             <Estadistica
               etiqueta="Distancia al círculo"
-              valor={formatDelta(puntosCriticos.actual.dist_rel, puntosCriticos.anterior.dist_rel)}
+              valor={cambioDistancia(puntosCriticos.actual.dist_rel, puntosCriticos.anterior.dist_rel)}
+              texto
             />
           </dl>
         ) : (
-          <p className="text-sm text-tinta-secundaria">Sin datos suficientes para ese minuto.</p>
+          <p className="text-sm text-muted">Sin datos suficientes para ese minuto.</p>
         )}
       </Pregunta>
 
-      <Pregunta titulo="¿Qué hicieron distinto los que llegaron?">
-        {puntosCriticos && referencia ? (
-          <p className="text-sm text-tinta">
-            Llegaste al cierre {puntosCriticos.actual.fase} de 6 con {puntosCriticos.actual.salud} de salud y{' '}
+      {/* Sin referencia para esa fase, la sección entera sobra: no se muestra un aviso vacío. */}
+      {puntosCriticos && referencia && (
+        <Pregunta titulo="¿Qué hicieron distinto los que llegaron?">
+          <p className="text-sm text-text">
+            Llegaste a F{puntosCriticos.actual.fase} con {puntosCriticos.actual.salud} de salud y{' '}
             {puntosCriticos.actual.vivos} compañeros; los equipos que llegan al top 25 % lo hacen, en mediana, con{' '}
             {Math.round(referencia.hp_medio * 10) / 10} y {Math.round(referencia.jugadores_vivos * 10) / 10}.
           </p>
-        ) : (
-          <p className="text-sm text-tinta-secundaria">Aún no hay datos de referencia cargados para esa fase.</p>
-        )}
-      </Pregunta>
+        </Pregunta>
+      )}
 
       <Pregunta titulo="¿Qué hago la próxima?">
         <Lista items={informe.recomendaciones} vacio="Sin recomendaciones registradas." />
-        <h5 className="pt-2 text-xs font-semibold uppercase tracking-wide text-tinta-secundaria">
+        <h5 className="pt-2 titulo-seccion text-sm text-muted">
           ¿Qué habría cambiado?
         </h5>
         <Escenarios escenarios={partida.escenarios} />

@@ -17,14 +17,14 @@ export function Ayuda({ texto, etiqueta }: Props) {
         onBlur={() => setAbierto(false)}
         aria-label={etiqueta}
         aria-expanded={abierto}
-        className="ml-1 inline-flex h-4 w-4 items-center justify-center rounded-full border border-tinta-secundaria/50 text-[10px] font-semibold text-tinta-secundaria hover:border-tinta-secundaria hover:text-tinta focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zona"
+        className="ml-1 inline-flex h-5 w-5 items-center justify-center rounded-full border border-muted/50 text-xs font-semibold text-muted hover:border-muted hover:text-text focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zone"
       >
         ?
       </button>
       {abierto && (
         <span
           role="tooltip"
-          className="absolute left-1/2 top-full z-10 mt-1 w-56 -translate-x-1/2 rounded-md border border-tinta-secundaria/20 bg-superficie p-2 text-left text-xs font-normal text-tinta-secundaria shadow-md"
+          className="absolute left-1/2 top-full z-10 mt-1 w-56 -translate-x-1/2 rounded-md border border-line bg-card p-2 text-left text-xs font-normal text-muted shadow-md"
         >
           {texto}
         </span>

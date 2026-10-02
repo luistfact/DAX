@@ -505,3 +505,280 @@ discusiones ya cerradas.
   corrigió en Render; `/analizar` en `dax-li6v.onrender.com` respondió 200
   con `mapa` (9 minutos, 9 zonas, 3 bajas), idéntico al servicio local.
   Regla agregada en la sección «Despliegue».
+- **2026-09-26** — Leyenda de alcance en positivo y modo claro/oscuro.
+  **Textos**: subtítulo de la cabecera → «Aprende de tus partidas: revisamos
+  lo que ya jugaste para que sepas qué mejorar en la siguiente.»; en
+  `AvisoTratamiento` la limitación queda «Analizamos partidas que ya
+  terminaron. No da ventaja en tiempo real: es tu repetición, explicada.»
+  **Tema**: se cierra la migración a tokens pendiente desde el bloque 1
+  (`bg-white/*` → `bg-tinta/*`, `bg-black/70` → `bg-velo`, estilos inline y
+  `COLOR_*` de Recharts/mapa/sparkline/círculo → `usePaleta()`). Fuera de
+  `colores.ts`, solo `compartir.ts` usa colores fijos, a propósito: la
+  imagen para compartir siempre sale en oscuro (`PALETA_OSCURA`).
+  `colores.ts` exporta `PALETA_OSCURA`/`PALETA_CLARA`; `index.css` las
+  replica como tokens (`@theme` = oscuro, `:root[data-theme="light"]` =
+  claro, incluida la textura vía `--textura`) — deben coincidir.
+  `hooks/useTema.ts`: `data-theme` de `<html>` es la fuente de verdad
+  (`useSyncExternalStore` + `MutationObserver`), la elección se guarda en
+  `localStorage` (`zonaazul-tema`) y gana sobre `prefers-color-scheme`; sin
+  elección, sigue al sistema incluso si cambia con la página abierta. Script
+  en línea en `index.html` fija el tema antes de montar React (sin
+  destello). `BotonTema.tsx` (Sun/Moon de `lucide-react`, dependencia nueva
+  pedida por el usuario, +5.7 kB al bundle; el aviso de chunk >500 kB ya
+  existía en `HEAD`), `aria-label="Modo oscuro"` + `aria-pressed`.
+  **Paleta clara** final: fondo `#f5f7fa`, superficie `#ffffff`, tinta
+  `#0d1420`, tinta secundaria `#5b6678`, zona `#1a65a0`, peligro `#a84126`.
+  La propuesta (`#1f6fae`/`#b8482b`) pasaba `validate_palette.js`, pero el
+  texto de los distintivos (acento sobre acento al 15 %) daba 4.3:1; se
+  oscurecieron los acentos (4.9:1) y siguen pasando las 5 verificaciones.
+  **Pendiente**: en modo oscuro esos mismos distintivos dan 3.9:1 (ya desde
+  el bloque 5); no se tocó la paleta oscura sin discutirlo.
+  Verificado en el navegador en ambos modos: Partida, Perfiles, Analizar mi
+  partida (estado vacío y análisis en vivo de `laze-9527` con mapa), Cómo
+  funciona, aviso modal y asistente; Recharts y el mapa cambian de color
+  sin recargar.
+- **2026-09-29** — Rediseño BI (`PROMPT_BI.md`), fase 0 (correcciones de
+  datos) completada, sin cambios visuales. Los JSON se regeneraron: 200
+  escuadrones de **45** partidas del conjunto de prueba (verificado por
+  `match_id`), `por_fase` trae `AP` y `metricas.json` trae `calibracion`
+  (`red_densa`, `red_recurrente`). Nuevo `src/formato.ts` como único lugar de
+  formato: `miles` (es-MX, 3,862), `metrica` (AUC/Brier/AP siempre a 3
+  decimales), `pct`/`pct100` (nivel, «37 %» con espacio no separable), `pp`
+  (diferencias entre probabilidades), `distanciaCirculo`/`cambioDistancia`
+  (`dist_rel` = distancia al centro / radio de la zona, en «radios») y
+  `espaciarPorcentajes` (solo tipografía sobre los textos ya redactados en el
+  JSON, que traen «36%»). Perfiles: `mediana_pct_rank` va de 0 (ganador) a 1
+  (último); se muestra `round((1 − r) × 100)` → Rotadores 60 %, Periféricos
+  58 %, Centrales 48 %, Castigados 12 %. «Cómo funciona»: AUC por fase contra
+  una línea en 0.5 (azar), y en gráfica aparte AP contra la tasa base, que es
+  su referencia; leyenda arriba para no encimarse con el eje.
+  `nombreModelo()` en `texto.ts` glosa «Impulso gradiente» como
+  «Potenciación del gradiente (gradient boosting)» la primera vez. Textos que
+  decían «partidas» por escuadrones corregidos, con la línea 150 partidas vs.
+  200 escuadrones de 45 partidas. Aclaración junto a los filtros: la
+  categoría es la forma de la curva, no el resultado (27 «Dominante» y 5
+  «Remontada» terminaron fuera del top). `servicio/analisis.py`: momento
+  crítico en pp y «36 % del tiempo» (autorizado por el usuario). Pendiente
+  detectado, no tocado: el notebook tiene **dos** celdas con
+  `resumen_determinista` (75 corregida con pp, 76 la versión vieja con
+  `:.0%`); ejecutado de principio a fin, la 76 sobrescribe a la 75.
+- **2026-09-29** — Rediseño BI, fase 1 (paleta y tipografía) completada.
+  Tokens nuevos en `colores.ts` e `index.css` (`bunker`, `oliva`, `linea`,
+  `texto`, `humo`, `zona-azul`, `ambar`, `ambar-dato`, `zona-roja`,
+  `sobre-ambar`); `zona`/`peligro`/`tinta`/`superficie`/`fondo` ya no existen.
+  Validación con `validate_palette.js`: la propuesta fallaba en oscuro (el
+  ámbar `#F2A900` tiene L 0.785, fuera de la banda 0.48–0.67). Se separó en
+  `ambar` `#F2A900` (solo el botón de acción, que no es una marca de datos) y
+  `ambar-dato` `#CA8400` (top y Dominante en gráficas y distintivos); con el
+  ámbar en banda, el rojo `#E5484D` quedaba a ΔE 6.7 para deuteranopía y se
+  cambió a `#D33949` (mismo tono, ΔE 10.4). Claro: `#0D62D3`, `#C27B00`,
+  `#BF1E2E` sobre `#F3F4EE`/`#FCFCF8`. Ambos temas pasan las 5
+  verificaciones contra sus dos superficies. Reglas aplicadas: el texto nunca
+  usa acentos (distintivos con texto en `texto` y el acento solo en fondo,
+  borde o un punto); categorías Desplome rojo, Remontada azul, Dominante
+  ámbar, el resto neutral; la curva siempre azul; el círculo de cierre ámbar
+  si llegó al top y humo si no. **Oscuro por defecto**: ya no se sigue
+  `prefers-color-scheme` (se quitó `seguirPreferenciaDelSistema`). Barlow
+  (cuerpo) + Barlow Condensed (cifras y utilidad `titulo-seccion`, siempre en
+  mayúsculas); `tabular-nums` en `body`; utilidad `etiqueta` (pequeña, en
+  minúsculas, encima de la cifra). Recharts pinta los puntos de la línea en
+  blanco por defecto: hay que pasar `fill` explícito.
+- **2026-09-29** — Rediseño BI, fase 2 (estructura de tablero) completada.
+  Pestañas `Resumen · Partidas · Perfiles · Metodología`; se abre en Resumen.
+  `Resumen.tsx` (nuevo): qué hace la app en dos frases con un botón a
+  Partidas, cifras del corpus, los 4 hallazgos del prompt (el 3 y el 4 con su
+  cifra de apoyo leída de `perfiles.json` y `metricas.json`, no escrita a
+  mano; el 1 y el 2 no tienen campo en los JSON y van solo como frase) y los
+  4 perfiles como arquetipos ordenados por percentil. «Analizar mi partida»
+  dejó de ser pestaña: `BuscadorJugador.tsx` en el encabezado («Tu nombre de
+  usuario de PUBG», el único botón ámbar) lanza el análisis y lleva a
+  Partidas, donde `AnalisisEnVivo.tsx` (antes `AnalizarPartida.tsx`, sin el
+  formulario) ocupa la columna del reporte hasta «Volver al catálogo»;
+  elegir un escuadrón de la lista también lo cierra. `useAnalisis.reiniciar`
+  ahora aborta la petición en curso (antes, cancelar y recibir la respuesta
+  tarde reabría el análisis), y los errores de red se muestran como un
+  mensaje fijo en español en lugar del «Failed to fetch» del navegador.
+  Ancho completo (sin `max-w`), lista de `minmax(320px,420px)` y reporte con
+  el resto. Verificado a 390 px con un iframe (el cambio de tamaño de ventana
+  no funciona con la herramienta): sin scroll horizontal y las 4 pestañas
+  caben.
+- **2026-09-29** — Rediseño BI, fase 3 (vista de partidas) completada.
+  **Lista**: `catalogo.ts` (reemplaza `destacados.ts`) numera las partidas
+  1 a 45 por orden de `match_id` (el corpus no guardó la fecha; el orden fijo
+  hace que «Partida 7» sea siempre la misma) y nombra cada fila «Partida 7 ·
+  Escuadrón 12»: hay varios escuadrones por partida, así que el nombre del
+  prompt («Partida 7 · 21 equipos») sería ambiguo; los equipos van en la
+  fila y en el subtítulo. `FilaEscuadron.tsx` (reemplaza `TarjetaPartida`):
+  barra de categoría (Desplome rojo, Remontada azul, Dominante ámbar, el
+  resto neutro), posición en grande y la curva en miniatura. Pastillas Todas,
+  Desplomes, Remontadas y Dominadas (una a la vez; filtradas, van del caso más
+  claro al menos claro con los puntajes de `forma.ts`) y la aclaración de
+  forma vs. resultado. La lista es la columna fija con scroll propio; el
+  reporte avanza con la página (antes lo fijo era el reporte, más alto que la
+  pantalla). Partidas abre en el desplome más claro, nunca en blanco.
+  **Reporte** (`Reporte.tsx`, compartido con el análisis en vivo): franja de
+  5 indicadores, la meta traducida con `lugaresTop25` = ⌊1 + (equipos −
+  1)/4⌋, la misma definición del objetivo ((posición − 1)/(equipos − 1) ≤
+  0.25; con 28 equipos, 7), la curva y el informe. La curva usa un eje X
+  numérico para poder sombrear las fases con `ReferenceArea` desde el medio
+  minuto; íconos de `lucide-react` sobre la curva (`UserX` en rojo si bajan
+  los vivos; `HeartCrack` en tinta si la salud cae ≥ 25 puntos en un minuto
+  **sin** cambio de vivos, porque `hp_medio` promedia solo a los vivos); el
+  tooltip se reemplazó por una línea vertical y `PanelMinuto` al lado, que
+  abre en el momento crítico y también se maneja con botones anterior/
+  siguiente (teclado). «¿Qué hicieron distinto los que llegaron?» se oculta
+  entera si no hay referencia. `servicio/analisis.py` devuelve `fecha`
+  (`createdAt` de la partida) y el análisis en vivo la muestra; **hace falta
+  redesplegar en Render** para que llegue a producción, mientras tanto el
+  subtítulo cae a «Erangel, escuadra». Eliminados `AyudaTop25.tsx`,
+  `TarjetaPartida.tsx`, `destacados.ts`, `ESTILO_FORMA`, `AYUDA_TOP25` y
+  `formatResultado`, sin uso tras el cambio.
+- **2026-09-29** — Rediseño BI, fase 4 (Metodología) completada.
+  `TablaModelos.tsx` → `Metodologia.tsx`, con `DiagramaFlujo.tsx` (SVG propio:
+  API → telemetría → 11 variables por minuto → modelo → app y asistente; una
+  versión horizontal y otra vertical para teléfono) y `CurvaCalibracion.tsx`.
+  Se destacan los dos modelos que usa la app: red recurrente (curva del
+  catálogo; la única que lee la trayectoria, según las conclusiones del
+  notebook) y red densa (en vivo; 78 KB y sin TensorFlow, por los 512 MB del
+  servidor). Gradient boosting: AUC más alto (0.698), 5 milésimas sobre la red
+  densa. El argumento pedido era «no entrega probabilidad por minuto», pero
+  eso también vale para la red densa, que sí se usa en vivo; se redactó como
+  «predice con una foto de cada minuto, así que no reemplaza a la red
+  recurrente en el catálogo». **Hallazgo de calibración** (datos de
+  `metricas.calibracion`): la red densa se desvía 1.9 pp en promedio; la red
+  recurrente **sobreestima en los 10 tramos, 19.4 pp en promedio** (dice 70 %
+  → llega el 47 %). La pestaña lo dice tal cual y recomienda leer esas curvas
+  como orden entre minutos, no como frecuencia; los textos se calculan de los
+  datos. Recalibrarla es decisión pendiente del usuario (notebook).
+- **2026-09-29** — Rediseño BI, fase 5 (asistente) completada en el
+  frontend. El asistente se llama **Botsito** (decisión del usuario): botón
+  flotante con el nombre a la vista (`lucide-react` en lugar de los SVG a
+  mano), panel con `titulo-seccion` y los mismos tokens. `sugerencias.ts`
+  (nuevo) arma las preguntas según la pantalla con datos reales: en Partidas
+  «¿Por qué caí en el minuto N?» con el minuto crítico (o «momento clave» si
+  la curva nunca bajó) y «¿Cuál es mi estilo de juego?» solo si la partida
+  trae `grupo_estilo` (el análisis en vivo no lo trae); en Perfiles el grupo
+  de mayor y el de menor percentil por nombre; Metodología y Resumen, del
+  proyecto. El scroll de la conversación ya no usa `scrollIntoView` (movía la
+  página). **Pendiente en el servidor, no tocado**: la ficha de
+  `servicio/instruccion_asistente.md` tiene cifras de corpus viejas (46,886 /
+  3,931 frente a 46,817 / 3,862 de `metricas.json`), no conoce los perfiles
+  por nombre ni qué modelo usa cada parte de la app, así que «¿Qué distingue a
+  los Rotadores?» y «¿Por qué usan dos modelos?» no tienen con qué
+  responderse hasta actualizarla.
+- **2026-09-29** — Resuelto el pendiente de la fase 5 (autorizado por el
+  usuario): `servicio/instruccion_asistente.md` se presenta como Botsito y su
+  ficha trae las cifras actuales de `metricas.json` (46,817 / 3,862), los 4
+  perfiles con nombre, descripción, tamaño y percentil de `perfiles.json`, qué
+  modelo usa cada parte de la app, la calibración, el AUC por fase y los
+  hallazgos del Resumen. Si se regeneran los JSON, esta ficha se actualiza a
+  mano. No probado contra OpenAI; requiere reiniciar el servicio y
+  redesplegar en Render.
+- **2026-09-29** — Botsito probado en local contra OpenAI (servicio sin
+  `--reload`), con «¿Quién eres?» y las 6 sugerencias sin escuadrón.
+  Primera ronda: se presentaba bien y usaba las cifras nuevas, pero
+  interpretaba el percentil mediano 60 % de los Rotadores como «terminar en
+  el cuarto superior» y atribuía a los Castigados conductas que la ficha no
+  dice. La ficha ahora explica que el percentil no es la probabilidad de top
+  25 % (el top equivale a percentil ≥ 75 %, que ningún grupo alcanza en
+  mediana), prohíbe atribuir causas o conductas que no estén en ella y fija
+  el ejemplo de «7 de cada 10» para explicar el AUC. Segunda ronda correcta,
+  con un adorno menor que persiste («posicionarse estratégicamente»). El chat
+  aplica `espaciarPorcentajes` a las respuestas («12%» → «12 %»). Probado
+  también de punta a punta desde la interfaz, en Perfiles. De paso: los
+  radares de Perfiles animaban su entrada sin respetar
+  `prefers-reduced-motion` y contra la regla de una sola animación
+  principal; se apagó. (En la herramienta de automatización la pestaña queda
+  con `document.hidden = true`, lo que congela las animaciones de Recharts
+  en su primer cuadro: un radar o una línea «vacíos» en una captura no son
+  necesariamente un fallo.)
+- **2026-09-30** — Complemento BI (`PROMPT_BI_COMPLEMENTO.md`), fase 1
+  sustituida: paleta «carbón con tinte verde militar». Tokens con los nombres
+  del complemento en ambos temas (`bg`, `card`, `card-2`, `line`, `text`,
+  `muted`, `brand`, `on-brand`, `zone`, `danger`, `alive`, `violet`, `sand`,
+  `zone-wash`, `phase-band`, `danger-wash`); clases `bg-bg`, `text-text`,
+  `text-muted`, etc. Ajustes validados con `validate_palette.js` (aceptados
+  por el usuario): zone `#4594F7` y danger `#F75247` un poco más oscuros (banda
+  de luminosidad); violet `#B38CFF` → `#AF62C1` (era idéntico al azul para
+  protanopía, ΔE 0.6). Centrales en arena (opción B del usuario: el verde
+  queda para «compañero en pie»): `#A0906F` oscuro / `#8A7A5A` claro; falla
+  a propósito el mínimo de saturación y queda en la franja de advertencia
+  contra el rojo (ΔE 6.2), legal solo porque cada perfil lleva ícono y nombre;
+  se separa del dorado ΔE 17.0 / 23.0 (condición del usuario: `#C9B98F`, la
+  primera propuesta, quedaba a 10.7). El dorado es solo marca y acción:
+  «Dominante» pasa a barra en `text` y el top se marca con un trofeo sin
+  color. Tipografía: base de 15 px en `body` (no en `html`, que encogería las
+  clases rem); nada por debajo de 12 px (ticks y rótulos de Recharts subidos);
+  Saira Stencil One cargada para el título del héroe (fase 2), tres familias.
+  JSON regenerados con `tam_real`, `causas_eliminacion` (4 categorías con
+  «Otros»), `importancia` (bosque aleatorio, caída de AUC al permutar) y
+  `curva_referencia` (307 escuadrones que clasificaron, todo el conjunto de
+  prueba).
+- **2026-09-30** — Complemento BI, fase 2. **Una sola animación**:
+  `AnilloZona.tsx` (la zona cerrándose) detrás del título del héroe (modo
+  `unaVez`) y como indicador de carga en el botón «Analizar» y en la espera
+  del análisis en vivo (modo `bucle`); se quitaron `CirculoCierre`, el trazo
+  animado de la curva, la barra de progreso animada y la animación de los
+  radares. Héroe en Saira Stencil One con `Mira` (esquinas tipo mira, solo en
+  héroe, franja de indicadores y curva). Cifras del corpus en una franja
+  pequeña. Hallazgos como tarjetas de dato grande con evidencia leída de
+  `metricas.json`: «5 %» + dona de `causas_eliminacion` (la zona en `zone`, el
+  resto en grises); «3.9×» = variable de estado más importante / variable de
+  posición más importante en `importancia` (barras con el estado en `alive`,
+  la posición en `muted`; muestra modelo y métrica); «60 % · 58 %» con las
+  barras de percentil por perfil; «0.637 → 0.759» con el AUC por fase desde
+  0.5. `estiloPerfil.ts`: color e ícono por perfil (Rotadores zone/Route,
+  Periféricos violet/Eye, Centrales sand/Crosshair, Castigados
+  danger/Bandage; no HeartCrack, que en la curva es «golpe fuerte»).
+  `PerfilesBarras.tsx` reemplaza los radares (opción 2 del usuario): barras
+  divergentes contra el promedio, escaladas por característica al grupo que
+  más se aleja, con el valor real y su unidad debajo. `FondoMapa.tsx`:
+  cuadrícula A–H × 1–8 fija detrás del contenido. Pie de página con «Proyecto
+  académico independiente…» y la frase de marca que exigen los términos de la
+  API de PUBG, textual en inglés. `texto.ts` gana `etiquetaVariable` (los 11
+  predictores) y `rotuloFase` («F1»…«F6», se aplica en la fase 3).
+- **2026-09-30** — Complemento BI, fase 3. **Mapa oficial**: política leída
+  (términos de la API: licencia no comercial, frase de marca obligatoria;
+  guía de creadores de KRAFTON: no parecer contenido oficial, KRAFTON puede
+  objetar; el enlace a la política de contenido de jugadores del repositorio
+  da 404). No existe `Baltic_Main` en `pubg/api-assets`, solo `Erangel_Main`,
+  actualizado en 2020 (parche 8.2) y de nuevo en 2022–2024. Alineación
+  verificada con la partida real de `laze-9527` del 2026-09-29: aterrizaje y
+  una baja sobre los edificios de la base militar, el recorrido sobre la
+  carretera al puente este y el pueblo de la costa, círculos finales en
+  tierra; la imagen ocupa [0, 1] × [0, 1] de las coordenadas normalizadas sin
+  ajustes. `Erangel_Main_No_Text_Low_Res.png` (819 px, 1.1 MB) copiado a
+  `app/public/mapas/`; en `MapaPartida` el recorrido se dibuja con la paleta
+  oscura en ambos temas (el satélite es oscuro) y el crédito «Mapa: KRAFTON,
+  Inc., vía pubg/api-assets» va sobre el mapa y en el pie de página.
+  **Curva** (`ComposedChart`): área en `zone-wash`; banda del minuto crítico
+  en `danger-wash` con etiqueta de datos reales («Min 12 · −30 pp · cae un
+  compañero», la última parte solo si hubo baja o golpe); fases rotuladas F1
+  a F6 en curva, panel, Metodología, informe y asistente (`rotuloFase`;
+  `formatCierre` y `LABEL_CIERRE_ZONA` eliminados); curva de referencia de
+  `metricas.curva_referencia` punteada, solo en el catálogo (sale de la red
+  recurrente; mezclarla con la red densa del análisis en vivo no sería
+  comparable); sin tasa base escalonada (decisión del usuario). **Panel tipo
+  HUD**: barra de salud blanca (el verde ya es «en pie»), un soldado por
+  integrante según `tam_real` (en vivo, el máximo de vivos, la misma regla del
+  servicio), mini círculo con el punto del escuadrón para la distancia.
+  **Lista**: el perfil va con ícono y nombre, sin color (la barra es la
+  categoría de la curva). Recharts 3 hace enfocable el SVG de las gráficas: el
+  contorno de foco se dejó solo para teclado (`:focus-visible`, en
+  `index.css`).
+- **2026-10-01** — Fase 4: recalibración de la red recurrente. El usuario la
+  hizo en la exportación del notebook con escalado de Platt ajustado en
+  validación; todas sus probabilidades visibles (curva, escenarios y
+  `curva_referencia`) vienen recalibradas. `metricas.calibracion` trae
+  `red_recurrente` (recalibrada), `red_recurrente_sin_recalibrar` y
+  `recalibracion` {metodo, brier_antes 0.237, brier_despues 0.198}. Desviación
+  media: 19.4 pp antes (sobreestimaba en los 10 tramos) → 1.2 pp después;
+  AUC sin cambio (no altera el orden). `CurvaCalibracion.tsx` muestra las tres
+  curvas (el «antes» punteado y hueco) con la frase de la causa: se entrenó
+  compensando el desbalance de clases. La tarjeta de la red recurrente en
+  Metodología muestra el Brier recalibrado; la tabla sigue con
+  `metricas.modelos` (los modelos tal como se entrenaron) y una nota lo
+  aclara. Ficha de Botsito actualizada. `.gitignore`: `zonaazul-*.png`, las
+  imágenes que genera el botón Compartir al probarlo. Bajo el mapa del
+  análisis en vivo: «El trazo une las posiciones de cada minuto; no es el
+  camino exacto».

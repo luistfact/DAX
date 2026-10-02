@@ -22,7 +22,7 @@ export function BotonCompartir({ partida }: { partida: Partida }) {
       onClick={compartir}
       disabled={estado === 'generando'}
       title="Descarga una imagen cuadrada (PNG) con el resumen de esta partida"
-      className="rounded-md border border-zona/50 px-3 py-1 text-sm font-medium text-zona hover:bg-zona/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zona disabled:opacity-50"
+      className="rounded-md border border-zone/50 px-3 py-1 text-sm font-medium text-zone hover:bg-zone/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zone disabled:opacity-50"
     >
       {estado === 'generando' ? 'Generando…' : estado === 'error' ? 'No se pudo, reintentar' : 'Compartir'}
     </button>
