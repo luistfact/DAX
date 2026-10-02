@@ -5,8 +5,8 @@ export const LABEL_EQUIPOS_EN_PARTIDA = 'Equipos en la partida'
 export const LABEL_MINUTOS_ANALIZADOS = 'Minutos analizados'
 export const LABEL_COMPANEROS_EN_PIE = 'Compañeros en pie'
 export const LABEL_SALUD_EQUIPO = 'Salud del equipo'
-export const LABEL_FASE_CIRCULO = 'Fase del círculo'
-export const LABEL_PROBABILIDAD_TOP25 = 'Probabilidad de llegar al top 25 %'
+export const LABEL_FASE_CIRCULO = 'Cierre de la zona'
+export const LABEL_PROBABILIDAD_TOP25 = 'Tus posibilidades de llegar al top 25 %'
 
 /** Frase propia para el primer lugar (Parte 5): celebra sin repetir el eslogan del juego. */
 export const FRASE_VICTORIA = 'Fuiste el último equipo en pie: la zona entera terminó siendo tuya.'
@@ -50,7 +50,12 @@ export function etiquetaVariable(variable: string): string {
   return ETIQUETA_VARIABLE[variable] ?? variable
 }
 
-/** Fase del círculo rotulada igual en toda la app: «F1» a «F6». */
+/** El cierre de la zona en palabras de jugador: «Cierre 5». */
 export function rotuloFase(fase: number): string {
-  return `F${fase}`
+  return `Cierre ${fase}`
+}
+
+/** Versión corta para ejes y bandas, donde no cabe la palabra: «C5». */
+export function rotuloFaseCorto(fase: number): string {
+  return `C${fase}`
 }

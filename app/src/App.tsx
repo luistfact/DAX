@@ -1,4 +1,6 @@
 import { useEffect, useMemo, useRef, useState } from 'react'
+import { AnimatePresence, motion } from 'motion/react'
+import { DURACION, useTransicion } from './movimiento'
 import { AvisoTratamiento } from './components/AvisoTratamiento'
 import { BotonTema } from './components/BotonTema'
 import { BuscadorJugador } from './components/BuscadorJugador'
@@ -39,6 +41,7 @@ function App() {
   const { cargando: cargandoMetricas, error: errorMetricas, metricas } = useMetricas()
   const analisis = useAnalisis()
   const refEncabezado = useRef<HTMLElement>(null)
+  const { transicion } = useTransicion()
 
   // La altura del encabezado fijo cambia con el ancho (el buscador baja de
   // fila en el teléfono); la columna fija de Partidas la necesita para no
@@ -120,7 +123,17 @@ function App() {
 
       {aceptoTratamiento && (
         <>
-          <main className="flex-1 space-y-6 px-4 py-6 sm:px-6 lg:px-8">
+          <main className="relative flex-1 px-4 py-6 sm:px-6 lg:px-8">
+            {/* Cambio de pestaña: la vista sale desvaneciéndose (150 ms) y la nueva entra
+                en cascada (cada vista trae la suya). popLayout y no wait: la vista nueva
+                aparece de inmediato, sin esperar a que termine la salida (nada bloquea). */}
+            <AnimatePresence mode="popLayout" initial={false}>
+              <motion.div
+                key={pestana}
+                className="space-y-6"
+                // La vista que sale no recibe clics: nada debe interponerse con la nueva.
+                exit={{ opacity: 0, pointerEvents: 'none', transition: transicion(DURACION.salidaVista) }}
+              >
             {pestana === 'Resumen' && (
               <Resumen
                 metricas={metricas}
@@ -149,6 +162,8 @@ function App() {
                         <AnalisisEnVivo estado={analisis.estado} onCerrar={analisis.reiniciar} />
                       ) : entradaActual ? (
                         <Reporte
+                          // Un escuadrón nuevo empieza limpio: su minuto elegido, su cascada, sus números.
+                          key={entradaActual.partida.id}
                           partida={entradaActual.partida}
                           titulo={nombreEscuadron(entradaActual)}
                           subtitulo={[
@@ -186,6 +201,8 @@ function App() {
                 {metricas && <Metodologia metricas={metricas} />}
               </>
             )}
+              </motion.div>
+            </AnimatePresence>
           </main>
 
           <footer className="border-t border-line px-4 py-4 text-xs text-muted sm:px-6 lg:px-8">

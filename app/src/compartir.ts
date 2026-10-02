@@ -141,7 +141,7 @@ export async function dibujarImagen(partidaOriginal: Partida): Promise<HTMLCanva
   ctx.textAlign = 'left'
   ctx.textBaseline = 'alphabetic'
   const frase = critico
-    ? `Momento crítico: minuto ${critico.minuto}, la probabilidad cayó ${Math.round(Math.abs(critico.caida) * 100)} pp.`
+    ? `Momento crítico: minuto ${critico.minuto}, tus posibilidades bajaron ${Math.round(Math.abs(critico.caida) * 100)} puntos.`
     : 'Momento crítico: —'
   if (critico) {
     // Mismo punto rojo que marca el minuto sobre la curva, como leyenda.

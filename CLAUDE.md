@@ -864,3 +864,39 @@ discusiones ya cerradas.
   del héroe sigue siendo la animación principal. Verificado por DOM: hay
   animación al entrar a Partidas, ninguna al volver a la pestaña, sí con otro
   escuadrón; la dona aparece llena al volver al Resumen.
+- **2026-10-02** — Commit `857fe67` del pulido final. Pasada de orden y
+  animación (`PROMPT_ANIMACION_ORDEN.md`; sustituye las reglas de animación
+  anteriores; `PROMPT_MENOS_TEXTO.md`, al que alude, no existe en el repo).
+  **Plantilla común** (`Plantilla.tsx`): mensaje principal, fila de
+  indicadores (`Indicador`, `FilaIndicadores`), un gráfico principal y el
+  detalle en `Desplegable`s cerrados (`Detalle`). Resumen: héroe + cifras de
+  los hallazgos + «lo que más pesa» + 5 desplegables (el corpus pasó a «De
+  dónde salen los datos», decisión del usuario). Partidas: mensaje armado con
+  forma, minuto crítico y resultado («Se vino abajo en el minuto 11 y terminó
+  18° de 27.») + 5 KPIs + curva + 6 desplegables (+ el mapa en vivo, cerrado).
+  Perfiles: 4 perfiles con huella + comparación + un desplegable por perfil.
+  Metodología: corpus y AUC + diagrama + 5 desplegables. **Movimiento**
+  (`movimiento.ts`): una aceleración (ease-out = cubic-bezier(0,0,0.58,1),
+  «easeOut» en Motion y «ease-out» en Recharts) y duraciones fijas (respuesta
+  180 ms, abrir 300 / cerrar 250, salida de vista 150, cascada ≤ 450 en total
+  con `retrasoCascada`, conteo 450, gráficas 700, cambio de valor 600);
+  `useTransicion` da duración 0 con `prefers-reduced-motion`, más
+  `MotionConfig reducedMotion="user"` en la raíz y una media consulta para la
+  elevación CSS (`.elevable`: transform y la opacidad de una capa de sombra).
+  Cambio de pestaña con `AnimatePresence mode="popLayout"` (no `wait`: la
+  vista nueva no espera a la salida) y la saliente sin eventos de puntero.
+  `Conteo`: números que cuentan desde cero en cada entrada a la vista (texto
+  que cambia por cuadro: excepción aceptada por el usuario). Viñetas: un
+  cierre a la vez con selector C1–C6, siguen al minuto elegido en la curva
+  (el estado subió a `Reporte`), barras con `scaleX` y marca con
+  `translateX`. Huellas que crecen desde el centro, dona que se llena
+  girando. **Lenguaje** (decisiones del usuario): «pp» → «puntos»; fases →
+  «Cierre N» / «CN»; «percentil» → «mejor que el N %»; «probabilidad» → «tus
+  posibilidades»; «mediana» → «lo típico»; «modelo» → «el análisis»;
+  «escenarios» → «¿y si…?»; distancias en palabras («a medio camino del
+  borde», «% del camino al borde») en vez de radios; los textos del JSON pasan
+  por `textoLlano` (`formato.ts`, reglas exactas por frase, solo palabras).
+  Ficha de Botsito con la misma tabla de traducciones. Pendiente de revisar en
+  el notebook: la recomendación «Iniciar la rotación antes del cierre del
+  círculo» (40 escuadrones) contradice el hallazgo de que la posición casi no
+  pesa.

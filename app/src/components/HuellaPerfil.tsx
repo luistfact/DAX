@@ -1,4 +1,7 @@
+import { motion } from 'motion/react'
 import type { Perfiles } from '../types/datos'
+import { useAnimarUnaVez } from '../hooks/useAnimarUnaVez'
+import { DURACION, useTransicion } from '../movimiento'
 import { colorPerfil } from '../estiloPerfil'
 import { usePaleta } from '../hooks/useTema'
 
@@ -30,6 +33,9 @@ function normalizar(perfiles: Perfiles, grupo: Props['grupo']): number[] {
 export function HuellaPerfil({ perfiles, grupo, tamano = 72 }: Props) {
   const paleta = usePaleta()
   const color = colorPerfil(grupo.nombre, paleta)
+  // Crece desde el centro la primera vez que aparece cada huella; no al volver.
+  const crecer = useAnimarUnaVez(`huella-${grupo.nombre}-${tamano}`)
+  const { transicion } = useTransicion()
   const valores = normalizar(perfiles, grupo)
   const n = valores.length
   const radio = 40
@@ -45,7 +51,12 @@ export function HuellaPerfil({ perfiles, grupo, tamano = 72 }: Props) {
     <svg width={tamano} height={tamano} viewBox="-48 -48 96 96" aria-hidden="true" className="shrink-0">
       <polygon points={contorno(1)} fill="none" stroke={paleta.line} strokeWidth={1} />
       <polygon points={contorno(0.5)} fill="none" stroke={paleta.line} strokeWidth={1} strokeDasharray="2 2" />
-      <polygon
+      <motion.polygon
+        // El centro del radar es el origen del viewBox: escala desde ahí, solo transformación.
+        style={{ transformOrigin: '0px 0px', transformBox: 'view-box' }}
+        initial={crecer ? { scale: 0 } : false}
+        animate={{ scale: 1 }}
+        transition={transicion(DURACION.grafica)}
         points={valores.map((v, i) => punto(i, v)).join(' ')}
         fill={color}
         fillOpacity={0.3}

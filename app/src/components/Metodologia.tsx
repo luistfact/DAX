@@ -15,10 +15,15 @@ import type { FaseMetrica, Metricas, ModeloMetrica } from '../types/datos'
 import { EstadoVacio } from './EstadoVacio'
 import { Ayuda } from './Ayuda'
 import { DiagramaFlujo } from './DiagramaFlujo'
+import { Cascada } from './Cascada'
+import { Conteo } from './Conteo'
+import { Desplegable } from './Desplegable'
+import { Detalle, FilaIndicadores, Indicador, MensajePrincipal } from './Plantilla'
+import { Clock, Cpu, Crosshair, Layers, Swords, Table2, Target, Users } from 'lucide-react'
 import { CurvaCalibracion } from './CurvaCalibracion'
 import { usePaleta } from '../hooks/useTema'
 import { usePartidas } from '../hooks/usePartidas'
-import { LABEL_MINUTOS_ANALIZADOS, nombreModelo, rotuloFase } from '../texto'
+import { LABEL_MINUTOS_ANALIZADOS, nombreModelo, rotuloFaseCorto } from '../texto'
 import { metrica, miles } from '../formato'
 
 type Props = {
@@ -37,15 +42,6 @@ const AYUDA_BRIER =
 const AYUDA_AP =
   'Qué tan bien detecta a los equipos que sí llegan al top 25 %, que son la minoría (cerca del 26 % de los casos).'
 
-function Seccion({ titulo, children }: { titulo: string; children: ReactNode }) {
-  return (
-    <section className="space-y-3">
-      <h3 className="titulo-seccion text-base text-muted">{titulo}</h3>
-      {children}
-    </section>
-  )
-}
-
 function Tarjeta({ children, destacada }: { children: ReactNode; destacada?: boolean }) {
   return (
     <div className={`rounded-lg border bg-card p-4 ${destacada ? 'border-zone' : 'border-line'}`}>{children}</div>
@@ -58,7 +54,7 @@ function PanelHover({ active, payload }: TooltipContentProps) {
 
   return (
     <div className="rounded-md border border-line bg-card p-3 text-sm shadow-md">
-      <p className="font-medium text-text">{rotuloFase(fila.Fase)}</p>
+      <p className="font-medium text-text">Fase {fila.Fase}</p>
       <dl className="mt-1 grid grid-cols-2 gap-x-4 gap-y-0.5 text-muted">
         <dt>AUC</dt>
         <dd className="text-text">{metrica(fila.AUC)}</dd>
@@ -99,7 +95,7 @@ function GraficaPorFase({
         <CartesianGrid strokeDasharray="3 3" stroke={paleta.cuadricula} />
         <XAxis
           dataKey="Fase"
-          tickFormatter={(f: number) => rotuloFase(f)}
+          tickFormatter={(f: number) => rotuloFaseCorto(f)}
           stroke={paleta.muted}
           tick={{ fontSize: 12, fill: paleta.muted }}
           label={{ value: 'Fase del círculo', position: 'insideBottom', offset: -12, fontSize: 12, fill: paleta.muted }}
@@ -180,33 +176,30 @@ export function Metodologia({ metricas }: Props) {
   const ventajaBoosting = boosting && densa ? Math.round((boosting.AUC - densa.AUC) * 1000) : null
 
   return (
-    <div className="space-y-10">
-      <p className="text-base text-muted">
-        Cómo se construyó y evaluó el modelo, para quien quiera revisar el rigor del análisis.
-      </p>
+    <Cascada className="space-y-6">
+      <MensajePrincipal detalle="Aquí sí se usa el lenguaje técnico: es la pestaña para revisar el rigor del análisis.">
+        Cómo se construyó el análisis y qué tan confiable es.
+      </MensajePrincipal>
 
-      <Seccion titulo="De los datos a la app">
-        <Tarjeta>
-          <div className="mx-auto max-w-5xl">
-            <DiagramaFlujo />
-          </div>
-        </Tarjeta>
-      </Seccion>
+      <FilaIndicadores columnas={4}>
+        <Indicador etiqueta="Partidas" valor={<Conteo valor={corpus.partidas} formato={miles} />} Icono={Swords} />
+        <Indicador etiqueta="Escuadrones" valor={<Conteo valor={corpus.escuadrones} formato={miles} />} Icono={Users} />
+        <Indicador
+          etiqueta={LABEL_MINUTOS_ANALIZADOS}
+          valor={<Conteo valor={corpus.observaciones} formato={miles} />}
+          Icono={Clock}
+        />
+        <Indicador
+          etiqueta="AUC de la red recurrente"
+          valor={<Conteo valor={recurrente?.AUC} formato={metrica} />}
+          Icono={Target}
+        />
+      </FilaIndicadores>
 
-      <Seccion titulo="El corpus">
-        <div className="grid grid-cols-1 gap-3 sm:grid-cols-3">
-          <Tarjeta>
-            <p className="etiqueta">Partidas</p>
-            <p className="font-cifra text-4xl font-semibold text-text">{miles(corpus.partidas)}</p>
-          </Tarjeta>
-          <Tarjeta>
-            <p className="etiqueta">Escuadrones</p>
-            <p className="font-cifra text-4xl font-semibold text-text">{miles(corpus.escuadrones)}</p>
-          </Tarjeta>
-          <Tarjeta>
-            <p className="etiqueta">{LABEL_MINUTOS_ANALIZADOS}</p>
-            <p className="font-cifra text-4xl font-semibold text-text">{miles(corpus.observaciones)}</p>
-          </Tarjeta>
+      <section className="space-y-3 rounded-lg border border-line bg-card p-5">
+        <h3 className="titulo-seccion text-base text-text">De los datos a la app</h3>
+        <div className="mx-auto max-w-5xl">
+          <DiagramaFlujo />
         </div>
         {partidas && partidasCatalogo != null && (
           <p className="text-sm text-muted">
@@ -216,34 +209,38 @@ export function Metodologia({ metricas }: Props) {
             aleatoria, porque los minutos de una misma partida están correlacionados.
           </p>
         )}
-      </Seccion>
+      </section>
 
-      <Seccion titulo="Los modelos que usa la app">
-        <div className="grid gap-3 md:grid-cols-2">
-          <Tarjeta destacada>
-            <p className="titulo-seccion text-lg text-text">Red recurrente</p>
-            <p className="mb-3 text-sm text-muted">
-              Dibuja la curva minuto a minuto de los escuadrones del catálogo. Es el único de los cinco modelos que lee
-              la trayectoria del escuadrón y no una foto aislada de cada minuto.
-            </p>
-            <Cifras modelo={recurrenteEnLaApp} />
-            {recalibracion && (
-              <p className="mt-2 text-xs text-muted">
-                Brier ya recalibrado; antes de recalibrar era {metrica(recalibracion.brier_antes)}.
+      <Detalle>
+        <Desplegable
+          Icono={Cpu}
+          titulo="Los modelos que usa la app"
+          resumen="Red recurrente para el catálogo y red densa en vivo"
+        >
+          <div className="grid gap-3 md:grid-cols-2">
+            <Tarjeta destacada>
+              <p className="titulo-seccion text-lg text-text">Red recurrente</p>
+              <p className="mb-3 text-sm text-muted">
+                Dibuja la curva minuto a minuto de los escuadrones del catálogo. Es el único de los cinco modelos que lee
+                la trayectoria del escuadrón y no una foto aislada de cada minuto.
               </p>
-            )}
-          </Tarjeta>
-          <Tarjeta destacada>
-            <p className="titulo-seccion text-lg text-text">Red densa</p>
-            <p className="mb-3 text-sm text-muted">
-              Hace el análisis en vivo de tu partida. Se eligió por la restricción de memoria del servidor gratuito
-              (512 MB): pesa 78 KB y no necesita TensorFlow, que la red recurrente sí requiere.
-            </p>
-            <Cifras modelo={densa} />
-          </Tarjeta>
-        </div>
-        <div className="space-y-2 rounded-lg border border-line p-4 text-sm text-text">
-          <p>
+              <Cifras modelo={recurrenteEnLaApp} />
+              {recalibracion && (
+                <p className="mt-2 text-xs text-muted">
+                  Brier ya recalibrado; antes de recalibrar era {metrica(recalibracion.brier_antes)}.
+                </p>
+              )}
+            </Tarjeta>
+            <Tarjeta destacada>
+              <p className="titulo-seccion text-lg text-text">Red densa</p>
+              <p className="mb-3 text-sm text-muted">
+                Hace el análisis en vivo de tu partida. Se eligió por la restricción de memoria del servidor gratuito
+                (512 MB): pesa 78 KB y no necesita TensorFlow, que la red recurrente sí requiere.
+              </p>
+              <Cifras modelo={densa} />
+            </Tarjeta>
+          </div>
+          <p className="text-sm text-text">
             <strong className="font-semibold">Las diferencias entre modelos son pequeñas.</strong> Las cinco familias
             quedan entre {metrica(aucMin)} y {metrica(aucMax)} de AUC.
             {mejor?.Modelo === BOOSTING && boosting && ventajaBoosting != null && (
@@ -256,76 +253,86 @@ export function Metodologia({ metricas }: Props) {
               </>
             )}
           </p>
-        </div>
-      </Seccion>
+        </Desplegable>
 
-      <Seccion titulo="El AUC en lenguaje llano">
-        <Tarjeta>
+        <Desplegable Icono={Target} titulo="El AUC en lenguaje llano" resumen="Con 0.70, acierta 7 de cada 10 comparaciones">
           <p className="text-base text-text">
             Con un AUC de 0.70, si comparas un escuadrón que llegó al top con uno que no, el modelo le da más
             probabilidad al que llegó <strong className="font-semibold">7 de cada 10 veces</strong>. Un modelo al azar
             acertaría 5 de cada 10.
           </p>
-        </Tarjeta>
-      </Seccion>
+        </Desplegable>
 
-      <Seccion titulo="Comparación de modelos">
-        <div className="overflow-x-auto rounded-lg border border-line bg-card">
-          <table className="w-full text-left text-sm">
-            <thead className="titulo-seccion border-b border-line bg-text/5 text-sm text-muted">
-              <tr>
-                <th className="px-4 py-2">Modelo</th>
-                <th className="px-4 py-2">
-                  AUC
-                  <Ayuda texto={AYUDA_AUC} etiqueta="¿Qué significa AUC?" />
-                </th>
-                <th className="px-4 py-2">
-                  Brier
-                  <Ayuda texto={AYUDA_BRIER} etiqueta="¿Qué significa Brier?" />
-                </th>
-                <th className="px-4 py-2">
-                  AP
-                  <Ayuda texto={AYUDA_AP} etiqueta="¿Qué significa AP?" />
-                </th>
-                <th className="px-4 py-2">En la app</th>
-              </tr>
-            </thead>
-            <tbody>
-              {modelos.map((m) => (
-                <tr key={m.Modelo} className="border-b border-line last:border-0">
-                  <td className="px-4 py-2 font-medium text-text">{nombreModelo(m.Modelo)}</td>
-                  <td className="px-4 py-2 text-muted">{metrica(m.AUC)}</td>
-                  <td className="px-4 py-2 text-muted">{metrica(m.Brier)}</td>
-                  <td className="px-4 py-2 text-muted">{metrica(m.AP)}</td>
-                  <td className="px-4 py-2 text-muted">
-                    {m.Modelo === RECURRENTE ? 'Catálogo' : m.Modelo === DENSA ? 'En vivo' : '—'}
-                  </td>
+        <Desplegable
+          Icono={Table2}
+          titulo="Comparación de modelos"
+          resumen={`Cinco familias, de ${metrica(aucMin)} a ${metrica(aucMax)} de AUC`}
+        >
+          <div className="overflow-x-auto rounded-lg border border-line bg-card">
+            <table className="w-full text-left text-sm">
+              <thead className="titulo-seccion border-b border-line bg-text/5 text-sm text-muted">
+                <tr>
+                  <th className="px-4 py-2">Modelo</th>
+                  <th className="px-4 py-2">
+                    AUC
+                    <Ayuda texto={AYUDA_AUC} etiqueta="¿Qué significa AUC?" />
+                  </th>
+                  <th className="px-4 py-2">
+                    Brier
+                    <Ayuda texto={AYUDA_BRIER} etiqueta="¿Qué significa Brier?" />
+                  </th>
+                  <th className="px-4 py-2">
+                    AP
+                    <Ayuda texto={AYUDA_AP} etiqueta="¿Qué significa AP?" />
+                  </th>
+                  <th className="px-4 py-2">En la app</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-        {recalibracion && (
-          <p className="text-xs text-muted">
-            La tabla compara los modelos tal como se entrenaron. La red recurrente que usa la app está recalibrada: mismo
-            AUC, Brier de {metrica(recalibracion.brier_despues)}.
-          </p>
-        )}
-      </Seccion>
+              </thead>
+              <tbody>
+                {modelos.map((m) => (
+                  <tr key={m.Modelo} className="border-b border-line last:border-0">
+                    <td className="px-4 py-2 font-medium text-text">{nombreModelo(m.Modelo)}</td>
+                    <td className="px-4 py-2 text-muted">{metrica(m.AUC)}</td>
+                    <td className="px-4 py-2 text-muted">{metrica(m.Brier)}</td>
+                    <td className="px-4 py-2 text-muted">{metrica(m.AP)}</td>
+                    <td className="px-4 py-2 text-muted">
+                      {m.Modelo === RECURRENTE ? 'Catálogo' : m.Modelo === DENSA ? 'En vivo' : '—'}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+          {recalibracion && (
+            <p className="text-xs text-muted">
+              La tabla compara los modelos tal como se entrenaron. La red recurrente que usa la app está recalibrada:
+              mismo AUC, Brier de {metrica(recalibracion.brier_despues)}.
+            </p>
+          )}
+        </Desplegable>
 
-      <Seccion titulo="Calibración">
-        <Tarjeta>
+        <Desplegable
+          Icono={Crosshair}
+          titulo="Calibración"
+          resumen={
+            recalibracion
+              ? `Red recurrente recalibrada: Brier de ${metrica(recalibracion.brier_antes)} a ${metrica(recalibracion.brier_despues)}`
+              : 'Si dice 40 %, ¿se cumple cerca del 40 % de las veces?'
+          }
+        >
           {metricas.calibracion ? (
             <CurvaCalibracion calibracion={metricas.calibracion} />
           ) : (
             <p className="text-sm text-muted">Sin datos de calibración en metricas.json.</p>
           )}
-        </Tarjeta>
-      </Seccion>
+        </Desplegable>
 
-      <Seccion titulo="Desempeño por fase del círculo">
-        <Tarjeta>
-          <p className="mb-4 text-sm text-muted">
+        <Desplegable
+          Icono={Layers}
+          titulo="Desempeño por fase del círculo"
+          resumen="AUC contra el azar y AP contra la tasa base, fase por fase"
+        >
+          <p className="text-sm text-muted">
             Se evalúa dentro de cada fase por separado: la proporción de escuadrones que llega al top crece conforme
             avanza la partida (sesgo de supervivencia), y mezclar fases falsearía la comparación.
           </p>
@@ -359,8 +366,8 @@ export function Metodologia({ metricas }: Props) {
               />
             </div>
           </div>
-        </Tarjeta>
-      </Seccion>
-    </div>
+        </Desplegable>
+      </Detalle>
+    </Cascada>
   )
 }

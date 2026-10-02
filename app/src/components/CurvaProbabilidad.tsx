@@ -17,11 +17,12 @@ import type { Minuto, Partida, PuntoReferencia } from '../types/datos'
 import { EstadoVacio } from './EstadoVacio'
 import { BotonCompartir } from './BotonCompartir'
 import { Mira } from './Mira'
-import { LABEL_COMPANEROS_EN_PIE, LABEL_FASE_CIRCULO, LABEL_PROBABILIDAD_TOP25, LABEL_SALUD_EQUIPO, rotuloFase } from '../texto'
+import { LABEL_COMPANEROS_EN_PIE, LABEL_FASE_CIRCULO, LABEL_PROBABILIDAD_TOP25, LABEL_SALUD_EQUIPO, rotuloFase, rotuloFaseCorto } from '../texto'
 import { eventosPorMinuto, extraerMinutoCritico, type EventoMinuto } from '../analisisPartida'
 import { distanciaCirculo, miles, pct, pp } from '../formato'
 import { usePaleta } from '../hooks/useTema'
-import { ACELERACION_ENTRADA, DURACION_ENTRADA_MS, useAnimarUnaVez } from '../hooks/useAnimarUnaVez'
+import { useAnimarUnaVez } from '../hooks/useAnimarUnaVez'
+import { ACELERACION_RECHARTS, DURACION_GRAFICA_MS } from '../movimiento'
 
 type Props = {
   partida: Partida | null
@@ -177,7 +178,7 @@ function PanelMinuto({
         </button>
       </div>
       <div>
-        <p className="etiqueta">probabilidad de top 25 %</p>
+        <p className="etiqueta">tus posibilidades de top 25 %</p>
         <p className="font-cifra text-4xl font-semibold text-text">{pct(minuto.probabilidad)}</p>
         {esCritico && <p className="text-xs text-muted">Momento crítico de la partida</p>}
       </div>
@@ -201,7 +202,7 @@ function PanelMinuto({
           </span>
         </Dato>
         <div className="grid grid-cols-2 gap-2">
-          <Dato etiqueta={LABEL_FASE_CIRCULO}>{rotuloFase(minuto.fase)}</Dato>
+          <Dato etiqueta={LABEL_FASE_CIRCULO}>{minuto.fase} de 6</Dato>
           <Dato etiqueta="Equipos restantes">{minuto.equipos_vivos}</Dato>
         </div>
       </dl>
@@ -323,7 +324,7 @@ export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinuto
                     x2={t.hasta + 0.5}
                     fill={i % 2 === 0 ? 'transparent' : paleta.phaseBand}
                     stroke="none"
-                    label={{ value: rotuloFase(t.fase), position: 'insideTop', offset: -18, fontSize: 12, fill: paleta.muted }}
+                    label={{ value: rotuloFaseCorto(t.fase), position: 'insideTop', offset: -18, fontSize: 12, fill: paleta.muted }}
                   />
                 ))}
                 {puntoCritico && etiquetaCritica && (
@@ -396,8 +397,8 @@ export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinuto
                   activeDot={false}
                   connectNulls={false}
                   isAnimationActive={animar}
-                  animationDuration={DURACION_ENTRADA_MS}
-                  animationEasing={ACELERACION_ENTRADA}
+                  animationDuration={DURACION_GRAFICA_MS}
+                  animationEasing={ACELERACION_RECHARTS}
                 />
                 {puntoCritico && (
                   <ReferenceDot
@@ -458,13 +459,13 @@ export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinuto
               </li>
               <li className="flex items-center gap-1.5">
                 <span className="h-2.5 w-4 rounded-sm bg-phase-band ring-1 ring-line" aria-hidden="true" />
-                Fases del círculo (F1 a F6)
+                Cierres de la zona (C1 a C6)
               </li>
               {referencia && (
                 <li className="flex items-center gap-1.5">
                   <span className="w-4 border-t-2 border-dashed border-muted" aria-hidden="true" />
-                  Promedio de los que llegaron al top
-                  {escuadronesReferencia != null && ` (${miles(escuadronesReferencia)} escuadrones del conjunto de prueba)`}
+                  Lo típico de los que llegaron al top
+                  {escuadronesReferencia != null && ` (${miles(escuadronesReferencia)} escuadrones)`}
                 </li>
               )}
             </ul>

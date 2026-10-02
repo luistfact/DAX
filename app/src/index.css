@@ -139,3 +139,38 @@ body {
     backdrop-filter: blur(14px) saturate(140%);
   }
 }
+
+/*
+ * Tarjetas que se pueden pulsar: al pasar el cursor se elevan 2 px con una
+ * sombra sutil. Solo se animan transform y la opacidad de una capa con la
+ * sombra (animar box-shadow repinta en cada cuadro). 180 ms, la aceleración
+ * única de movimiento.ts. Solo en dispositivos con cursor, y sin movimiento
+ * con prefers-reduced-motion.
+ */
+.elevable {
+  position: relative;
+  transition: transform 180ms cubic-bezier(0, 0, 0.58, 1);
+}
+.elevable::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  box-shadow: 0 8px 20px rgb(0 0 0 / 0.22);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 180ms cubic-bezier(0, 0, 0.58, 1);
+}
+@media (hover: hover) {
+  .elevable:hover {
+    transform: translateY(-2px);
+  }
+  .elevable:hover::after {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .elevable:hover {
+    transform: none;
+  }
+}

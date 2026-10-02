@@ -55,7 +55,7 @@ export function FilaEscuadron({ entrada, activa, onSeleccionar }: Props) {
       onClick={onSeleccionar}
       aria-current={activa ? 'true' : undefined}
       className={
-        'flex w-full items-stretch gap-3 overflow-hidden rounded-md border text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zone ' +
+        'elevable flex w-full items-stretch gap-3 overflow-hidden rounded-md border text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zone ' +
         (activa ? 'border-zone bg-text/10' : 'border-line bg-card hover:bg-text/5')
       }
     >

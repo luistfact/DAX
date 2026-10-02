@@ -1,20 +1,12 @@
-import type { ReactNode } from 'react'
-import {
-  ArrowDownRight,
-  ArrowUpRight,
-  BarChart3,
-  Clock,
-  Crown,
-  Medal,
-  TrendingDown,
-  TrendingUp,
-  Trophy,
-  type LucideIcon,
-} from 'lucide-react'
+import { useState, type ReactNode } from 'react'
+import { BarChart3, Clock, Crown, Medal, TrendingDown, TrendingUp, Trophy } from 'lucide-react'
 import type { Partida, PuntoReferencia } from '../types/datos'
 import { CurvaProbabilidad } from './CurvaProbabilidad'
 import { Informe } from './Informe'
 import { Mira } from './Mira'
+import { Cascada } from './Cascada'
+import { Conteo } from './Conteo'
+import { Detalle, FilaIndicadores, Indicador, MensajePrincipal, type Delta } from './Plantilla'
 import {
   caidaDesdePico,
   calcularPercentil,
@@ -22,6 +14,7 @@ import {
   lugaresTop25,
   probabilidadMaxima,
 } from '../analisisPartida'
+import { clasificarForma, type Forma } from '../forma'
 import { pct, pct100, pp } from '../formato'
 
 type Props = {
@@ -33,50 +26,8 @@ type Props = {
   /** Minuto sincronizado con el mapa (solo en el análisis en vivo). */
   minutoMarcado?: number
   onMinutoActivo?: (minuto: number) => void
-  /** Lo que va entre la curva y el informe (el mapa, en el análisis en vivo). */
+  /** Tarjetas desplegables extra al final del detalle (el mapa, en el análisis en vivo). */
   children?: ReactNode
-}
-
-type Delta = { texto: string; positivo: boolean }
-
-/**
- * Tarjeta de KPI: etiqueta, número grande e ícono de contexto. El delta solo
- * aparece donde hay una comparación real; verde si es mejor, rojo si es peor.
- */
-function Kpi({
-  etiqueta,
-  valor,
-  detalle,
-  tono,
-  Icono,
-  delta,
-}: {
-  etiqueta: string
-  valor: string
-  detalle?: string
-  tono?: string
-  Icono: LucideIcon
-  delta?: Delta | null
-}) {
-  const Flecha = delta?.positivo ? ArrowUpRight : ArrowDownRight
-  return (
-    <div className="flex min-w-0 flex-col gap-1 rounded-lg border border-line bg-card p-4">
-      <div className="flex items-start justify-between gap-2">
-        <dt className="etiqueta">{etiqueta}</dt>
-        <Icono className="h-5 w-5 shrink-0 text-muted" aria-hidden="true" />
-      </div>
-      <dd className={`font-cifra text-5xl font-semibold leading-none ${tono ?? 'text-text'}`}>
-        {valor}
-        {detalle && <span className="ml-1 font-texto text-sm font-normal text-muted">{detalle}</span>}
-      </dd>
-      {delta && (
-        <dd className={`flex items-center gap-1 text-sm font-medium ${delta.positivo ? 'text-alive' : 'text-danger'}`}>
-          <Flecha className="h-4 w-4 shrink-0" aria-hidden="true" />
-          {delta.texto}
-        </dd>
-      )}
-    </div>
-  )
 }
 
 /** Posición contra el corte del top 25 % de esa partida. */
@@ -100,7 +51,23 @@ function fraseMeta(partida: Partida): string {
   return `Top 25 %: ${meta}. ${resultado}`
 }
 
-/** Reporte de un escuadrón: franja de indicadores, la curva como pieza principal y el informe. */
+/** El mensaje principal: qué forma tuvo la partida y cómo terminó, en una frase. */
+function mensaje(forma: Forma, partida: Partida, minutoCritico: number | null): string {
+  const como: Record<Forma, string> = {
+    Desplome: minutoCritico != null ? `Se vino abajo en el minuto ${minutoCritico}` : 'Se vino abajo al final',
+    Remontada: 'Remontó desde muy abajo',
+    Dominante: 'Llevó la partida arriba de principio a fin',
+    'Caída temprana': 'Empezó cuesta arriba desde los primeros minutos',
+    Reñida: 'Una partida reñida, sin definirse',
+    'Sin datos suficientes': 'Pocos minutos para leer la partida',
+  }
+  const final = partida.clasifico
+    ? `y terminó ${partida.posicion_final}° de ${partida.escuadrones}, dentro del top 25 %`
+    : `y terminó ${partida.posicion_final}° de ${partida.escuadrones}`
+  return `${como[forma]} ${final}.`
+}
+
+/** Reporte de un escuadrón con la plantilla común: mensaje, indicadores, la curva y el detalle desplegable. */
 export function Reporte({ partida, titulo, subtitulo, referencia, minutoMarcado, onMinutoActivo, children }: Props) {
   // Precalculados por el notebook; la partida en vivo no los trae y se
   // recalculan con las mismas funciones de respaldo.
@@ -108,66 +75,87 @@ export function Reporte({ partida, titulo, subtitulo, referencia, minutoMarcado,
   const probMaxima = partida.probabilidad_maxima ?? probabilidadMaxima(partida.minutos)
   const minutoCritico = partida.momento_critico?.minuto ?? extraerMinutoCritico(partida.informe.momento_critico)
   const caida = caidaDesdePico(partida.minutos)
+  // El minuto elegido en la curva sube hasta aquí para que las viñetas sigan su cierre.
+  const [minutoLocal, setMinutoLocal] = useState<number | null>(null)
+  const minutoElegido = minutoMarcado ?? minutoLocal ?? minutoCritico
+  const faseElegida = partida.minutos.find((m) => m.minuto === minutoElegido)?.fase
+
   // Solo con la curva de referencia (catálogo): misma red y misma calibración,
   // así que la comparación es real. En vivo no hay contra qué comparar.
   const maxReferencia = referencia && referencia.length > 0 ? Math.max(...referencia.map((r) => r.probabilidad)) : null
   // El signo sale de la diferencia ya redondeada a puntos enteros: con los
-  // valores crudos, 53.9 % contra 53.92 % daba «−0 pp» en rojo.
+  // valores crudos, 53.9 % contra 53.92 % daba «−0» en rojo.
   const puntosVsReferencia =
     probMaxima != null && maxReferencia != null ? Math.round((probMaxima - maxReferencia) * 100) : null
   const deltaProbMaxima: Delta | null =
     puntosVsReferencia == null
       ? null
       : puntosVsReferencia === 0
-        ? { texto: 'Igual que el máximo de los que llegaron al top', positivo: true }
+        ? { texto: 'Igual que lo más alto de los que llegaron al top', positivo: true }
         : {
-            texto: `${puntosVsReferencia > 0 ? '+' : '−'}${pp(puntosVsReferencia / 100)} vs. el máximo de los que llegaron al top`,
+            texto: `${puntosVsReferencia > 0 ? '+' : '−'}${pp(puntosVsReferencia / 100)} frente a lo más alto de los que llegaron al top`,
             positivo: puntosVsReferencia > 0,
           }
 
   return (
-    <div className="space-y-4">
-      <div>
-        <h2 className="titulo-seccion text-2xl text-text">{titulo}</h2>
-        {subtitulo && <p className="text-sm text-muted">{subtitulo}</p>}
-      </div>
+    <Cascada className="space-y-6">
+      <MensajePrincipal antetitulo={titulo} detalle={subtitulo}>
+        {mensaje(clasificarForma(partida.minutos), partida, minutoCritico)}
+      </MensajePrincipal>
 
       <Mira>
-        <dl className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-5">
-          <Kpi
+        <FilaIndicadores columnas={5}>
+          <Indicador
             etiqueta="Posición"
-            valor={`${partida.posicion_final}°`}
+            valor={<Conteo valor={partida.posicion_final} formato={(n) => `${Math.round(n)}°`} />}
             detalle={`de ${partida.escuadrones}`}
             Icono={partida.posicion_final === 1 ? Crown : partida.clasifico ? Trophy : Medal}
             delta={deltaPosicion(partida)}
           />
-          <Kpi etiqueta="Percentil" valor={pct100(percentil)} Icono={BarChart3} />
-          <Kpi etiqueta="Probabilidad máxima" valor={pct(probMaxima)} Icono={TrendingUp} delta={deltaProbMaxima} />
-          <Kpi
-            etiqueta="Caída desde el pico"
-            valor={caida == null ? '—' : caida > 0 ? `−${pp(caida)}` : pp(caida)}
+          <Indicador
+            etiqueta="Mejor que"
+            valor={<Conteo valor={percentil} formato={pct100} />}
+            detalle="de los equipos"
+            Icono={BarChart3}
+          />
+          <Indicador
+            etiqueta="Tus mejores posibilidades"
+            valor={<Conteo valor={probMaxima} formato={pct} />}
+            Icono={TrendingUp}
+            delta={deltaProbMaxima}
+          />
+          <Indicador
+            etiqueta="Caída desde lo más alto"
+            valor={
+              caida == null ? '—' : <Conteo valor={caida} formato={(n) => (n > 0.005 ? `−${pp(n)}` : pp(n))} />
+            }
             tono={caida != null && caida >= 0.1 ? 'text-danger' : undefined}
             Icono={TrendingDown}
           />
-          <Kpi
+          <Indicador
             etiqueta="Minuto crítico"
-            valor={minutoCritico != null ? String(minutoCritico) : '—'}
+            valor={minutoCritico != null ? <Conteo valor={minutoCritico} formato={(n) => String(Math.round(n))} /> : '—'}
             tono={minutoCritico != null ? 'text-danger' : undefined}
             Icono={Clock}
           />
-        </dl>
+        </FilaIndicadores>
       </Mira>
-      <p className="text-sm text-muted">{fraseMeta(partida)}</p>
 
       <CurvaProbabilidad
         key={partida.id}
         partida={partida}
         referencia={referencia}
-        minutoMarcado={minutoMarcado}
-        onMinutoActivo={onMinutoActivo}
+        minutoMarcado={minutoMarcado ?? minutoLocal ?? undefined}
+        onMinutoActivo={(m) => {
+          setMinutoLocal(m)
+          onMinutoActivo?.(m)
+        }}
       />
-      {children}
-      <Informe partida={partida} />
-    </div>
+
+      <Detalle>
+        <Informe partida={partida} fraseMeta={fraseMeta(partida)} faseElegida={faseElegida} />
+        {children}
+      </Detalle>
+    </Cascada>
   )
 }

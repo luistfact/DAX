@@ -56,9 +56,9 @@ function TarjetaEscenario({ esc, destacada }: { esc: Escenario; destacada: boole
     // No se oculta: el modelo no es lineal y a veces el cambio "bueno" baja la probabilidad.
     // "No habría mejorado" y no "no habría cambiado": una caída de un punto o
     // más es un cambio, y decir lo contrario contradiría la cifra de al lado.
-    lectura = `Según el modelo, esto no habría mejorado tu resultado: la probabilidad baja de ${pct(esc.probabilidad_base)} a ${pct(esc.probabilidad_alterna)}.`
+    lectura = `Según el análisis, esto no habría mejorado tu resultado: tus posibilidades bajan de ${pct(esc.probabilidad_base)} a ${pct(esc.probabilidad_alterna)}.`
   } else {
-    lectura = `Tu probabilidad media pasaría de ${pct(esc.probabilidad_base)} a ${pct(esc.probabilidad_alterna)}.`
+    lectura = `Tus posibilidades pasarían de ${pct(esc.probabilidad_base)} a ${pct(esc.probabilidad_alterna)}.`
     cifra = pp(d, { signo: true })
   }
 
@@ -84,13 +84,13 @@ export function Escenarios({ escenarios }: Props) {
   if (escenarios === undefined) {
     return (
       <p className="text-sm text-muted">
-        Los escenarios alternativos solo existen para las partidas del corpus: se calculan con un modelo distinto al del
-        análisis en vivo, y mezclarlos los haría incomparables.
+        Los «¿y si…?» solo existen para los escuadrones del catálogo: se calculan con otro análisis distinto al de tu
+        partida en vivo, y mezclarlos los haría incomparables.
       </p>
     )
   }
   if (escenarios.length === 0) {
-    return <p className="text-sm text-muted">Sin escenarios registrados para esta partida.</p>
+    return <p className="text-sm text-muted">Sin «¿y si…?» registrados para esta partida.</p>
   }
 
   // Los que aplican, de mayor a menor ganancia; los logros al final.
@@ -106,7 +106,7 @@ export function Escenarios({ escenarios }: Props) {
         ))}
       </ul>
       <p className="rounded-md border border-muted/30 p-3 text-sm text-text">
-        Esto compara escenarios dentro del modelo, no lo que habría pasado en realidad. El modelo encuentra relaciones,
+        Esto compara posibilidades dentro del análisis, no lo que habría pasado en realidad. El análisis encuentra relaciones,
         no causas: los equipos que llegan completos suelen ir mejor, pero no sabemos si es por llegar completos o porque
         son mejores jugadores en general.
       </p>

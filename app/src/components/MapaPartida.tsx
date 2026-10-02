@@ -246,7 +246,7 @@ export function MapaPartida({ mapa, minuto, onMinuto }: Props) {
             />
           </label>
         </div>
-        <p className="text-xs text-muted">Pasa el cursor por la curva de probabilidad para moverte en el mapa.</p>
+        <p className="text-xs text-muted">Pasa el cursor por la curva para moverte en el mapa.</p>
       </div>
     </div>
   )

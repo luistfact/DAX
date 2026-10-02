@@ -1,9 +1,6 @@
 import { useEffect, useState } from 'react'
 import { usePrefersReducedMotion } from './usePrefersReducedMotion'
-
-/** Duración y aceleración comunes a todas las animaciones de entrada. */
-export const DURACION_ENTRADA_MS = 800
-export const ACELERACION_ENTRADA = 'ease-out' as const
+import { DURACION_GRAFICA_MS } from '../movimiento'
 
 // Lo que ya se animó en esta visita. Vive fuera de React a propósito: un
 // componente que se desmonta al cambiar de pestaña y se vuelve a montar no
@@ -23,7 +20,7 @@ export function useAnimarUnaVez(clave: string): boolean {
   useEffect(() => {
     animados.add(clave)
     if (!animar) return
-    const fin = setTimeout(() => setAnimar(false), DURACION_ENTRADA_MS + 50)
+    const fin = setTimeout(() => setAnimar(false), DURACION_GRAFICA_MS + 50)
     return () => clearTimeout(fin)
   }, [clave, animar])
 

@@ -1,20 +1,19 @@
-import type { ReactNode } from 'react'
-import { AlertTriangle, ThumbsUp, Trophy } from 'lucide-react'
+import { AlertTriangle, BarChart3, Clock, Lightbulb, Shuffle, ThumbsUp, Trophy } from 'lucide-react'
 import type { Partida } from '../types/datos'
-import { EstadoVacio } from './EstadoVacio'
+import { Desplegable } from './Desplegable'
 import { Escenarios } from './Escenarios'
 import { VinetasTop } from './VinetasTop'
 import { useMetricas } from '../hooks/useMetricas'
 import { FRASE_VICTORIA } from '../texto'
-import { cambioDistancia, espaciarPorcentajes } from '../formato'
-import {
-  extraerMinutoCritico,
-  minutosDelMomentoCritico,
-  proporcionCobertura,
-} from '../analisisPartida'
+import { cambioDistancia, textoLlano } from '../formato'
+import { extraerMinutoCritico, minutosDelMomentoCritico, proporcionCobertura } from '../analisisPartida'
 
 type Props = {
-  partida: Partida | null
+  partida: Partida
+  /** La meta en palabras («en una partida de 27 equipos, es quedar entre los primeros 7…»). */
+  fraseMeta: string
+  /** Cierre del minuto elegido en la curva, para que las viñetas lo sigan. */
+  faseElegida?: number
 }
 
 /**
@@ -25,19 +24,6 @@ function estiloCobertura(confianza: string): string {
   const proporcion = proporcionCobertura(confianza)
   if (proporcion != null && proporcion < 0.4) return 'border border-muted text-text'
   return 'bg-muted/15 text-muted'
-}
-
-function Lista({ items, vacio }: { items: string[]; vacio: string }) {
-  if (items.length === 0) {
-    return <p className="text-sm text-muted">{vacio}</p>
-  }
-  return (
-    <ul className="list-disc space-y-1 pl-5 text-sm text-text">
-      {items.map((item, i) => (
-        <li key={i}>{espaciarPorcentajes(item)}</li>
-      ))}
-    </ul>
-  )
 }
 
 /**
@@ -56,19 +42,10 @@ function Insignias({ items, tipo, vacio }: { items: string[]; tipo: 'favor' | 'c
       {items.map((item, i) => (
         <li key={i} className="flex items-start gap-2 rounded-md border border-line bg-card-2 px-3 py-2 text-sm text-text">
           <Icono className={`mt-0.5 h-4 w-4 shrink-0 ${color}`} aria-hidden="true" />
-          {espaciarPorcentajes(item)}
+          {textoLlano(item)}
         </li>
       ))}
     </ul>
-  )
-}
-
-function Pregunta({ titulo, children }: { titulo: string; children: ReactNode }) {
-  return (
-    <div className="space-y-2">
-      <h4 className="text-sm font-semibold text-text">{titulo}</h4>
-      {children}
-    </div>
   )
 }
 
@@ -99,26 +76,33 @@ function formatCompanerosPerdidos(actual: number | null | undefined, anterior: n
   return perdidos === 0 ? 'ninguno' : `${perdidos}`
 }
 
-/** Informe de la partida, reorganizado en las 4 preguntas que le importan al jugador. */
-export function Informe({ partida }: Props) {
+function Lista({ items, vacio }: { items: string[]; vacio: string }) {
+  if (items.length === 0) return <p className="text-sm text-muted">{vacio}</p>
+  return (
+    <ul className="list-disc space-y-1 pl-5 text-sm text-text">
+      {items.map((item, i) => (
+        <li key={i}>{textoLlano(item)}</li>
+      ))}
+    </ul>
+  )
+}
+
+/** Todo el detalle del escuadrón, en tarjetas desplegables cerradas por defecto. */
+export function Informe({ partida, fraseMeta, faseElegida }: Props) {
   const { metricas } = useMetricas()
-
-  if (!partida) {
-    return <EstadoVacio mensaje="Selecciona una partida para ver su informe." />
-  }
-
   const { informe } = partida
 
   // Precalculado por el notebook; la partida en vivo no lo trae y se extrae del texto.
   const minutoCritico = partida.momento_critico?.minuto ?? extraerMinutoCritico(informe.momento_critico)
-
   const puntosCriticos = minutosDelMomentoCritico(partida.minutos, minutoCritico)
+  const favor = informe.factores_favorables
+  const contra = informe.factores_adversos
 
   return (
-    <div className="space-y-6 rounded-lg border border-line bg-card p-4">
-      <Pregunta titulo="¿Cómo te fue?">
+    <>
+      <Desplegable Icono={Trophy} titulo="¿Cómo te fue?" resumen={`${informe.veredicto} · ${informe.confianza}`}>
         <div className="flex flex-wrap items-center justify-between gap-2">
-          <h3 className="font-cifra text-2xl font-semibold text-text">{informe.veredicto}</h3>
+          <p className="font-cifra text-3xl font-semibold text-text">{informe.veredicto}</p>
           <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${estiloCobertura(informe.confianza)}`}>
             {informe.confianza}
           </span>
@@ -129,23 +113,28 @@ export function Informe({ partida }: Props) {
             {FRASE_VICTORIA}
           </p>
         )}
-        <p className="text-sm text-text">{espaciarPorcentajes(informe.resumen)}</p>
-        <div className="grid gap-4 xl:grid-cols-2">
-          <div>
-            <h5 className="mb-2 titulo-seccion text-sm text-muted">Factores a favor</h5>
-            <Insignias items={informe.factores_favorables} tipo="favor" vacio="Sin factores a favor registrados." />
-          </div>
-          <div>
-            <h5 className="mb-2 titulo-seccion text-sm text-muted">Factores en contra</h5>
-            <Insignias items={informe.factores_adversos} tipo="contra" vacio="Sin factores en contra registrados." />
-          </div>
-        </div>
-      </Pregunta>
+        <p className="text-sm text-text">{textoLlano(informe.resumen)}</p>
+        <p className="text-sm text-muted">{fraseMeta}</p>
+      </Desplegable>
 
-      <Pregunta titulo="¿Dónde se decidió?">
-        <div className="rounded-md bg-text/5 p-3 text-sm text-text">{espaciarPorcentajes(informe.momento_critico)}</div>
+      <Desplegable
+        Icono={ThumbsUp}
+        titulo="A favor y en contra"
+        resumen={`${favor.length} a favor · ${contra.length} en contra`}
+      >
+        <div>
+          <h4 className="mb-2 titulo-seccion text-sm text-muted">A favor</h4>
+          <Insignias items={favor} tipo="favor" vacio="Sin factores a favor registrados." />
+        </div>
+        <div>
+          <h4 className="mb-2 titulo-seccion text-sm text-muted">En contra</h4>
+          <Insignias items={contra} tipo="contra" vacio="Sin factores en contra registrados." />
+        </div>
+      </Desplegable>
+
+      <Desplegable Icono={Clock} titulo="¿Dónde se decidió?" resumen={textoLlano(informe.momento_critico)}>
         {puntosCriticos ? (
-          <dl className="grid grid-cols-3 gap-2 text-center">
+          <dl className="grid grid-cols-1 gap-2 text-center sm:grid-cols-3">
             <Estadistica
               etiqueta="Compañeros perdidos"
               valor={formatCompanerosPerdidos(puntosCriticos.actual.vivos, puntosCriticos.anterior.vivos)}
@@ -163,22 +152,35 @@ export function Informe({ partida }: Props) {
         ) : (
           <p className="text-sm text-muted">Sin datos suficientes para ese minuto.</p>
         )}
-      </Pregunta>
+      </Desplegable>
 
-      {/* Sin referencia, la sección entera sobra: no se muestra un aviso vacío. */}
+      {/* Sin referencia, la tarjeta entera sobra: no se muestra un aviso vacío. */}
       {metricas && metricas.referencia_fase.length > 0 && (
-        <Pregunta titulo="¿Qué hicieron distinto los que llegaron?">
-          <VinetasTop minutos={partida.minutos} referencia={metricas.referencia_fase} />
-        </Pregunta>
+        <Desplegable
+          Icono={BarChart3}
+          titulo="Contra los que llegaron al top"
+          resumen="Tu equipo, cierre a cierre, contra lo típico de los que llegaron"
+        >
+          <VinetasTop
+            clave={partida.id}
+            minutos={partida.minutos}
+            referencia={metricas.referencia_fase}
+            faseElegida={faseElegida}
+          />
+        </Desplegable>
       )}
 
-      <Pregunta titulo="¿Qué hago la próxima?">
+      <Desplegable
+        Icono={Lightbulb}
+        titulo="¿Qué hago la próxima?"
+        resumen={informe.recomendaciones[0] ? textoLlano(informe.recomendaciones[0]) : 'Sin recomendaciones'}
+      >
         <Lista items={informe.recomendaciones} vacio="Sin recomendaciones registradas." />
-        <h5 className="pt-2 titulo-seccion text-sm text-muted">
-          ¿Qué habría cambiado?
-        </h5>
+      </Desplegable>
+
+      <Desplegable Icono={Shuffle} titulo="¿Y si…?" resumen="Qué habría cambiado, según el análisis">
         <Escenarios escenarios={partida.escenarios} />
-      </Pregunta>
-    </div>
+      </Desplegable>
+    </>
   )
 }

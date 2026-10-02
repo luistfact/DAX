@@ -4,6 +4,8 @@ import type { useAnalisis } from '../hooks/useAnalisis'
 import type { Partida } from '../types/datos'
 import { Reporte } from './Reporte'
 import { MapaPartida } from './MapaPartida'
+import { Desplegable } from './Desplegable'
+import { Map as MapIcono } from 'lucide-react'
 import { EstadoVacio } from './EstadoVacio'
 
 const INTERVALO_MENSAJE_MS = 3_500
@@ -14,8 +16,8 @@ const MENSAJE_INICIAL = 'Despertando el servicio, la primera consulta tarda más
 // por un modelo de lenguaje.
 const MENSAJES_ROTATIVOS = [
   'Cerca del 90 % de las eliminaciones vienen del combate, no de la zona.',
-  'La mediana de escuadrones por partida en el corpus es 26.',
-  'La salud del escuadrón es el predictor más informativo del modelo.',
+  'Una partida típica tiene 26 escuadrones.',
+  'La salud del escuadrón es lo que más pesa en el análisis.',
   'Perder un integrante antes del minuto 5 reduce mucho la probabilidad.',
 ]
 
@@ -82,7 +84,15 @@ function VistaEnVivo({ partida }: { partida: Partida }) {
       minutoMarcado={partida.mapa ? minuto : undefined}
       onMinutoActivo={partida.mapa ? setMinuto : undefined}
     >
-      {partida.mapa && <MapaPartida mapa={partida.mapa} minuto={minuto} onMinuto={setMinuto} />}
+      {partida.mapa && (
+        <Desplegable
+          Icono={MapIcono}
+          titulo="Tu recorrido en el mapa"
+          resumen={`Con Play, minuto a minuto · ${partida.mapa.eventos.length} ${partida.mapa.eventos.length === 1 ? 'baja' : 'bajas'}`}
+        >
+          <MapaPartida mapa={partida.mapa} minuto={minuto} onMinuto={setMinuto} />
+        </Desplegable>
+      )}
     </Reporte>
   )
 }

@@ -27,34 +27,38 @@ export function pct100(n: number | null | undefined): string {
 }
 
 /**
- * Diferencia entre dos probabilidades, en puntos porcentuales. De 79 % a 37 %
- * son 42 pp; decir "cayó 42 %" se leería como caída relativa (53 %).
+ * Diferencia entre dos probabilidades, en puntos: de 79 % a 37 % son 42
+ * puntos. Decir "cayó 42 %" se leería como caída relativa (53 %); «puntos»
+ * evita esa ambigüedad sin la jerga de «pp» (decisión del usuario).
  */
 export function pp(d: number | null | undefined, { signo = false } = {}): string {
   if (d == null) return '—'
   const puntos = Math.round(Math.abs(d) * 100)
   const prefijo = !signo || puntos === 0 ? '' : d > 0 ? '+' : MENOS
-  return `${prefijo}${puntos}${NBSP}pp`
+  return `${prefijo}${puntos}${NBSP}${puntos === 1 ? 'punto' : 'puntos'}`
 }
 
 /**
- * Distancia relativa al círculo (distancia al centro / radio de la zona) en
- * palabras: 1 es el borde, por encima de 1 está fuera.
+ * Distancia al círculo en palabras de jugador. `d` es la distancia al centro
+ * dividida entre el radio de la zona: 0 es el centro, 1 el borde, más de 1
+ * fuera. La cifra va como parte del camino del centro al borde.
  */
 export function distanciaCirculo(d: number | null | undefined): string {
   if (d == null) return '—'
-  const radios = d.toFixed(2)
-  if (d > 1) return `Fuera de la zona, a ${radios} radios del centro`
-  return `Dentro de la zona, a ${radios} radios del centro`
+  if (d > 1) return 'Fuera de la zona'
+  const camino = `${Math.round(d * 100)}${NBSP}% del camino al borde`
+  if (d <= 0.33) return `Dentro de la zona, cerca del centro (${camino})`
+  if (d <= 0.66) return `Dentro de la zona, a medio camino del borde (${camino})`
+  return `Dentro de la zona, cerca del borde (${camino})`
 }
 
-/** Cambio de distancia al círculo entre dos minutos, en palabras y en radios de la zona. */
+/** Cambio de distancia al círculo entre dos minutos, en palabras. */
 export function cambioDistancia(actual: number | null | undefined, anterior: number | null | undefined): string {
   if (actual == null || anterior == null) return '—'
   const delta = actual - anterior
   if (Math.abs(delta) < 0.005) return 'Sin cambio'
-  const radios = Math.abs(delta).toFixed(2)
-  return delta < 0 ? `${radios} radios más cerca del centro` : `${radios} radios más lejos del centro`
+  const tramo = `${Math.round(Math.abs(delta) * 100)}${NBSP}% del camino al borde`
+  return delta < 0 ? `Se acercó al centro (${tramo})` : `Se alejó del centro (${tramo})`
 }
 
 /**
@@ -64,4 +68,21 @@ export function cambioDistancia(actual: number | null | undefined, anterior: num
  */
 export function espaciarPorcentajes(texto: string): string {
   return texto.replace(/(\d)\s?%/g, `$1${NBSP}%`)
+}
+
+// Frases de los textos ya redactados en el JSON (notebook y servicio) que
+// llevan jerga, con su versión de jugador. Solo cambian palabras, nunca cifras;
+// el resto pasa tal cual.
+const FRASES_LLANAS: [RegExp, string][] = [
+  [/la probabilidad cayó (\d+) pp/g, 'tus posibilidades bajaron $1 puntos'],
+  [/Nunca superó el (\d+)\s?% de probabilidad estimada/g, 'Tus posibilidades nunca pasaron del $1 %'],
+  [/Perdió (\d+) pp de probabilidad respecto de su mejor momento/g, 'Perdió $1 puntos de posibilidades desde su mejor momento'],
+  [/por encima del (\d+)\s?% de los equipos/g, 'mejor que el $1 % de los equipos'],
+  [/(\d+) pp\b/g, '$1 puntos'],
+]
+
+/** Texto del JSON en lenguaje de jugador, con el espaciado de porcentaje de la app. */
+export function textoLlano(texto: string): string {
+  const llano = FRASES_LLANAS.reduce((t, [patron, reemplazo]) => t.replace(patron, reemplazo), texto)
+  return espaciarPorcentajes(llano)
 }

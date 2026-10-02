@@ -13,7 +13,7 @@ type Props = {
 // La categoría sale de la forma de la curva, no del desenlace: en el catálogo
 // hay curvas «Dominante» y «Remontada» que terminaron fuera del top.
 const ACLARACION_FORMA =
-  'La categoría describe la forma de la curva de probabilidad, no el resultado: una partida «Dominante» puede terminar fuera del top.'
+  'La categoría describe la forma de la curva de tus posibilidades, no el resultado: una partida «Dominante» puede terminar fuera del top.'
 
 /** Lista del catálogo: pastillas de filtro por forma y filas densas, con scroll propio. */
 export function SelectorPartida({ catalogo, partidaSeleccionada, onSeleccionar }: Props) {
@@ -51,7 +51,7 @@ export function SelectorPartida({ catalogo, partidaSeleccionada, onSeleccionar }
         <p className="text-xs text-muted">{ACLARACION_FORMA}</p>
         <p className="text-xs text-muted">
           {filtro === 'Todas'
-            ? `${miles(catalogo.length)} escuadrones de ${miles(numPartidas)} partidas del conjunto de prueba.`
+            ? `${miles(catalogo.length)} escuadrones de ${miles(numPartidas)} partidas apartadas para comprobar el análisis.`
             : `${miles(visibles.length)} escuadrones, del caso más claro al menos claro.`}
         </p>
       </div>
