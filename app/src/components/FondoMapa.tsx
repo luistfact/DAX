@@ -9,7 +9,7 @@ const FILAS = 8
 export function FondoMapa() {
   return (
     <svg
-      className="pointer-events-none fixed inset-0 -z-10 h-full w-full text-muted"
+      className="fondo-mapa pointer-events-none fixed inset-0 -z-10 h-full w-full text-muted"
       aria-hidden="true"
       preserveAspectRatio="none"
     >

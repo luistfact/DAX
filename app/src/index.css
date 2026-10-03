@@ -38,11 +38,26 @@
  */
 :root {
   color-scheme: dark;
+  /* Héroe del Resumen (HeroeMapa.tsx): el mapa oscurecido y un velo de la
+     tarjeta, opaco a la izquierda (título y cifras) y transparente a la
+     derecha (el mapa). Trazos del avión y la zona en blanco sobre el satélite. */
+  --mapa-filtro: grayscale(0.35) brightness(0.5) contrast(1.1);
+  --mapa-opacidad: 1;
+  --velo-heroe: linear-gradient(90deg, color-mix(in srgb, var(--color-card) 96%, transparent) 0%, color-mix(in srgb, var(--color-card) 82%, transparent) 38%, color-mix(in srgb, var(--color-card) 25%, transparent) 75%, color-mix(in srgb, var(--color-card) 10%, transparent) 100%);
+  --trazo-heroe: #ffffff;
   --textura: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480' viewBox='0 0 480 480'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='2' seed='7' result='n'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='n' scale='18'/%3E%3C/filter%3E%3Cg filter='url(%23t)' fill='none' stroke='%234594F7' stroke-opacity='0.04' stroke-width='1'%3E%3Ccircle cx='60' cy='80' r='40'/%3E%3Ccircle cx='60' cy='80' r='80'/%3E%3Ccircle cx='60' cy='80' r='120'/%3E%3Ccircle cx='420' cy='380' r='50'/%3E%3Ccircle cx='420' cy='380' r='100'/%3E%3Ccircle cx='420' cy='380' r='150'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 :root[data-theme="light"] {
   color-scheme: light;
+  /* Claro: el mapa desaturado y aclarado bajo un velo blanco; los trazos en
+     tinta, porque el blanco desaparece sobre el mapa claro. */
+  /* Más nítido que la primera versión (0.55 de opacidad y velo al 35 %, que
+     el usuario vio difuminado): el velo solo es fuerte donde va el texto. */
+  --mapa-filtro: grayscale(0.3) contrast(1.08);
+  --mapa-opacidad: 0.9;
+  --velo-heroe: linear-gradient(90deg, color-mix(in srgb, var(--color-card) 97%, transparent) 0%, color-mix(in srgb, var(--color-card) 88%, transparent) 40%, color-mix(in srgb, var(--color-card) 15%, transparent) 72%, transparent 100%);
+  --trazo-heroe: var(--color-text);
   --color-bg: #EEF1F5;
   --color-card: #FFFFFF;
   --color-card-2: #F5F7FA;
@@ -60,7 +75,7 @@
   --color-phase-band: rgb(16 105 203 / 0.06);
   --color-danger-wash: rgb(190 36 32 / 0.12);
   --color-velo: rgb(12 15 14 / 0.45);
-  --textura: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480' viewBox='0 0 480 480'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='2' seed='7' result='n'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='n' scale='18'/%3E%3C/filter%3E%3Cg filter='url(%23t)' fill='none' stroke='%231069CB' stroke-opacity='0.05' stroke-width='1'%3E%3Ccircle cx='60' cy='80' r='40'/%3E%3Ccircle cx='60' cy='80' r='80'/%3E%3Ccircle cx='60' cy='80' r='120'/%3E%3Ccircle cx='420' cy='380' r='50'/%3E%3Ccircle cx='420' cy='380' r='100'/%3E%3Ccircle cx='420' cy='380' r='150'/%3E%3C/g%3E%3C/svg%3E");
+  --textura: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480' viewBox='0 0 480 480'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='2' seed='7' result='n'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='n' scale='18'/%3E%3C/filter%3E%3Cg filter='url(%23t)' fill='none' stroke='%231069CB' stroke-opacity='0.03' stroke-width='1'%3E%3Ccircle cx='60' cy='80' r='40'/%3E%3Ccircle cx='60' cy='80' r='80'/%3E%3Ccircle cx='60' cy='80' r='120'/%3E%3Ccircle cx='420' cy='380' r='50'/%3E%3Ccircle cx='420' cy='380' r='100'/%3E%3Ccircle cx='420' cy='380' r='150'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 /*
@@ -193,3 +208,18 @@ body {
 .acento-alive { border-top: 3px solid var(--color-alive); }
 .acento-violet { border-top: 3px solid var(--color-violet); }
 .acento-sand { border-top: 3px solid var(--color-sand); }
+/* Sin color pero con el mismo grosor: en una fila de tarjetas alineadas, el
+   contenido no se corre 2 px respecto de las que sí llevan acento. */
+.acento-neutro { border-top: 3px solid var(--color-line); }
+
+/* Teléfono: el velo cubre casi todo y el mapa del héroe queda como textura. */
+@media (max-width: 767px) {
+  /* Los dos selectores: el del tema claro pesa más que :root solo. */
+  :root,
+  :root[data-theme="light"] {
+    --velo-heroe: linear-gradient(color-mix(in srgb, var(--color-card) 82%, transparent), color-mix(in srgb, var(--color-card) 82%, transparent));
+  }
+}
+
+/* La cuadrícula A–H del fondo, más tenue en claro (sobre fondo claro pesa más). */
+:root[data-theme="light"] .fondo-mapa { opacity: 0.6; }

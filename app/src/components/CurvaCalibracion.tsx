@@ -13,6 +13,7 @@ import type { TooltipContentProps } from 'recharts'
 import type { Calibracion, PuntoCalibracion } from '../types/datos'
 import { usePaleta } from '../hooks/useTema'
 import { metrica, pct, pp } from '../formato'
+import { Ayuda } from './Ayuda'
 
 /** Desviación media (sin ponderar) entre lo predicho y lo observado, en fracción. */
 function desviacion(puntos: PuntoCalibracion[] | undefined): number | null {
@@ -53,14 +54,18 @@ export function CurvaCalibracion({ calibracion }: { calibracion: Calibracion }) 
   const { recalibracion } = calibracion
 
   return (
-    <div className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_380px] xl:items-center">
-      <div className="min-w-0 space-y-3">
-        <p className="text-sm text-muted">
-          Como la app muestra probabilidades, no basta con que ordene bien: si dice 40 %, cerca del 40 % de esos
-          escuadrones debería llegar al top. Cada punto agrupa escuadrones con una probabilidad parecida; sobre la
-          diagonal, el modelo acierta la frecuencia.
+    // La gráfica a todo el ancho de su tarjeta (en dos columnas, al lado del
+    // texto quedaba chica) y la lectura en dos viñetas debajo.
+    <div className="space-y-4">
+      <div className="min-w-0 space-y-2">
+        <p className="flex items-center gap-1.5 text-sm text-muted">
+          Sobre la diagonal, el modelo acierta la frecuencia.
+          <Ayuda
+            texto="Como la app muestra probabilidades, no basta con que ordene bien: si dice 40 %, cerca del 40 % de esos escuadrones debería llegar al top. Cada punto agrupa escuadrones con una probabilidad parecida."
+            etiqueta="¿Qué es la calibración?"
+          />
         </p>
-        <ResponsiveContainer width="100%" height={320}>
+        <ResponsiveContainer width="100%" height={420}>
           <ScatterChart margin={{ top: 10, right: 20, bottom: 24, left: 0 }}>
             <CartesianGrid strokeDasharray="3 3" stroke={paleta.cuadricula} />
             <XAxis
@@ -128,31 +133,27 @@ export function CurvaCalibracion({ calibracion }: { calibracion: Calibracion }) 
           </ScatterChart>
         </ResponsiveContainer>
       </div>
-      <div className="space-y-2 text-sm text-text">
-        {antes && desvAntes != null && desvRecurrente != null && (
-          <p>
-            La <strong className="font-semibold">red recurrente</strong>, la que dibuja la curva del catálogo, se
-            entrenó compensando el desbalance de clases, y eso inflaba sus probabilidades
-            {ejemploAntes &&
-              ` (cuando decía ${pct(ejemploAntes.predicha)}, llegaba al top el ${pct(ejemploAntes.observada)})`}
-            . Se recalibraron sin alterar el orden de los escuadrones, así que el AUC no cambia: la desviación media bajó
-            de {pp(desvAntes)} a {pp(desvRecurrente)}
-            {recalibracion &&
-              ` y el Brier de ${metrica(recalibracion.brier_antes)} a ${metrica(recalibracion.brier_despues)}`}
-            .
-          </p>
+      <ul className="space-y-2 text-sm text-text">
+        {ejemploAntes && (
+          <li className="flex items-start gap-2">
+            <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full border border-zone" aria-hidden="true" />
+            {`La red recurrente inflaba: decía ${pct(ejemploAntes.predicha)}, llegaba el ${pct(ejemploAntes.observada)}.`}
+          </li>
         )}
-        {desvDensa != null && (
-          <p>
-            La <strong className="font-semibold">red densa</strong>, la del análisis en vivo, ya estaba bien calibrada:
-            en promedio se aleja {pp(desvDensa)} de lo observado.
-          </p>
+        {desvRecurrente != null && (
+          <li className="flex items-start gap-2">
+            <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-zone" aria-hidden="true" />
+            {`Recalibrada: se desvía ${pp(desvRecurrente)}.`}
+          </li>
         )}
-        <p className="text-xs text-muted">
-          Tramos del conjunto de {calibracion.conjunto}; desviación media sin ponderar por el número de escuadrones de cada
-          tramo.{recalibracion && ` Método: ${recalibracion.metodo}.`}
-        </p>
-      </div>
+      </ul>
+      <p className="text-xs text-muted">
+        {desvDensa != null && `La red densa (en vivo) se desvía ${pp(desvDensa)}. `}
+        {desvAntes != null && `Inflaba porque se entrenó compensando el desbalance de clases; antes de recalibrar se desviaba ${pp(desvAntes)} y el AUC no cambia. `}
+        {recalibracion && `Brier de ${metrica(recalibracion.brier_antes)} a ${metrica(recalibracion.brier_despues)}. `}
+        Tramos del conjunto de {calibracion.conjunto}, desviación media sin ponderar.
+        {recalibracion && ` Método: ${recalibracion.metodo}.`}
+      </p>
     </div>
   )
 }

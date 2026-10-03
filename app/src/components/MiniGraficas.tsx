@@ -15,7 +15,7 @@ export function Escalera({ posicion, total, corte }: { posicion: number; total: 
   const ancho = 100
   const paso = ancho / total
   return (
-    <svg viewBox={`0 0 ${ancho} 24`} className="h-6 w-full" aria-hidden="true" preserveAspectRatio="none">
+    <svg viewBox={`0 0 ${ancho} 24`} className="h-9 w-full" aria-hidden="true" preserveAspectRatio="none">
       {Array.from({ length: total }, (_, i) => {
         const lugar = i + 1
         const alto = 6 + (16 * (total - lugar)) / Math.max(1, total - 1)
@@ -44,7 +44,7 @@ export function Anillo({ fraccion, color, llenar }: { fraccion: number; color: s
   const paleta = usePaleta()
   const { transicion } = useTransicion()
   return (
-    <svg viewBox="0 0 48 48" className="h-12 w-12 -rotate-90" aria-hidden="true">
+    <svg viewBox="0 0 48 48" className="h-9 w-9 -rotate-90" aria-hidden="true">
       <circle cx="24" cy="24" r="19" fill="none" stroke={paleta.line} strokeWidth={TRAZO} />
       <motion.circle
         cx="24"
@@ -102,7 +102,7 @@ export function MiniCaida({ minutos, roja }: { minutos: Minuto[]; roja: boolean 
       .map((p, k) => `${k === 0 ? 'M' : 'L'}${x(desde + k).toFixed(1)},${y(p.probabilidad).toFixed(1)}`)
       .join(' ')
   return (
-    <svg viewBox={`0 0 ${ancho} ${alto}`} className="h-6 w-full" aria-hidden="true" preserveAspectRatio="none">
+    <svg viewBox={`0 0 ${ancho} ${alto}`} className="h-9 w-full" aria-hidden="true" preserveAspectRatio="none">
       <path d={trazo(0, pico)} fill="none" stroke={paleta.muted} strokeWidth={1.5} vectorEffect="non-scaling-stroke" />
       <path
         d={trazo(pico, puntos.length - 1)}
@@ -117,6 +117,7 @@ export function MiniCaida({ minutos, roja }: { minutos: Minuto[]; roja: boolean 
 
 /** Línea de tiempo de 15 minutos con un punto en el minuto crítico (HTML: el punto no se deforma al estirar). */
 export function LineaTiempo({ minuto, total = 15 }: { minuto: number; total?: number }) {
+  const { transicion } = useTransicion()
   const izquierda = `${(minuto / (total - 1)) * 100}%`
   return (
     <span className="relative block h-4" aria-hidden="true">
@@ -126,7 +127,16 @@ export function LineaTiempo({ minuto, total = 15 }: { minuto: number; total?: nu
           <span key={m} className="h-1.5 w-px bg-muted/50" />
         ))}
       </span>
-      <span className="absolute top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-danger" style={{ left: izquierda }} />
+      {/* Una capa del ancho de la pista que se traslada: el punto se desliza
+          al minuto del nuevo escuadrón solo con transformaciones. */}
+      <motion.span
+        className="absolute inset-0"
+        initial={false}
+        animate={{ x: izquierda }}
+        transition={transicion(DURACION.cambioValor)}
+      >
+        <span className="absolute left-0 top-1/2 h-3 w-3 -translate-x-1/2 -translate-y-1/2 rounded-full bg-danger" />
+      </motion.span>
     </span>
   )
 }

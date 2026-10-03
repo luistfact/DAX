@@ -17,12 +17,13 @@ import type { TooltipContentProps } from 'recharts'
 import type { FaseMetrica, Metricas, ModeloMetrica } from '../types/datos'
 import { EstadoVacio } from './EstadoVacio'
 import { Ayuda } from './Ayuda'
+import { Globo } from './Globo'
 import { DiagramaFlujo } from './DiagramaFlujo'
 import { Cascada } from './Cascada'
 import { Conteo } from './Conteo'
 import { Desplegable } from './Desplegable'
 import { Detalle, FilaIndicadores, Indicador, MensajePrincipal } from './Plantilla'
-import { Clock, Cpu, Crosshair, Layers, Swords, Table2, Target, Users } from 'lucide-react'
+import { Clock, Cpu, Crosshair, Database, Layers, Swords, Table2, Target, Users } from 'lucide-react'
 import { CurvaCalibracion } from './CurvaCalibracion'
 import { usePaleta } from '../hooks/useTema'
 import { usePartidas } from '../hooks/usePartidas'
@@ -165,19 +166,25 @@ function BarrasAuc({ modelos }: { modelos: ModeloMetrica[] }) {
   return (
     <div className="space-y-2">
       <ul className="space-y-2.5">
-        {ordenados.map((m, i) => {
+        {ordenados.map((m) => {
           const enApp = m.Modelo === RECURRENTE ? 'Catálogo' : m.Modelo === DENSA ? 'En vivo' : null
           const fraccion = Math.max(0, Math.min(1, (m.AUC - AUC_PISO) / (AUC_TECHO - AUC_PISO)))
           return (
             <li key={m.Modelo} className="grid grid-cols-[minmax(0,15rem)_1fr_3.5rem] items-center gap-3 text-sm">
               <span className={`flex items-center gap-2 ${enApp ? 'font-semibold text-text' : 'text-muted'}`}>
-                {nombreModelo(m.Modelo, i === ordenados.findIndex((x) => x.Modelo === BOOSTING))}
+                {/* Nombre corto en la gráfica; el completo, solo en la tabla. */}
+                {nombreModelo(m.Modelo)}
                 {enApp && (
                   <span className="rounded-full border border-zone/60 bg-zone/15 px-2 py-0.5 text-xs font-medium text-text">
                     {enApp}
                   </span>
                 )}
               </span>
+              <Globo
+                className="block"
+                alinear="izquierda"
+                texto={`${nombreModelo(m.Modelo)}: AUC ${metrica(m.AUC)} · Brier ${metrica(m.Brier)} · AP ${metrica(m.AP)}`}
+              >
               <span className="relative block h-3 overflow-hidden rounded-sm bg-text/5">
                 <motion.span
                   className={`absolute inset-0 origin-left rounded-sm ${enApp ? 'bg-zone' : 'bg-muted/60'}`}
@@ -186,13 +193,18 @@ function BarrasAuc({ modelos }: { modelos: ModeloMetrica[] }) {
                   transition={transicion(DURACION.grafica)}
                 />
               </span>
+              </Globo>
               <span className={`text-right font-cifra text-base ${enApp ? 'text-text' : 'text-muted'}`}>{metrica(m.AUC)}</span>
             </li>
           )
         })}
       </ul>
-      <p className="text-xs text-muted">
-        Eje desde 0.5 (el azar) hasta 0.75. Las diferencias entre familias son pequeñas.
+      <p className="flex items-center gap-1.5 text-sm text-muted">
+        Las diferencias entre modelos son pequeñas.
+        <Ayuda
+          texto="El eje va de 0.5 (el azar) a 0.75, no desde cero: así se ven las diferencias sin exagerarlas. Los dos resaltados son los que usa la app."
+          etiqueta="¿Cómo se lee esta gráfica?"
+        />
       </p>
     </div>
   )
@@ -247,17 +259,7 @@ export function Metodologia({ metricas }: Props) {
 
       <section className="space-y-3 tarjeta p-5">
         <h3 className="titulo-seccion text-base text-text">De los datos a la app</h3>
-        <div className="mx-auto max-w-6xl">
-          <DiagramaFlujo />
-        </div>
-        {partidas && partidasCatalogo != null && (
-          <p className="text-sm text-muted">
-            El modelo se construyó con {miles(corpus.partidas)} partidas. La pestaña Partidas muestra{' '}
-            {miles(partidas.length)} escuadrones de {miles(partidasCatalogo)} de esas partidas, las del conjunto de
-            prueba: cada partida tiene varios escuadrones. La partición entre entrenamiento y prueba es por fecha, nunca
-            aleatoria, porque los minutos de una misma partida están correlacionados.
-          </p>
-        )}
+        <DiagramaFlujo />
       </section>
 
       <section className="tarjeta acento-zone space-y-3 p-5">
@@ -266,6 +268,23 @@ export function Metodologia({ metricas }: Props) {
       </section>
 
       <Detalle columnas={2}>
+        {/* Antes era un párrafo bajo el diagrama; como desplegable, la rejilla queda en 3 + 3. */}
+        <Desplegable
+          Icono={Database}
+          titulo="De dónde salen los datos"
+          resumen={`${miles(corpus.partidas)} partidas, separadas por fecha`}
+        >
+          {partidas && partidasCatalogo != null ? (
+            <p className="text-sm text-text">
+              El modelo se construyó con {miles(corpus.partidas)} partidas. La pestaña Partidas muestra{' '}
+              {miles(partidas.length)} escuadrones de {miles(partidasCatalogo)} de esas partidas, las del conjunto de
+              prueba: cada partida tiene varios escuadrones. La partición entre entrenamiento y prueba es por fecha, nunca
+              aleatoria, porque los minutos de una misma partida están correlacionados.
+            </p>
+          ) : (
+            <p className="text-sm text-muted">Aún no hay partidas cargadas.</p>
+          )}
+        </Desplegable>
         <Desplegable
           Icono={Cpu}
           titulo="Los modelos que usa la app"
@@ -294,18 +313,18 @@ export function Metodologia({ metricas }: Props) {
               <Cifras modelo={densa} />
             </Tarjeta>
           </div>
-          <p className="text-sm text-text">
-            <strong className="font-semibold">Las diferencias entre modelos son pequeñas.</strong> Las cinco familias
-            quedan entre {metrica(aucMin)} y {metrica(aucMax)} de AUC.
-            {mejor?.Modelo === BOOSTING && boosting && ventajaBoosting != null && (
-              <>
-                {' '}
-                La {nombreModelo(BOOSTING, true).toLowerCase()} tuvo el AUC más alto, {metrica(boosting.AUC)}:{' '}
-                {ventajaBoosting} milésimas por encima de la red densa. Es una diferencia que no justifica usarlo: igual
-                que la red densa, predice con una foto de cada minuto, así que no reemplaza a la red recurrente en la curva
-                del catálogo.
-              </>
-            )}
+          {/* Una frase a la vista; el detalle, en la ayuda (PROMPT_PULIDO_BI.md). */}
+          <p className="flex items-center gap-1.5 text-sm font-semibold text-text">
+            Las diferencias entre modelos son pequeñas.
+            <Ayuda
+              texto={
+                `Las cinco familias quedan entre ${metrica(aucMin)} y ${metrica(aucMax)} de AUC.` +
+                (mejor?.Modelo === BOOSTING && boosting && ventajaBoosting != null
+                  ? ` Gradient boosting tuvo el más alto, ${metrica(boosting.AUC)}: ${ventajaBoosting} milésimas sobre la red densa. No justifica usarlo: igual que la red densa, predice con una foto de cada minuto, así que no reemplaza a la red recurrente en la curva del catálogo.`
+                  : '')
+              }
+              etiqueta="¿Qué tan pequeñas?"
+            />
           </p>
         </Desplegable>
 
@@ -345,7 +364,7 @@ export function Metodologia({ metricas }: Props) {
               <tbody>
                 {modelos.map((m) => (
                   <tr key={m.Modelo} className="border-b border-line last:border-0">
-                    <td className="px-4 py-2 font-medium text-text">{nombreModelo(m.Modelo)}</td>
+                    <td className="px-4 py-2 font-medium text-text">{nombreModelo(m.Modelo, true)}</td>
                     <td className="px-4 py-2 text-muted">{metrica(m.AUC)}</td>
                     <td className="px-4 py-2 text-muted">{metrica(m.Brier)}</td>
                     <td className="px-4 py-2 text-muted">{metrica(m.AP)}</td>
@@ -383,8 +402,8 @@ export function Metodologia({ metricas }: Props) {
 
         <Desplegable
           Icono={Layers}
-          titulo="Desempeño por fase del círculo"
-          resumen="AUC contra el azar y AP contra la tasa base, fase por fase"
+          titulo="Desempeño por cierre"
+          resumen="AUC contra el azar y AP contra la tasa base, cierre a cierre"
         >
           <p className="text-sm text-muted">
             Se evalúa dentro de cada fase por separado: la proporción de escuadrones que llega al top crece conforme

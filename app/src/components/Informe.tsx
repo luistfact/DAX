@@ -1,13 +1,29 @@
-import { AlertTriangle, BarChart3, Clock, Lightbulb, Shuffle, ThumbsUp, Trophy } from 'lucide-react'
+import {
+  AlertTriangle,
+  BarChart3,
+  CheckCircle2,
+  Clock,
+  CloudFog,
+  HeartPulse,
+  Lightbulb,
+  PlaneLanding,
+  Shuffle,
+  ThumbsUp,
+  Trophy,
+  Users,
+  type LucideIcon,
+} from 'lucide-react'
 import type { Partida } from '../types/datos'
+import type { ReactNode } from 'react'
 import { Desplegable } from './Desplegable'
+import { Detalle } from './Plantilla'
 import { Escenarios } from './Escenarios'
 import { VinetasTop } from './VinetasTop'
 import { useMetricas } from '../hooks/useMetricas'
 import { FRASE_VICTORIA } from '../texto'
 import { cambioDistancia, textoLlano } from '../formato'
-import { estadoPorFase, extraerMinutoCritico, minutosDelMomentoCritico, proporcionCobertura } from '../analisisPartida'
-import { pp } from '../formato'
+import { estadoPorFase, extraerMinutoCritico, minutosDelMomentoCritico, probabilidadMaxima, proporcionCobertura } from '../analisisPartida'
+import { pct, pp } from '../formato'
 
 type Props = {
   partida: Partida
@@ -15,6 +31,8 @@ type Props = {
   fraseMeta: string
   /** Cierre del minuto elegido en la curva, para que las viñetas lo sigan. */
   faseElegida?: number
+  /** Tarjetas extra al final del detalle (el mapa del análisis en vivo). */
+  children?: ReactNode
 }
 
 /**
@@ -48,6 +66,18 @@ function Insignias({ items, tipo, vacio }: { items: string[]; tipo: 'favor' | 'c
       ))}
     </ul>
   )
+}
+
+// El notebook escribe «Nunca superó el 70 % de probabilidad estimada»: un umbral
+// fijo que, junto al KPI «Tus mejores posibilidades 54 %», se lee como
+// contradicción. Se cambia por el máximo real (el mismo dato del KPI) hasta que
+// el notebook lo redacte así (decisión del usuario).
+const NUNCA_SUPERO = /^Nunca superó el \d+\s?% de probabilidad estimada\.?$/
+
+/** Factor con el máximo real en lugar del umbral fijo del notebook. */
+function conMaximoReal(factor: string, maximo: number | null): string {
+  if (maximo == null || !NUNCA_SUPERO.test(factor.trim())) return factor
+  return `Lo más alto que llegaron tus posibilidades: ${pct(maximo)}`
 }
 
 /** `texto`: el valor es una frase (p. ej. la distancia al círculo en palabras), no una cifra grande. */
@@ -95,27 +125,64 @@ function Chip({ color, children }: { color: 'alive' | 'danger'; children: string
   return <span className={`rounded-full border px-2 py-0.5 text-xs font-medium text-text ${clases}`}>{children}</span>
 }
 
-function Lista({ items, vacio }: { items: string[]; vacio: string }) {
+// Ícono por palabra clave de las recomendaciones del notebook y del servicio
+// (son frases fijas). El gas va primero: su frase también menciona la salud.
+const ICONOS_CONSEJO: [RegExp, LucideIcon][] = [
+  [/gas|zona/i, CloudFog],
+  [/caída/i, PlaneLanding],
+  [/coordinaci/i, Users],
+  [/salud/i, HeartPulse],
+  [/mantener/i, CheckCircle2],
+]
+
+/** Consejos como tarjetas numeradas con ícono; la primera, destacada. */
+function Consejos({ items, vacio }: { items: string[]; vacio: string }) {
   if (items.length === 0) return <p className="text-sm text-muted">{vacio}</p>
   return (
-    <ul className="list-disc space-y-1 pl-5 text-sm text-text">
-      {items.map((item, i) => (
-        <li key={i}>{textoLlano(item)}</li>
-      ))}
-    </ul>
+    <ol className="space-y-2">
+      {items.map((item, i) => {
+        const Icono = ICONOS_CONSEJO.find(([patron]) => patron.test(item))?.[1] ?? Lightbulb
+        const primero = i === 0
+        return (
+          <li
+            key={i}
+            className={`flex items-start gap-3 rounded-md border p-3 ${primero ? 'border-zone bg-zone/10' : 'border-line bg-card-2'}`}
+          >
+            <span className="w-5 shrink-0 font-cifra text-xl font-semibold leading-none text-text">{i + 1}</span>
+            <Icono className={`mt-0.5 h-5 w-5 shrink-0 ${primero ? 'text-zone' : 'text-muted'}`} aria-hidden="true" />
+            <span className="text-sm text-text">
+              {primero && <span className="block titulo-seccion text-xs text-muted">Lo primero</span>}
+              {textoLlano(item)}
+            </span>
+          </li>
+        )
+      })}
+    </ol>
   )
 }
 
+/** Chip neutro del resumen de «¿Cómo te fue?». */
+function Dato({ children }: { children: string }) {
+  return <span className="rounded-full border border-line bg-card-2 px-3 py-1 text-sm font-medium text-text">{children}</span>
+}
+
 /** Todo el detalle del escuadrón, en tarjetas desplegables cerradas por defecto. */
-export function Informe({ partida, fraseMeta, faseElegida }: Props) {
+export function Informe({ partida, fraseMeta, faseElegida, children }: Props) {
   const { metricas } = useMetricas()
   const { informe } = partida
 
   // Precalculado por el notebook; la partida en vivo no lo trae y se extrae del texto.
   const minutoCritico = partida.momento_critico?.minuto ?? extraerMinutoCritico(informe.momento_critico)
   const puntosCriticos = minutosDelMomentoCritico(partida.minutos, minutoCritico)
-  const favor = informe.factores_favorables
-  const contra = informe.factores_adversos
+  const maximo = partida.probabilidad_maxima ?? probabilidadMaxima(partida.minutos)
+  // Para los chips de «¿Cómo te fue?»: salud del primer minuto con dato y en pie
+  // al final, sobre el tamaño real (en vivo, el máximo de vivos: la regla del servicio).
+  const porMinuto = [...partida.minutos].sort((a, b) => a.minuto - b.minuto)
+  const saludInicial = porMinuto.find((m) => m.salud != null)?.salud ?? null
+  const vivosFinal = porMinuto.at(-1)?.vivos ?? 0
+  const tamano = partida.tam_real ?? Math.max(0, ...porMinuto.map((m) => m.vivos))
+  const favor = informe.factores_favorables.map((f) => conMaximoReal(f, maximo))
+  const contra = informe.factores_adversos.map((f) => conMaximoReal(f, maximo))
 
   // Adelanto de «Contra los que llegaron»: salud y compañeros en el cierre del
   // momento crítico, verde si está a la altura y rojo si no; la distancia, gris.
@@ -137,9 +204,12 @@ export function Informe({ partida, fraseMeta, faseElegida }: Props) {
     .reduce<number | null>((max, e) => Math.max(max ?? 0, e.diferencia as number), null)
   const caidaCritica = partida.momento_critico?.caida
 
+  // El detalle se arma aquí y no en Reporte: Detalle reparte sus hijos directos
+  // en dos pilas, y desde fuera este componente contaría como una sola tarjeta.
   return (
-    <>
-      <Desplegable Icono={Trophy} titulo="¿Cómo te fue?" resumen={`${informe.veredicto} · ${informe.confianza}`}>
+    <Detalle columnas={2}>
+      {/* La cobertura («14 de 15 minutos analizados») va una sola vez, en la insignia de adentro. */}
+      <Desplegable Icono={Trophy} titulo="¿Cómo te fue?" resumen={informe.veredicto}>
         <div className="flex flex-wrap items-center justify-between gap-2">
           <p className="font-cifra text-3xl font-semibold text-text">{informe.veredicto}</p>
           <span className={`rounded-full px-2 py-0.5 text-xs font-medium ${estiloCobertura(informe.confianza)}`}>
@@ -152,7 +222,12 @@ export function Informe({ partida, fraseMeta, faseElegida }: Props) {
             {FRASE_VICTORIA}
           </p>
         )}
-        <p className="text-sm text-text">{textoLlano(informe.resumen)}</p>
+        {/* Tres datos en chips en lugar del párrafo del notebook, que decía lo mismo con más palabras. */}
+        <div className="flex flex-wrap gap-2">
+          <Dato>{`${partida.posicion_final}° de ${partida.escuadrones}`}</Dato>
+          {saludInicial != null && <Dato>{`Empezó con ${Math.round(saludInicial)} de salud`}</Dato>}
+          {tamano > 0 && <Dato>{`Terminó ${vivosFinal} de ${tamano} en pie`}</Dato>}
+        </div>
         <p className="text-sm text-muted">{fraseMeta}</p>
       </Desplegable>
 
@@ -185,7 +260,7 @@ export function Informe({ partida, fraseMeta, faseElegida }: Props) {
         adelanto={
           minutoCritico != null ? (
             <span className="rounded-full bg-danger px-2 py-0.5 font-cifra text-sm font-semibold text-bg">
-              {`Min ${minutoCritico}${caidaCritica != null && caidaCritica < 0 ? ` · −${pp(caidaCritica)}` : ''}`}
+              {`Min ${minutoCritico}${caidaCritica != null && caidaCritica < 0 ? ` · ${pp(caidaCritica, { signo: true })}` : ''}`}
             </span>
           ) : undefined
         }
@@ -249,7 +324,7 @@ export function Informe({ partida, fraseMeta, faseElegida }: Props) {
             : `${informe.recomendaciones.length} ${informe.recomendaciones.length === 1 ? 'consejo' : 'consejos'} para la siguiente`
         }
       >
-        <Lista items={informe.recomendaciones} vacio="Sin recomendaciones registradas." />
+        <Consejos items={informe.recomendaciones} vacio="Sin recomendaciones registradas." />
       </Desplegable>
 
       <Desplegable
@@ -258,8 +333,9 @@ export function Informe({ partida, fraseMeta, faseElegida }: Props) {
         resumen="Qué habría cambiado, según el análisis"
         adelanto={mejorGanancia != null ? <Chip color="alive">{`hasta +${pp(mejorGanancia)}`}</Chip> : undefined}
       >
-        <Escenarios escenarios={partida.escenarios} />
+        <Escenarios escenarios={partida.escenarios} clave={partida.id} />
       </Desplegable>
-    </>
+      {children}
+    </Detalle>
   )
 }

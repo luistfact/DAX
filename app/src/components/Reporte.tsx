@@ -6,7 +6,7 @@ import { Informe } from './Informe'
 import { Mira } from './Mira'
 import { Cascada } from './Cascada'
 import { Conteo } from './Conteo'
-import { Detalle, FilaIndicadores, Indicador, MensajePrincipal, type Delta } from './Plantilla'
+import { FilaIndicadores, Indicador, MensajePrincipal, type Delta } from './Plantilla'
 import { Anillo, Escalera, LineaTiempo, Medidor, MiniCaida } from './MiniGraficas'
 import { usePaleta } from '../hooks/useTema'
 import { useAnimarUnaVez } from '../hooks/useAnimarUnaVez'
@@ -113,14 +113,18 @@ export function Reporte({ partida, titulo, subtitulo, referencia, minutoMarcado,
       <Mira>
         <FilaIndicadores columnas={5}>
           <Indicador
+            fija
             etiqueta="Posición"
             valor={<Conteo valor={partida.posicion_final} formato={(n) => `${Math.round(n)}°`} />}
             detalle={`de ${partida.escuadrones}`}
             Icono={partida.posicion_final === 1 ? Crown : partida.clasifico ? Trophy : Medal}
+            // Borde de color por la regla de la app: verde si es bueno (llegó al top).
+            acento={partida.clasifico ? 'alive' : undefined}
             delta={deltaPosicion(partida)}
             grafica={<Escalera posicion={partida.posicion_final} total={partida.escuadrones} corte={corte} />}
           />
           <Indicador
+            fija
             etiqueta="Mejor que"
             valor={<Conteo valor={percentil} formato={pct100} />}
             detalle="de los equipos"
@@ -128,6 +132,7 @@ export function Reporte({ partida, titulo, subtitulo, referencia, minutoMarcado,
             grafica={percentil != null ? <Anillo fraccion={percentil / 100} color={paleta.zone} llenar={llenar} /> : undefined}
           />
           <Indicador
+            fija
             etiqueta="Tus mejores posibilidades"
             valor={<Conteo valor={probMaxima} formato={pct} />}
             Icono={TrendingUp}
@@ -136,6 +141,7 @@ export function Reporte({ partida, titulo, subtitulo, referencia, minutoMarcado,
             grafica={probMaxima != null ? <Medidor fraccion={probMaxima} color={paleta.zone} llenar={llenar} /> : undefined}
           />
           <Indicador
+            fija
             etiqueta="Caída desde lo más alto"
             valor={
               // Solo el número en grande: «−52 puntos» a 56 px no cabe en la tarjeta.
@@ -148,6 +154,7 @@ export function Reporte({ partida, titulo, subtitulo, referencia, minutoMarcado,
             grafica={<MiniCaida minutos={partida.minutos} roja={caida != null && caida >= 0.1} />}
           />
           <Indicador
+            fija
             etiqueta="Minuto crítico"
             valor={minutoCritico != null ? <Conteo valor={minutoCritico} formato={(n) => String(Math.round(n))} /> : '—'}
             tono={minutoCritico != null ? 'text-danger' : undefined}
@@ -169,10 +176,9 @@ export function Reporte({ partida, titulo, subtitulo, referencia, minutoMarcado,
         }}
       />
 
-      <Detalle columnas={2}>
-        <Informe partida={partida} fraseMeta={fraseMeta(partida)} faseElegida={faseElegida} />
+      <Informe partida={partida} fraseMeta={fraseMeta(partida)} faseElegida={faseElegida}>
         {children}
-      </Detalle>
+      </Informe>
     </Cascada>
   )
 }

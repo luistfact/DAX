@@ -11,6 +11,10 @@ type Props = {
   entrada: EntradaCatalogo
   activa: boolean
   onSeleccionar: () => void
+  /** Filtra la lista por la categoría de esta fila (solo las que tienen pastilla de filtro). */
+  onFiltrar?: () => void
+  /** Nombre de la pastilla de esa categoría, para la etiqueta accesible. */
+  etiquetaFiltro?: string
 }
 
 // Barra lateral por categoría de la curva: desplome rojo, remontada azul y
@@ -36,7 +40,7 @@ function Soldados({ vivos, tamano }: { vivos: number; tamano: number }) {
 }
 
 /** Fila densa del catálogo: categoría, posición en grande y la curva en miniatura. */
-export function FilaEscuadron({ entrada, activa, onSeleccionar }: Props) {
+export function FilaEscuadron({ entrada, activa, onSeleccionar, onFiltrar, etiquetaFiltro }: Props) {
   const paleta = usePaleta()
   const { partida, forma, perfil } = entrada
   // En la lista el color de la barra es la categoría de la curva: el perfil va
@@ -64,6 +68,7 @@ export function FilaEscuadron({ entrada, activa, onSeleccionar }: Props) {
   }, [activa])
 
   return (
+    <div className="relative">
     <button
       ref={ref}
       type="button"
@@ -82,10 +87,8 @@ export function FilaEscuadron({ entrada, activa, onSeleccionar }: Props) {
         <span className="text-xs text-muted">de {partida.escuadrones}</span>
       </span>
       <span className="flex min-w-0 flex-1 flex-col justify-center gap-0.5 py-2">
-        <span className="flex items-center justify-between gap-2">
-          <span className="truncate text-sm font-medium text-text">{nombreEscuadron(entrada)}</span>
-          <Soldados vivos={vivosAlFinal} tamano={tamano} />
-        </span>
+        {/* El nombre con toda la línea: los soldaditos van abajo, con categoría y perfil. */}
+        <span className="truncate text-sm font-medium text-text">{nombreEscuadron(entrada)}</span>
         <span className="flex flex-wrap items-center gap-x-1.5 text-xs text-muted">
           {forma}
           {perfil && IconoPerfil && (
@@ -102,11 +105,31 @@ export function FilaEscuadron({ entrada, activa, onSeleccionar }: Props) {
               Top 25 %
             </>
           )}
+          {tamano > 0 && (
+            <>
+              <span aria-hidden="true">·</span>
+              <Soldados vivos={vivosAlFinal} tamano={tamano} />
+            </>
+          )}
         </span>
       </span>
       <span className="flex items-center pr-3">
         <Sparkline minutos={partida.minutos} color={paleta.zone} width={80} height={28} />
       </span>
     </button>
+    {/* La barra de categoría filtra la lista. Botón aparte (no se anidan
+        botones) sobre la franja izquierda, fuera del orden de tabulación: con
+        el teclado, lo mismo hacen las pastillas de filtro. */}
+    {onFiltrar && (
+      <button
+        type="button"
+        tabIndex={-1}
+        onClick={onFiltrar}
+        aria-label={`Ver solo ${etiquetaFiltro ?? forma}`}
+        title={`Ver solo ${etiquetaFiltro ?? forma}`}
+        className={`absolute inset-y-0 left-0 w-3 rounded-l-md opacity-0 hover:opacity-60 ${BARRA[forma]}`}
+      />
+    )}
+    </div>
   )
 }

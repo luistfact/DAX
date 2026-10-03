@@ -279,7 +279,7 @@ export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinuto
   const etiquetaCritica = puntoCritico
     ? [
         `Min ${puntoCritico.minuto}`,
-        caidaCritica != null ? `${caidaCritica < 0 ? '−' : '+'}${pp(caidaCritica)}` : null,
+        caidaCritica != null ? pp(caidaCritica, { signo: true }) : null,
         describirEvento(eventos.find((e) => e.minuto === puntoCritico.minuto)),
       ]
         .filter(Boolean)
@@ -486,31 +486,17 @@ export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinuto
               </ComposedChart>
             </ResponsiveContainer>
             </div>
+            {/* Cuatro elementos (PROMPT_PULIDO_BI.md). El tramo rojo, el punto del
+                momento clave y la franja de cierres se explican en la ayuda de
+                «Tu equipo», no con una entrada propia cada uno. */}
             <ul className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted">
-              <li className="flex items-center gap-1.5">
-                <span className="h-3 w-3 rounded-full bg-danger" aria-hidden="true" />
-                Momento clave
-              </li>
               <li className="flex items-center gap-1.5">
                 <span className="w-4 border-t-2 border-zone" aria-hidden="true" />
                 Tu equipo
-              </li>
-              <li className="flex items-center gap-1.5">
-                <span className="w-4 border-t-2 border-danger" aria-hidden="true" />
-                Caída fuerte
-              </li>
-              <li className="flex items-center gap-1.5">
-                <UserX className="h-3.5 w-3.5 text-danger" aria-hidden="true" />
-                Cae un compañero
-              </li>
-              <li className="flex items-center gap-1.5">
-                <HeartCrack className="h-3.5 w-3.5 text-text" aria-hidden="true" />
-                Golpe fuerte
-                <Ayuda texto="25 puntos de salud o más perdidos en un minuto." etiqueta="¿Qué es un golpe fuerte?" />
-              </li>
-              <li className="flex items-center gap-1.5">
-                <span className="h-2.5 w-4 rounded-sm bg-zone/40" aria-hidden="true" />
-                Cierres de la zona
+                <Ayuda
+                  texto="Tus posibilidades de top 25 % cada minuto. La línea se pone roja donde cae 5 puntos o más; el punto rojo es el momento clave y la franja de abajo, los cierres de la zona (C1 a C6)."
+                  etiqueta="¿Cómo se lee la curva?"
+                />
               </li>
               {referencia && (
                 <li className="flex items-center gap-1.5">
@@ -524,6 +510,15 @@ export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinuto
                   )}
                 </li>
               )}
+              <li className="flex items-center gap-1.5">
+                <UserX className="h-3.5 w-3.5 text-danger" aria-hidden="true" />
+                Cae un compañero
+              </li>
+              <li className="flex items-center gap-1.5">
+                <HeartCrack className="h-3.5 w-3.5 text-text" aria-hidden="true" />
+                Golpe fuerte
+                <Ayuda texto="25 puntos de salud o más perdidos en un minuto." etiqueta="¿Qué es un golpe fuerte?" />
+              </li>
             </ul>
           </div>
 

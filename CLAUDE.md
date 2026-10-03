@@ -1008,3 +1008,187 @@ discusiones ya cerradas.
   API oficial de PUBG.») y el texto completo, sin cambios, en un `<details>`
   («Leer el aviso completo»). Commit de la pasada visual sin `partidas.json`
   ni `servicio/analisis.py`, que esperan al notebook para el commit aparte.
+- **2026-10-03** — Pulido del tablero (`PROMPT_PULIDO_BI.md`), decisiones del
+  usuario sobre los choques con lo ya acordado:
+  1. «Explorar escuadrones» relleno con el color del texto invertido; el
+     dorado sigue siendo exclusivo del buscador del encabezado.
+  2. **Se mantiene la comparación en palabras** del 2026-10-02 («1.7 veces el
+     promedio», «un tercio menos que el promedio»), no el formato «1.6×» que
+     proponía el prompt; pero consistente en todas las filas (no conviven
+     «un tercio menos» y «45 % menos»). Las mini barras divergentes de los
+     desplegables de perfil hacen la comparación visual.
+  3. **Todo se queda a 1600 px** (encabezado, contenido y pie) en las cuatro
+     pestañas, para que nada se mueva al cambiar; no 1200 en Resumen, Perfiles
+     y Metodología como proponía el prompt. Esas tres no deben dejar huecos a
+     ese ancho.
+  4. El factor «Nunca superó el 70 % de probabilidad estimada» (150 de 200
+     escuadrones, escrito por el notebook) se reemplaza en la app por «Lo más
+     alto que llegaron tus posibilidades: N %» con `probabilidad_maxima`; se
+     corrige en el notebook en el commit aparte, con «Evitar el gas».
+  Perfiles: los puntos encimados se separan verticalmente (se conserva el
+  ícono). Héroe: copia JPEG del mapa de ~120 KB (800 px, calidad ~72) como
+  archivo aparte; `erangel.png` no se toca (lo usa el mapa en vivo).
+- **2026-10-03** — Pulido del tablero, sección A (errores). Doble signo: la
+  insignia de «¿Dónde se decidió?» y la etiqueta del momento clave usan
+  `pp(…, { signo: true })` como única fuente del signo. **Detalle en dos pilas
+  independientes** (`Detalle columnas={2}`, desde `xl` con
+  `useConsultaMedios`): 1, 3, 5… a la izquierda y 2, 4, 6… a la derecha; en
+  angosto, una pila en el orden original. `Detalle` aplana fragmentos, pero no
+  puede ver dentro de un componente: la media columna vacía de Partidas era
+  `Informe` contando como una sola tarjeta, así que ahora `Informe` arma su
+  propio `Detalle` (el mapa en vivo entra como `children`). Verificado por DOM
+  a 2560 px: Partidas 3 + 3, Perfiles 2 + 2, Metodología 3 + 2; al abrir una
+  tarjeta solo crece su columna. Factor del 70 % → «Lo más alto que llegaron
+  tus posibilidades: 54 %». Perfiles: «…solo los Castigados se quedan atrás»
+  (el nombre sale del grupo con menor percentil). El título del héroe se
+  resuelve en la sección I.
+- **2026-10-03** — Pulido del tablero, sección B (espacio y rejilla). Ancho:
+  todo sigue a 1600 px (decisión del usuario). **KPI de Partidas con
+  estructura fija** (`Indicador fija`): etiqueta, número, pie de la cifra en
+  su propio renglón («de los equipos» ya no se parte junto al número), visual
+  de 36 px (`h-9`; el anillo bajó de 48 a 36) y delta; las tarjetas sin color
+  llevan `.acento-neutro` (borde superior de 3 px en `line`) para que sus
+  renglones no queden 2 px más arriba que las que sí lo llevan. Posición con
+  borde verde si llegó al top. Lista: los soldaditos pasan a la segunda línea
+  con la categoría y el perfil; el nombre ocupa la primera completa. Chips de
+  filtro compactos (12 px), los 4 en una fila. Metodología: el diagrama sin
+  `max-w-6xl` (al ancho de su tarjeta) y el párrafo de los datos como sexto
+  desplegable, «De dónde salen los datos» (3 + 3). Bordes de color revisados
+  con la regla azul informativo / verde bueno / rojo malo / color del perfil:
+  ya la cumplían salvo la posición. La herramienta de captura volvió a dar
+  imágenes parciales o duplicadas; las comprobaciones se hicieron por DOM.
+- **2026-10-03** — Pulido del tablero, sección C (Resumen). Un solo botón
+  principal: «Explorar escuadrones» relleno con el texto invertido (`bg-text
+  text-bg`), «Ver un ejemplo» como enlace en `zone`, igual que «Ver perfiles».
+  Dona: al centro solo la palabra «zona» (el 5 % ya va grande a la
+  izquierda). Barras del 3.9×: dos tonos con leyenda, verde «Cómo está tu
+  equipo» y gris «Dónde estás y cómo va la partida»; el tercer tono (`line`)
+  era para la zona y los equipos que quedan, que no son ni estado ni
+  posición, así que la leyenda gris los nombra en vez de llamarlos «dónde
+  estás» a secas. «Cuatro formas de jugar» siempre abierta (tarjeta con
+  título, sin desplegable), excepción del prompt a «cerrado por defecto».
+- **2026-10-03** — Pulido del tablero, sección D (Partidas). Leyenda de la
+  curva en 4: «Tu equipo» (su «?» explica el tramo rojo, el punto del momento
+  clave y la franja de cierres), «Los que llegaron» (solo en el catálogo),
+  «Cae un compañero», «Golpe fuerte». «¿Cómo te fue?»: el párrafo del notebook
+  cambia por 3 chips calculados de los datos (posición, salud del primer
+  minuto, en pie al final sobre `tam_real`); la cobertura queda una vez, en
+  la insignia de adentro, no en el resumen de la cabecera. «¿Qué hago la
+  próxima?»: `Consejos`, tarjetas numeradas con ícono por palabra clave (gas
+  → `CloudFog`, primero porque su frase también dice «salud»; caída →
+  `PlaneLanding`; coordinación → `Users`; salud → `HeartPulse`; mantener →
+  `CheckCircle2`), la primera destacada en `zone`. Hay 1 a 3 por escuadrón.
+  Nota: `partidas.json` ya trae «Evitar el gas…» en 40 escuadrones, aunque el
+  notebook del repositorio no. `cambioDistancia`: menos de 0.05 del camino al
+  borde → «Casi no se movió». Leyenda de las viñetas en una línea (20 px de
+  alto en 547 px), el resto en su «?». «¿Y si…?» destacada: «hoy 37 % → 46 %»
+  con la flecha que se desliza una vez por escuadrón (`DURACION.cambioValor`;
+  quieta con `prefers-reduced-motion`). Verificado por DOM en el navegador.
+- **2026-10-03** — Pulido del tablero, sección E (Perfiles). Puntos
+  encimados: se separan en carriles verticales (sin moverlos en x, que es el
+  dato) cuando quedan a menos de 26 px; la fila crece con los carriles (salud
+  al aterrizar: 3 carriles, 78 px). El ancho de la pista se mide con un
+  `ResizeObserver`. **Resaltado cruzado**: pasar el cursor, enfocar o pulsar
+  una tarjeta de perfil resalta sus puntos (los demás al 25 %) y atenúa las
+  otras tarjetas; pulsar la fija hasta volver a pulsar (`role="button"`,
+  `aria-pressed`, Enter/Espacio); pasar el cursor por un punto resalta su
+  tarjeta (anillo). **Comparación en palabras con una sola regla**
+  (`comparacionPromedio`), sin porcentajes: ±10 % «casi igual», la fracción
+  más cercana («un poco», «un cuarto», «un tercio» más o menos, «cerca de la
+  mitad del promedio», «menos de la mitad») y «N veces el promedio» desde
+  1.45. Antes convivían «un tercio menos» y «45 % menos». Desplegables de
+  perfil: mini barra divergente por fila, en el color del perfil y con la
+  misma escala que la gráfica de puntos. Duplicado: bajo «6 de cada 10» ya no
+  va «60 % de los equipos» sino «exacto: 60 %» (se conserva el exacto porque
+  Rotadores y Periféricos redondean igual).
+- **2026-10-03** — Pulido del tablero, sección F (Metodología). (El punto 28,
+  «De dónde salen los datos», ya se hizo en la sección B.) «Las diferencias
+  entre modelos son pequeñas» queda en una frase, en la gráfica de AUC y en
+  «Los modelos que usa la app»; el resto (rango de AUC, la ventaja de gradient
+  boosting y por qué no se usa, por qué el eje empieza en 0.5) pasa al «?».
+  Gráfica de AUC con «Gradient boosting»; el nombre completo con la glosa,
+  solo en la tabla. **Calibración**: la gráfica a todo el ancho de su tarjeta
+  y 420 px de alto (antes compartía fila con el texto); debajo, dos viñetas
+  calculadas de `metricas.calibracion`: «La red recurrente inflaba: decía
+  70 %, llegaba el 47 %.» (tramo 0.70 → 0.47) y «Recalibrada: se desvía 1
+  punto.» (1.2 redondeado); la red densa, la causa (desbalance de clases), el
+  Brier y el método van en la nota pequeña. «Desempeño por fase del círculo»
+  → «Desempeño por cierre» («cierre a cierre» en su resumen).
+- **2026-10-03** — Pulido del tablero, sección G (interacción). `Globo.tsx`
+  (nuevo): globo con el valor exacto que se abre con el cursor y con el foco
+  (contenedor enfocable, `role="tooltip"` + `aria-describedby`), solo CSS,
+  sin movimiento. En las barras de «lo que más pesa» (peso con un decimal:
+  «Salud del equipo: 25.0 % del peso total»), en las de perfiles del Resumen
+  (percentil típico con un decimal y escuadrones), en las barras de AUC de
+  Metodología (AUC, Brier, AP) y en los puntos de Perfiles, que ahora son
+  enfocables y al enfocarlos resaltan su tarjeta. `formato.ts` gana
+  `decimal()`. El pulso de dos latidos del momento clave ya existía (una vez
+  por escuadrón, apagado con `prefers-reduced-motion`); los KPI ya contaban y
+  el anillo y el medidor ya se deslizaban; faltaba el punto de la línea de
+  tiempo del minuto crítico, que ahora se desliza (`DURACION.cambioValor`).
+  La barra de categoría de cada fila filtra la lista: botón aparte sobre la
+  franja izquierda (no se anidan botones), fuera del orden de tabulación (con
+  el teclado lo hacen las pastillas). **Hallazgo, sin tocar**: con los JSON
+  actuales ningún escuadrón sale «Dominante» (8 Desplome, 55 Remontada, 91
+  Reñida, 42 Caída temprana, 4 sin datos; el 2026-09-29 había 27
+  Dominantes). Causa medida: 36 escuadrones cumplen el promedio de los
+  minutos 10-14 ≥ 0.55, pero 34 de ellos empiezan por debajo de 0.30 (la
+  recalibración de Platt bajó los primeros minutos) y la regla 1, Remontada,
+  gana antes; los otros 2 caen en otra regla. Los umbrales de `forma.ts` (y de
+  `servicio/forma.py`) se fijaron sobre la red sin recalibrar. La pastilla
+  «Dominadas» queda vacía; pendiente de decisión del usuario.
+  Nota de proceso: un `\b` escrito desde Python volvió a colarse como
+  carácter de control (en `Globo.tsx`); se reemplazó por una comprobación sin
+  expresión regular y se revisaron todas las fuentes.
+- **2026-10-03** — Pulido del tablero, sección I (fondo, opción A de
+  `ejemplo_fondos.html`). `HeroeMapa.tsx` (nuevo), solo en el héroe del
+  Resumen: `public/mapas/erangel-heroe.jpg` (copia de 800 px, calidad 72,
+  105 KB; `erangel.png` intacto para el mapa en vivo) a la derecha con máscara
+  radial; velo de la tarjeta, opaco a la izquierda y transparente a la
+  derecha; y encima, SVG propio: ruta del avión punteada, círculo blanco
+  punteado y la zona azul cerrándose, que reemplaza a `AnilloZona` como
+  emblema (el anillo sigue como indicador de carga). La caja del dibujo se
+  dimensiona por la **altura** del héroe (150 %), no por el ancho: al 72 % del
+  ancho de 1600 px medía 1150 px y la zona no cabía; desplazada −3 % a la
+  derecha para que el borde de la imagen quede fuera de la tarjeta sin
+  recortar el círculo. Tokens por tema en `index.css` (`--mapa-filtro`,
+  `--mapa-opacidad`, `--velo-heroe`, `--trazo-heroe`: blanco en oscuro, tinta
+  en claro, donde el blanco desaparece). Teléfono (< 768 px): velo al 82 % en
+  toda la tarjeta y **el dibujo se oculta** (quedaba encima del título).
+  Movimiento: `DURACION.cierreZona` 1.4 s (el ritmo del anillo anterior) y
+  `DURACION.avion` 4 s (ambiental, cruza una vez hasta el 80 % de la ruta);
+  una vez por visita, y en su lugar con `prefers-reduced-motion`. El título
+  lleva espacios no separables en «top 25 %» y cabe en una línea a 1600 px;
+  los KPI del corpus van abajo, en la columna izquierda. Fondo de página: la
+  textura clara baja de 0.05 a 0.03 y la cuadrícula A–H al 60 % en claro
+  (`.fondo-mapa`). Arreglos de paso: las cifras de los indicadores bajan a
+  40 px por debajo de `sm` («46,817» se salía de su tarjeta a 390 px); y
+  `Globo` cerrado usa `display: none` en lugar de `visibility: hidden`, que
+  seguía ocupando lugar y daba 23 px de scroll horizontal en Metodología a
+  390 px. Verificado en el navegador en ambos temas (capturas) y a 390 px en
+  un iframe: ninguna pestaña con scroll horizontal, todo abierto.
+- **2026-10-03** — Héroe, ajustes pedidos por el usuario. **Mapa en tema
+  claro** más nítido (se veía difuminado): opacidad 0.55 → 0.9, filtro
+  `grayscale(0.3) contrast(1.08)` y el velo solo fuerte donde va el texto
+  (97 % → 88 % al 40 %, 15 % al 72 %, transparente a la derecha). **Avión en
+  bucle**: cruza una y otra vez, cada vez entrando por un lado distinto del
+  anterior (`rutaAleatoria`: lado al azar ≠ el previo, ±50° de inclinación,
+  pasando a ±14 del centro del mapa, extremos en el borde de la caja ampliada
+  a −6..106 para entrar y salir de cuadro), con su ruta punteada que aparece
+  y se desvanece con él. `DURACION.avion` 7 s por cruce, velocidad constante
+  (lineal: un avión que frena al final de cada cruce se ve raro; excepción a
+  la aceleración única, solo aquí) y `DURACION.pausaAvion` 1.5 s entre
+  vuelos. Con `prefers-reduced-motion`, ruta y avión quietos en la posición
+  del ejemplo. La zona se sigue cerrando una sola vez por visita. Geometría
+  probada con una réplica en Node: 2,000 vuelos, ningún lado repetido, todos
+  con extremos en el borde, el más corto de 111 unidades (cruza el mapa
+  completo). El bucle en vivo no se pudo ver: la pestaña de automatización
+  queda en segundo plano y el navegador no avanza las animaciones.
+- **2026-10-03** — Resumen, cuarto KPI del corpus: «Para explorar · 200 de 45
+  partidas» se leía como 200 de un total de 45 (observación del usuario).
+  Ahora es «Escuadrones para explorar · 200 en 45 partidas». Cabe en su
+  tarjeta y las cuatro miden lo mismo (114 px).
+- **2026-10-03** — Commit del pulido del tablero con los dos PROMPT
+  (`PROMPT_BI_VISUAL.md`, `PROMPT_PULIDO_BI.md`); `ejemplo_fondos.html`
+  borrado (decisión del usuario: la opción A ya está en la app). Quedan fuera
+  `partidas.json` y `servicio/analisis.py`, para el commit con el notebook.

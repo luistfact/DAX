@@ -5,6 +5,7 @@ import { estadoPorFase, type EstadoFase } from '../analisisPartida'
 import { LABEL_COMPANEROS_EN_PIE, LABEL_SALUD_EQUIPO, rotuloFase, rotuloFaseCorto } from '../texto'
 import { DURACION, useTransicion } from '../movimiento'
 import { useAnimarUnaVez } from '../hooks/useAnimarUnaVez'
+import { Ayuda } from './Ayuda'
 
 type Props = {
   /** Identifica al escuadrón: las barras crecen desde cero una vez por escuadrón. */
@@ -140,18 +141,22 @@ export function VinetasTop({ clave, minutos, referencia, faseElegida }: Props) {
           <Vineta key={v.titulo} variable={v} estado={actual.estado} ref_={actual.ref_} crecer={crecer} />
         ))}
       </ul>
-      <p className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted">
-        <span>Barra: tu equipo en el {rotuloFase(elegida).toLowerCase()}</span>
-        <span className="flex items-center gap-1.5">
-          <span className="h-3 w-0.5 bg-text" aria-hidden="true" /> lo típico de los que llegaron al top
-        </span>
+      {/* Una sola línea: lo que no cabe (el cierre de la barra, por qué la
+          distancia va sin color) pasa a la ayuda. */}
+      <p className="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-muted">
         <span className="flex items-center gap-1.5">
           <span className="h-2 w-3 rounded-sm bg-alive" aria-hidden="true" /> a la altura
         </span>
         <span className="flex items-center gap-1.5">
           <span className="h-2 w-3 rounded-sm bg-danger" aria-hidden="true" /> por debajo
         </span>
-        <span>La distancia va sin color: dónde estás casi no pesa en el resultado.</span>
+        <span className="flex items-center gap-1.5">
+          <span className="h-3 w-0.5 bg-text" aria-hidden="true" /> los del top
+        </span>
+        <Ayuda
+          texto={`La barra es tu equipo en el ${rotuloFase(elegida).toLowerCase()}; la marca, lo típico de los que llegaron al top. La distancia va sin color: dónde estás casi no pesa en el resultado.`}
+          etiqueta="¿Cómo se leen las barras?"
+        />
       </p>
     </div>
   )

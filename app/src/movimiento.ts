@@ -32,6 +32,15 @@ export const DURACION = {
   grafica: 0.7,
   /** Una barra que se desliza de un valor a otro. */
   cambioValor: 0.6,
+  /**
+   * La zona del héroe cerrándose: el emblema de la app. Más lenta que una
+   * gráfica, como el anillo al que reemplaza (1.4 s), para que se lea el cierre.
+   */
+  cierreZona: 1.4,
+  /** Un cruce del avión del héroe: ambiental y en bucle, por eso largo y lento. */
+  avion: 7,
+  /** Pausa entre un cruce del avión y el siguiente. */
+  pausaAvion: 1.5,
 } as const
 
 export const DURACION_GRAFICA_MS = DURACION.grafica * 1000

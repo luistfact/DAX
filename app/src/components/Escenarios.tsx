@@ -1,9 +1,15 @@
+import { ArrowRight } from 'lucide-react'
+import { motion } from 'motion/react'
 import type { Escenario } from '../types/datos'
 import { pct, pp } from '../formato'
+import { useAnimarUnaVez } from '../hooks/useAnimarUnaVez'
+import { DURACION, useTransicion } from '../movimiento'
 
 type Props = {
   /** `undefined` en la partida en vivo: los escenarios salen de la red recurrente, que el servicio no usa. */
   escenarios: Escenario[] | undefined
+  /** Identifica al escuadrón: la flecha de la destacada se anima una vez por escuadrón. */
+  clave: string
 }
 
 // Por debajo de un punto la diferencia es ruido del modelo, no una señal:
@@ -35,7 +41,32 @@ function BarraCambio({ base, alterna }: { base: number; alterna: number }) {
   )
 }
 
-function TarjetaEscenario({ esc, destacada }: { esc: Escenario; destacada: boolean }) {
+/**
+ * «hoy 37 % → 46 %» de la tarjeta destacada. La flecha se desliza una vez por
+ * escuadrón; con prefers-reduced-motion aparece quieta en su lugar.
+ */
+function HoyAOtro({ base, alterna, clave }: { base: number; alterna: number; clave: string }) {
+  const animar = useAnimarUnaVez(`escenario-${clave}`)
+  const { transicion } = useTransicion()
+  return (
+    <p className="flex items-center gap-2 font-cifra text-lg font-semibold text-text">
+      <span className="text-muted">hoy {pct(base)}</span>
+      <motion.span
+        className="inline-flex text-zone"
+        initial={animar ? { x: -8, opacity: 0 } : false}
+        animate={{ x: 0, opacity: 1 }}
+        transition={transicion(DURACION.cambioValor)}
+        aria-hidden="true"
+      >
+        <ArrowRight className="h-5 w-5" />
+      </motion.span>
+      <span className="sr-only">pasaría a</span>
+      <span>{pct(alterna)}</span>
+    </p>
+  )
+}
+
+function TarjetaEscenario({ esc, destacada, clave }: { esc: Escenario; destacada: boolean; clave: string }) {
   const borde = destacada ? 'border-zone' : 'border-line'
 
   if (!esc.aplica || esc.diferencia == null || esc.probabilidad_alterna == null) {
@@ -69,7 +100,10 @@ function TarjetaEscenario({ esc, destacada }: { esc: Escenario; destacada: boole
         {cifra && <span className="whitespace-nowrap font-cifra text-2xl font-semibold text-zone">{cifra}</span>}
       </div>
       {destacada && (
-        <p className="titulo-seccion text-xs text-zone">Lo primero en lo que enfocarte</p>
+        <>
+          <p className="titulo-seccion text-xs text-muted">Lo primero en lo que enfocarte</p>
+          <HoyAOtro base={esc.probabilidad_base} alterna={esc.probabilidad_alterna} clave={clave} />
+        </>
       )}
       <div className="mt-2">
         <BarraCambio base={esc.probabilidad_base} alterna={esc.probabilidad_alterna} />
@@ -80,7 +114,7 @@ function TarjetaEscenario({ esc, destacada }: { esc: Escenario; destacada: boole
 }
 
 /** Escenarios alternativos del modelo, con el aviso de asociación vs. causalidad siempre visible. */
-export function Escenarios({ escenarios }: Props) {
+export function Escenarios({ escenarios, clave }: Props) {
   if (escenarios === undefined) {
     return (
       <p className="text-sm text-muted">
@@ -102,7 +136,7 @@ export function Escenarios({ escenarios }: Props) {
     <div className="space-y-3">
       <ul className="grid gap-2 sm:grid-cols-2">
         {ordenados.map((esc, i) => (
-          <TarjetaEscenario key={esc.escenario} esc={esc} destacada={hayDestacada && i === 0} />
+          <TarjetaEscenario key={esc.escenario} esc={esc} destacada={hayDestacada && i === 0} clave={`${clave}-${esc.escenario}`} />
         ))}
       </ul>
       {/* Excepción aprobada a las 12 palabras: el aviso va en una línea y su detalle, completo, desplegable. */}

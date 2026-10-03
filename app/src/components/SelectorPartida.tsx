@@ -30,6 +30,12 @@ export function SelectorPartida({ catalogo, partidaSeleccionada, onSeleccionar }
   const visibles = useMemo(() => filtrarCatalogo(catalogo, filtro), [catalogo, filtro])
   const numPartidas = useMemo(() => new Set(catalogo.map((e) => e.partida.match_id)).size, [catalogo])
 
+  // Solo las categorías con pastilla (Desplome, Remontada, Dominante) filtran desde su barra.
+  const filtroDeFila = (e: EntradaCatalogo) => {
+    const f = FILTROS.find((x) => x.id !== 'Todas' && x.id === e.forma)
+    return f ? { onFiltrar: () => setFiltro(f.id), etiquetaFiltro: f.etiqueta } : {}
+  }
+
   if (catalogo.length === 0) {
     return (
       <EstadoVacio mensaje="Aún no hay partidas cargadas. Genera public/datos/partidas.json desde el notebook." />
@@ -39,7 +45,7 @@ export function SelectorPartida({ catalogo, partidaSeleccionada, onSeleccionar }
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-3">
       <div className="space-y-2">
-        <div className="flex flex-wrap gap-1.5" role="group" aria-label="Filtrar por forma de la curva">
+        <div className="flex flex-wrap items-center gap-1" role="group" aria-label="Filtrar por forma de la curva">
           {FILTROS.map((f) => (
             <button
               key={f.id}
@@ -47,11 +53,11 @@ export function SelectorPartida({ catalogo, partidaSeleccionada, onSeleccionar }
               onClick={() => setFiltro(f.id)}
               aria-pressed={filtro === f.id}
               className={
-                'flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zone ' +
+                'flex items-center gap-1 rounded-full border px-2 py-0.5 text-xs font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zone ' +
                 (filtro === f.id ? COLOR_FILTRO[f.id].activo : 'border-line bg-card text-muted hover:text-text')
               }
             >
-              {f.id !== 'Todas' && <span className={`h-2 w-2 rounded-full ${COLOR_FILTRO[f.id].punto}`} aria-hidden="true" />}
+              {f.id !== 'Todas' && <span className={`h-1.5 w-1.5 rounded-full ${COLOR_FILTRO[f.id].punto}`} aria-hidden="true" />}
               {f.etiqueta}
             </button>
           ))}
@@ -74,6 +80,7 @@ export function SelectorPartida({ catalogo, partidaSeleccionada, onSeleccionar }
                 entrada={e}
                 activa={e.partida.id === partidaSeleccionada}
                 onSeleccionar={() => onSeleccionar(e.partida.id)}
+                {...filtroDeFila(e)}
               />
             </li>
           ))}

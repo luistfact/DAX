@@ -18,20 +18,20 @@ import {
 } from 'lucide-react'
 import type { CausaEliminacion, FaseMetrica, Importancia, Metricas, Partida, Perfiles } from '../types/datos'
 import { percentilDeRango } from '../analisisPartida'
-import { miles, pct, pct100 } from '../formato'
+import { decimal, miles, pct, pct100 } from '../formato'
 import { LABEL_MINUTOS_ANALIZADOS, etiquetaVariable, rotuloFaseCorto } from '../texto'
 import { estiloPerfil } from '../estiloPerfil'
 import { usePaleta } from '../hooks/useTema'
 import { useAnimarUnaVez } from '../hooks/useAnimarUnaVez'
 import { ACELERACION_RECHARTS, DURACION, DURACION_GRAFICA_MS, useTransicion } from '../movimiento'
-import { AnilloZona } from './AnilloZona'
+import { HeroeMapa } from './HeroeMapa'
 import { Ayuda } from './Ayuda'
+import { Globo } from './Globo'
 import { Mira } from './Mira'
 import { HuellaPerfil } from './HuellaPerfil'
 import { Cascada } from './Cascada'
 import { Conteo } from './Conteo'
-import { Desplegable } from './Desplegable'
-import { Detalle, Indicador, type Acento } from './Plantilla'
+import { Indicador, type Acento } from './Plantilla'
 
 type Props = {
   metricas: Metricas | null
@@ -106,8 +106,8 @@ function Hallazgo({
   )
 }
 
-/** Dona grande de causas de eliminación: la zona resaltada, el resto en gris, la cifra al centro. Se llena girando. */
-function DonaCausas({ causas, zona }: { causas: CausaEliminacion[]; zona: CausaEliminacion }) {
+/** Dona grande de causas de eliminación: la zona resaltada, el resto en gris, la palabra «zona» al centro. Se llena girando. */
+function DonaCausas({ causas }: { causas: CausaEliminacion[] }) {
   const paleta = usePaleta()
   const animar = useAnimarUnaVez('dona-causas')
   const { transicion } = useTransicion()
@@ -160,9 +160,9 @@ function DonaCausas({ causas, zona }: { causas: CausaEliminacion[]; zona: CausaE
             />
           ))}
         </motion.svg>
-        <p className="absolute inset-0 flex flex-col items-center justify-center">
-          <span className="font-cifra text-2xl font-semibold text-text">{pct(zona.proporcion)}</span>
-          <span className="text-xs text-muted">zona</span>
+        {/* La cifra ya va grande a la izquierda: al centro, solo de qué porción se habla. */}
+        <p className="absolute inset-0 flex items-center justify-center font-cifra text-xl font-semibold uppercase tracking-wide text-text" aria-hidden="true">
+          zona
         </p>
       </div>
       <ul className="space-y-1 text-sm">
@@ -200,7 +200,10 @@ function BarrasPeso({ importancia }: { importancia: Importancia }) {
   const peso = (v: number) => (total > 0 ? Math.max(0, v) / total : 0)
   const visibles = importancia.variables.filter((v) => v.importancia > 0).slice(0, VARIABLES_VISIBLES)
   const maximo = Math.max(...visibles.map((v) => peso(v.importancia)))
-  const clase = (variable: string) => (ESTADO.has(variable) ? 'bg-alive' : POSICION.has(variable) ? 'bg-muted' : 'bg-line')
+  // Dos tonos, los dos de la comparación del 3.9×: el estado del equipo en verde
+  // y todo lo demás en gris (la posición y cómo va la partida: la zona, los
+  // equipos que quedan). Antes había un tercer tono sin leyenda.
+  const clase = (variable: string) => (ESTADO.has(variable) ? 'bg-alive' : 'bg-muted')
   return (
     <div className="space-y-2">
       <ul className="space-y-2">
@@ -209,16 +212,30 @@ function BarrasPeso({ importancia }: { importancia: Importancia }) {
           return (
             <li key={v.variable} className="grid grid-cols-[1.25rem_minmax(0,1fr)_2.5rem] items-center gap-2">
               <Icono className="h-4 w-4 text-muted" aria-hidden="true" />
-              <span className="min-w-0">
+              <Globo
+                className="block min-w-0"
+                alinear="izquierda"
+                texto={`${etiquetaVariable(v.variable)}: ${decimal(peso(v.importancia) * 100)} % del peso total.`}
+              >
                 <span className="block truncate text-sm text-text">{etiquetaVariable(v.variable)}</span>
                 <BarraCrece fraccion={maximo > 0 ? peso(v.importancia) / maximo : 0} clase={clase(v.variable)} crecer={crecer} />
-              </span>
+              </Globo>
               <span className="text-right font-cifra text-sm text-muted">{pct(peso(v.importancia))}</span>
             </li>
           )
         })}
       </ul>
-      <p className="text-xs text-muted">Las demás pesan poco.</p>
+      <div className="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-muted">
+        <span className="flex items-center gap-1.5">
+          <span className="h-2 w-2 rounded-full bg-alive" aria-hidden="true" />
+          Cómo está tu equipo
+        </span>
+        <span className="flex items-center gap-1.5">
+          <span className="h-2 w-2 rounded-full bg-muted" aria-hidden="true" />
+          Dónde estás y cómo va la partida
+        </span>
+        <span>Las demás pesan poco.</span>
+      </div>
     </div>
   )
 }
@@ -240,11 +257,14 @@ function BarrasPerfiles({ grupos, resaltados }: { grupos: GrupoConPercentil[]; r
                 <Icono className="h-4 w-4 shrink-0" aria-hidden="true" />
                 {g.nombre}
               </span>
-              <span className="relative">
+              <Globo
+                className="block"
+                texto={`${g.nombre}: lo típico es quedar mejor que el ${decimal((1 - g.mediana_pct_rank) * 100)} % de los equipos (${miles(g.n)} escuadrones).`}
+              >
                 <BarraCrece fraccion={g.percentil / 100} clase={fondo} crecer={crecer} />
                 {/* Llegar al top equivale a quedar mejor que el 75 % de los equipos. */}
                 <span className="absolute -inset-y-1 left-3/4 w-0.5 bg-text" aria-hidden="true" />
-              </span>
+              </Globo>
               <span className="text-right font-cifra text-base text-muted">{pct100(g.percentil)}</span>
             </li>
           )
@@ -325,48 +345,55 @@ export function Resumen({ metricas, perfiles, partidas, onExplorar, onVerEjemplo
   const numPartidasCatalogo = partidas ? new Set(partidas.map((p) => p.match_id)).size : null
   const aciertos = (auc: number) => Math.round(auc * 100)
   const entero = (n: number) => String(Math.round(n))
-  const botonSecundario =
-    'rounded-md border border-zone px-4 py-2 text-sm font-semibold text-text hover:bg-zone/10 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zone'
+  // Un solo botón principal, relleno con el texto invertido: el dorado sigue
+  // siendo exclusivo del buscador del encabezado (decisión del usuario).
+  const botonPrincipal =
+    'rounded-md bg-text px-4 py-2 text-sm font-semibold text-bg hover:opacity-90 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zone'
+  const enlace =
+    'text-sm font-medium text-zone underline underline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zone'
 
   return (
     <Cascada className="space-y-6">
-      {/* 1-2. Banda del héroe: mensaje y botones a la izquierda, el corpus a la derecha. */}
+      {/* 1-2. Héroe con Erangel de fondo (PROMPT_PULIDO_BI.md, opción A): todo
+          el contenido en la columna izquierda, sobre el velo; la derecha queda
+          para el mapa con la zona cerrándose, el emblema de la app. */}
       <Mira>
-        <section className="tarjeta grid gap-6 px-6 py-6 lg:grid-cols-12 lg:items-center sm:px-8">
-          <div className="space-y-3 lg:col-span-5">
-            <div className="flex items-center gap-3">
-              {/* El anillo, como emblema al lado del título: ya no tapa ninguna palabra. */}
-              <AnilloZona tamano={64} modo="unaVez" className="text-zone" />
-              <h2 className="font-stencil text-3xl leading-tight text-text sm:text-4xl">¿Llega tu escuadrón al top 25 %?</h2>
+        <section className="tarjeta relative overflow-hidden px-6 py-8 sm:px-8 lg:py-10">
+          <HeroeMapa />
+          <div className="relative space-y-5 lg:w-[58%]">
+            <div className="space-y-3">
+              {/* Espacios no separables: «top 25 %» nunca se parte entre renglones. */}
+              <h2 className="font-stencil text-4xl leading-tight text-text sm:text-5xl">¿Llega tu escuadrón al top 25 %?</h2>
+              <p className="text-base text-muted">Tus posibilidades de top 25 %, minuto a minuto.</p>
             </div>
-            <p className="text-base text-muted">Tus posibilidades de top 25 %, minuto a minuto.</p>
-            {/* Botones secundarios: el único dorado de la pantalla es el del buscador del encabezado. */}
-            <div className="flex flex-wrap gap-2">
-              <button type="button" onClick={onExplorar} className={botonSecundario}>
+            <div className="flex flex-wrap items-center gap-4">
+              <button type="button" onClick={onExplorar} className={botonPrincipal}>
                 Explorar escuadrones →
               </button>
-              <button type="button" onClick={onVerEjemplo} className={botonSecundario}>
+              <button type="button" onClick={onVerEjemplo} className={enlace}>
                 Ver un ejemplo
               </button>
             </div>
+            {metricas && (
+              <dl className="grid grid-cols-2 gap-3 xl:grid-cols-4">
+                <Indicador etiqueta="Partidas" valor={<Conteo valor={metricas.corpus.partidas} formato={miles} />} Icono={Swords} />
+                <Indicador etiqueta="Escuadrones" valor={<Conteo valor={metricas.corpus.escuadrones} formato={miles} />} Icono={Users} />
+                <Indicador
+                  etiqueta={LABEL_MINUTOS_ANALIZADOS}
+                  valor={<Conteo valor={metricas.corpus.observaciones} formato={miles} />}
+                  Icono={Clock}
+                />
+                <Indicador
+                  // «200 de 45 partidas» se leía como 200 de un total de 45: son
+                  // 200 escuadrones repartidos en 45 partidas.
+                  etiqueta="Escuadrones para explorar"
+                  valor={<Conteo valor={partidas?.length} formato={miles} />}
+                  detalle={numPartidasCatalogo != null ? `en ${numPartidasCatalogo} partidas` : undefined}
+                  Icono={Search}
+                />
+              </dl>
+            )}
           </div>
-          {metricas && (
-            <dl className="grid grid-cols-2 gap-3 lg:col-span-7 xl:grid-cols-4">
-              <Indicador etiqueta="Partidas" valor={<Conteo valor={metricas.corpus.partidas} formato={miles} />} Icono={Swords} />
-              <Indicador etiqueta="Escuadrones" valor={<Conteo valor={metricas.corpus.escuadrones} formato={miles} />} Icono={Users} />
-              <Indicador
-                etiqueta={LABEL_MINUTOS_ANALIZADOS}
-                valor={<Conteo valor={metricas.corpus.observaciones} formato={miles} />}
-                Icono={Clock}
-              />
-              <Indicador
-                etiqueta="Para explorar"
-                valor={<Conteo valor={partidas?.length} formato={miles} />}
-                detalle={numPartidasCatalogo != null ? `de ${numPartidasCatalogo} partidas` : undefined}
-                Icono={Search}
-              />
-            </dl>
-          )}
         </section>
       </Mira>
 
@@ -378,7 +405,7 @@ export function Resumen({ metricas, perfiles, partidas, onExplorar, onVerEjemplo
             cifra={<Conteo valor={zona.proporcion} formato={pct} />}
             frase="de las bajas son por la zona de gas."
           >
-            <DonaCausas causas={causas} zona={zona} />
+            <DonaCausas causas={causas} />
           </Hallazgo>
         )}
         {importancia && razon != null && (
@@ -429,10 +456,14 @@ export function Resumen({ metricas, perfiles, partidas, onExplorar, onVerEjemplo
         )}
       </section>
 
-      {/* 4. Detalle desplegable. */}
+      {/* 4. Siempre abierta (excepción a «cerrado por defecto», PROMPT_PULIDO_BI.md):
+          es lo más vistoso y, cerrada, la página terminaba en un hueco. */}
       {grupos.length > 0 && (
-        <Detalle>
-          <Desplegable Icono={Users} titulo="Cuatro formas de jugar" resumen={grupos.map((g) => g.nombre).join(', ')}>
+        <section className="tarjeta space-y-4 p-5" aria-labelledby="cuatro-formas">
+          <h3 id="cuatro-formas" className="flex items-center gap-2 titulo-seccion text-base text-text">
+            <Users className="h-5 w-5 text-muted" aria-hidden="true" />
+            Cuatro formas de jugar
+          </h3>
             <ul className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
               {grupos.map((g) => {
                 const { Icono, fondo } = estiloPerfil(g.nombre)
@@ -460,8 +491,7 @@ export function Resumen({ metricas, perfiles, partidas, onExplorar, onVerEjemplo
             >
               Ver perfiles
             </button>
-          </Desplegable>
-        </Detalle>
+        </section>
       )}
     </Cascada>
   )

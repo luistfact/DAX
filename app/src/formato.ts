@@ -21,6 +21,11 @@ export function pct(p: number | null | undefined): string {
   return p == null ? '—' : `${Math.round(p * 100)}${NBSP}%`
 }
 
+/** Un número con un decimal, para los valores exactos de los globos: 24.6. */
+export function decimal(n: number): string {
+  return n.toLocaleString('es-MX', { minimumFractionDigits: 1, maximumFractionDigits: 1 })
+}
+
 /** Un valor que ya viene en escala 0-100: 85 -> "85 %". */
 export function pct100(n: number | null | undefined): string {
   return n == null ? '—' : `${Math.round(n)}${NBSP}%`
@@ -52,11 +57,15 @@ export function distanciaCirculo(d: number | null | undefined): string {
   return `Cerca del borde (${camino})`
 }
 
+const UMBRAL_SIN_MOVIMIENTO = 0.05
+
 /** Cambio de distancia al círculo entre dos minutos, en palabras. */
 export function cambioDistancia(actual: number | null | undefined, anterior: number | null | undefined): string {
   if (actual == null || anterior == null) return '—'
   const delta = actual - anterior
-  if (Math.abs(delta) < 0.005) return 'Sin cambio'
+  // Menos de un 5 % del camino al borde es ruido de posición, no un movimiento
+  // que valga contar (PROMPT_PULIDO_BI.md).
+  if (Math.abs(delta) < UMBRAL_SIN_MOVIMIENTO) return 'Casi no se movió'
   const tramo = `${Math.round(Math.abs(delta) * 100)}${NBSP}% del camino al borde`
   return delta < 0 ? `Se acercó al centro (${tramo})` : `Se alejó del centro (${tramo})`
 }
