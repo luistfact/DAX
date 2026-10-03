@@ -22,7 +22,17 @@ export function AvisoTratamiento({ aceptado, onAceptar }: Props) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-velo p-4">
       <div className="max-w-lg rounded-xl border border-line bg-card p-6 shadow-xl">
         <h2 className="font-cifra text-xl font-semibold text-text">Aviso de tratamiento de datos</h2>
-        <p className="mt-3 text-sm text-muted">{TEXTO}</p>
+        {/* Una línea a la vista (12 palabras como máximo) y el texto completo, sin
+            cambios, desplegable antes de aceptar (decisión del usuario). */}
+        <p className="mt-3 text-sm text-text">
+          Analizamos partidas ya jugadas; el buscador consulta la API oficial de PUBG.
+        </p>
+        <details className="mt-2 text-sm text-muted">
+          <summary className="cursor-pointer text-text underline underline-offset-2 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zone">
+            Leer el aviso completo
+          </summary>
+          <p className="mt-2">{TEXTO}</p>
+        </details>
         <button
           type="button"
           onClick={() => onAceptar(true)}

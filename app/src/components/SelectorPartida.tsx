@@ -3,11 +3,20 @@ import { EstadoVacio } from './EstadoVacio'
 import { FilaEscuadron } from './FilaEscuadron'
 import { FILTROS, filtrarCatalogo, type EntradaCatalogo, type Filtro } from '../catalogo'
 import { miles } from '../formato'
+import { Ayuda } from './Ayuda'
 
 type Props = {
   catalogo: EntradaCatalogo[]
   partidaSeleccionada: string | null
   onSeleccionar: (id: string) => void
+}
+
+// Color de cada filtro: el mismo de la barra de su categoría en las filas.
+const COLOR_FILTRO: Record<Filtro, { punto: string; activo: string }> = {
+  Todas: { punto: 'bg-muted', activo: 'border-text bg-text text-bg' },
+  Desplome: { punto: 'bg-danger', activo: 'border-danger bg-danger/15 text-text' },
+  Remontada: { punto: 'bg-zone', activo: 'border-zone bg-zone/15 text-text' },
+  Dominante: { punto: 'bg-text', activo: 'border-text bg-text/15 text-text' },
 }
 
 // La categoría sale de la forma de la curva, no del desenlace: en el catálogo
@@ -38,17 +47,16 @@ export function SelectorPartida({ catalogo, partidaSeleccionada, onSeleccionar }
               onClick={() => setFiltro(f.id)}
               aria-pressed={filtro === f.id}
               className={
-                'rounded-full border px-3 py-1 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zone ' +
-                (filtro === f.id
-                  ? 'border-text bg-text text-bg'
-                  : 'border-line bg-card text-muted hover:text-text')
+                'flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zone ' +
+                (filtro === f.id ? COLOR_FILTRO[f.id].activo : 'border-line bg-card text-muted hover:text-text')
               }
             >
+              {f.id !== 'Todas' && <span className={`h-2 w-2 rounded-full ${COLOR_FILTRO[f.id].punto}`} aria-hidden="true" />}
               {f.etiqueta}
             </button>
           ))}
+          <Ayuda texto={ACLARACION_FORMA} etiqueta="¿La categoría es el resultado?" />
         </div>
-        <p className="text-xs text-muted">{ACLARACION_FORMA}</p>
         <p className="text-xs text-muted">
           {filtro === 'Todas'
             ? `${miles(catalogo.length)} escuadrones de ${miles(numPartidas)} partidas apartadas para comprobar el análisis.`

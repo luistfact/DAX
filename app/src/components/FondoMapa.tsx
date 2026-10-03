@@ -18,8 +18,8 @@ export function FondoMapa() {
         const linea = `${(i / COLUMNAS.length) * 100}%`
         return (
           <g key={letra}>
-            {i > 0 && <line x1={linea} x2={linea} y1="0" y2="100%" stroke="currentColor" strokeOpacity={0.06} />}
-            <text x={x} y="99%" textAnchor="middle" fill="currentColor" fillOpacity={0.3} fontSize={12}>
+            {i > 0 && <line x1={linea} x2={linea} y1="0" y2="100%" stroke="currentColor" strokeOpacity={0.035} />}
+            <text x={x} y="99%" textAnchor="middle" fill="currentColor" fillOpacity={0.18} fontSize={12}>
               {letra}
             </text>
           </g>
@@ -30,8 +30,8 @@ export function FondoMapa() {
         const linea = `${(i / FILAS) * 100}%`
         return (
           <g key={i}>
-            {i > 0 && <line x1="0" x2="100%" y1={linea} y2={linea} stroke="currentColor" strokeOpacity={0.06} />}
-            <text x="6" y={y} fill="currentColor" fillOpacity={0.3} fontSize={12} dominantBaseline="middle">
+            {i > 0 && <line x1="0" x2="100%" y1={linea} y2={linea} stroke="currentColor" strokeOpacity={0.035} />}
+            <text x="6" y={y} fill="currentColor" fillOpacity={0.18} fontSize={12} dominantBaseline="middle">
               {i + 1}
             </text>
           </g>

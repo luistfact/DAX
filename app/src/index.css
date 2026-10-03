@@ -38,17 +38,17 @@
  */
 :root {
   color-scheme: dark;
-  --textura: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480' viewBox='0 0 480 480'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='2' seed='7' result='n'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='n' scale='18'/%3E%3C/filter%3E%3Cg filter='url(%23t)' fill='none' stroke='%234594F7' stroke-opacity='0.07' stroke-width='1'%3E%3Ccircle cx='60' cy='80' r='40'/%3E%3Ccircle cx='60' cy='80' r='80'/%3E%3Ccircle cx='60' cy='80' r='120'/%3E%3Ccircle cx='420' cy='380' r='50'/%3E%3Ccircle cx='420' cy='380' r='100'/%3E%3Ccircle cx='420' cy='380' r='150'/%3E%3C/g%3E%3C/svg%3E");
+  --textura: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480' viewBox='0 0 480 480'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='2' seed='7' result='n'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='n' scale='18'/%3E%3C/filter%3E%3Cg filter='url(%23t)' fill='none' stroke='%234594F7' stroke-opacity='0.04' stroke-width='1'%3E%3Ccircle cx='60' cy='80' r='40'/%3E%3Ccircle cx='60' cy='80' r='80'/%3E%3Ccircle cx='60' cy='80' r='120'/%3E%3Ccircle cx='420' cy='380' r='50'/%3E%3Ccircle cx='420' cy='380' r='100'/%3E%3Ccircle cx='420' cy='380' r='150'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 :root[data-theme="light"] {
   color-scheme: light;
-  --color-bg: #F3F4EE;
-  --color-card: #FCFCF8;
-  --color-card-2: #ECEEE6;
-  --color-line: #D6D8CB;
-  --color-text: #1B1D17;
-  --color-muted: #5D604F;
+  --color-bg: #EEF1F5;
+  --color-card: #FFFFFF;
+  --color-card-2: #F5F7FA;
+  --color-line: #D9DEE6;
+  --color-text: #141A22;
+  --color-muted: #556070;
   --color-brand: #F2A900;
   --color-on-brand: #0C0F0E;
   --color-zone: #1069CB;
@@ -60,7 +60,7 @@
   --color-phase-band: rgb(16 105 203 / 0.06);
   --color-danger-wash: rgb(190 36 32 / 0.12);
   --color-velo: rgb(12 15 14 / 0.45);
-  --textura: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480' viewBox='0 0 480 480'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='2' seed='7' result='n'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='n' scale='18'/%3E%3C/filter%3E%3Cg filter='url(%23t)' fill='none' stroke='%231069CB' stroke-opacity='0.08' stroke-width='1'%3E%3Ccircle cx='60' cy='80' r='40'/%3E%3Ccircle cx='60' cy='80' r='80'/%3E%3Ccircle cx='60' cy='80' r='120'/%3E%3Ccircle cx='420' cy='380' r='50'/%3E%3Ccircle cx='420' cy='380' r='100'/%3E%3Ccircle cx='420' cy='380' r='150'/%3E%3C/g%3E%3C/svg%3E");
+  --textura: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='480' height='480' viewBox='0 0 480 480'%3E%3Cfilter id='t'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.015' numOctaves='2' seed='7' result='n'/%3E%3CfeDisplacementMap in='SourceGraphic' in2='n' scale='18'/%3E%3C/filter%3E%3Cg filter='url(%23t)' fill='none' stroke='%231069CB' stroke-opacity='0.05' stroke-width='1'%3E%3Ccircle cx='60' cy='80' r='40'/%3E%3Ccircle cx='60' cy='80' r='80'/%3E%3Ccircle cx='60' cy='80' r='120'/%3E%3Ccircle cx='420' cy='380' r='50'/%3E%3Ccircle cx='420' cy='380' r='100'/%3E%3Ccircle cx='420' cy='380' r='150'/%3E%3C/g%3E%3C/svg%3E");
 }
 
 /*
@@ -174,3 +174,22 @@ body {
     transform: none;
   }
 }
+
+/*
+ * Tarjetas con presencia (PROMPT_BI_VISUAL.md): esquinas de 12 px y, en el
+ * tema claro, una sombra suave. `acento-*` les pone un borde superior de 3 px
+ * del color de su dato; las tarjetas sin un color de dato van sin él.
+ */
+.tarjeta {
+  border-radius: 12px;
+  border: 1px solid var(--color-line);
+  background-color: var(--color-card);
+}
+:root[data-theme="light"] .tarjeta {
+  box-shadow: 0 1px 2px rgb(20 26 34 / 0.06), 0 6px 16px rgb(20 26 34 / 0.05);
+}
+.acento-zone { border-top: 3px solid var(--color-zone); }
+.acento-danger { border-top: 3px solid var(--color-danger); }
+.acento-alive { border-top: 3px solid var(--color-alive); }
+.acento-violet { border-top: 3px solid var(--color-violet); }
+.acento-sand { border-top: 3px solid var(--color-sand); }

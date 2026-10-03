@@ -17,6 +17,8 @@ export function Cascada({ children, className }: { children: ReactNode; classNam
       {bloques.map((bloque, i) => (
         <motion.div
           key={i}
+          // min-w-0: en una rejilla, la celda no debe estirarse con su contenido.
+          className="min-w-0"
           initial={reducido ? false : { opacity: 0, y: DESPLAZAMIENTO_ENTRADA }}
           animate={{ opacity: 1, y: 0 }}
           transition={transicion(DURACION.elemento, i * retraso)}

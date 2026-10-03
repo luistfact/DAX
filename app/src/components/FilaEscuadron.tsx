@@ -1,5 +1,5 @@
 import { useEffect, useRef } from 'react'
-import { Trophy } from 'lucide-react'
+import { Trophy, User } from 'lucide-react'
 import type { Forma } from '../forma'
 import type { EntradaCatalogo } from '../catalogo'
 import { nombreEscuadron } from '../catalogo'
@@ -24,6 +24,17 @@ const BARRA: Record<Forma, string> = {
   'Sin datos suficientes': 'bg-line',
 }
 
+/** Soldaditos: en pie en verde, caídos en gris. */
+function Soldados({ vivos, tamano }: { vivos: number; tamano: number }) {
+  return (
+    <span className="flex shrink-0 items-center" role="img" aria-label={`${vivos} de ${tamano} en pie al final`}>
+      {Array.from({ length: tamano }, (_, i) => (
+        <User key={i} className={`h-3.5 w-3.5 ${i < vivos ? 'text-alive' : 'text-muted opacity-40'}`} aria-hidden="true" />
+      ))}
+    </span>
+  )
+}
+
 /** Fila densa del catálogo: categoría, posición en grande y la curva en miniatura. */
 export function FilaEscuadron({ entrada, activa, onSeleccionar }: Props) {
   const paleta = usePaleta()
@@ -33,6 +44,10 @@ export function FilaEscuadron({ entrada, activa, onSeleccionar }: Props) {
   // con el de un desplome en la misma fila.
   const IconoPerfil = perfil ? estiloPerfil(perfil).Icono : null
   const ref = useRef<HTMLButtonElement>(null)
+  // Integrantes en pie al final de los minutos analizados, sobre el tamaño real.
+  const ordenados = [...partida.minutos].sort((a, b) => a.minuto - b.minuto)
+  const vivosAlFinal = ordenados.at(-1)?.vivos ?? 0
+  const tamano = partida.tam_real ?? Math.max(0, ...ordenados.map((m) => m.vivos))
 
   // La selección por defecto (o al cambiar de filtro) puede quedar fuera de la
   // vista de la lista. Se mueve solo el scroll de la lista, no el de la página
@@ -67,7 +82,10 @@ export function FilaEscuadron({ entrada, activa, onSeleccionar }: Props) {
         <span className="text-xs text-muted">de {partida.escuadrones}</span>
       </span>
       <span className="flex min-w-0 flex-1 flex-col justify-center gap-0.5 py-2">
-        <span className="truncate text-sm font-medium text-text">{nombreEscuadron(entrada)}</span>
+        <span className="flex items-center justify-between gap-2">
+          <span className="truncate text-sm font-medium text-text">{nombreEscuadron(entrada)}</span>
+          <Soldados vivos={vivosAlFinal} tamano={tamano} />
+        </span>
         <span className="flex flex-wrap items-center gap-x-1.5 text-xs text-muted">
           {forma}
           {perfil && IconoPerfil && (

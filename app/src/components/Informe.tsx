@@ -6,7 +6,8 @@ import { VinetasTop } from './VinetasTop'
 import { useMetricas } from '../hooks/useMetricas'
 import { FRASE_VICTORIA } from '../texto'
 import { cambioDistancia, textoLlano } from '../formato'
-import { extraerMinutoCritico, minutosDelMomentoCritico, proporcionCobertura } from '../analisisPartida'
+import { estadoPorFase, extraerMinutoCritico, minutosDelMomentoCritico, proporcionCobertura } from '../analisisPartida'
+import { pp } from '../formato'
 
 type Props = {
   partida: Partida
@@ -76,6 +77,24 @@ function formatCompanerosPerdidos(actual: number | null | undefined, anterior: n
   return perdidos === 0 ? 'ninguno' : `${perdidos}`
 }
 
+/** Barra partida a favor / en contra: el adelanto visual de los factores. */
+function BarraPartida({ favor, contra }: { favor: number; contra: number }) {
+  const total = favor + contra
+  if (total === 0) return null
+  return (
+    <span className="flex h-2 w-24 overflow-hidden rounded-full bg-text/10" aria-hidden="true">
+      <span className="h-full bg-alive" style={{ width: `${(favor / total) * 100}%` }} />
+      <span className="h-full bg-danger" style={{ width: `${(contra / total) * 100}%` }} />
+    </span>
+  )
+}
+
+/** Chip pequeño de color (fondo tenue del acento, texto en tinta). */
+function Chip({ color, children }: { color: 'alive' | 'danger'; children: string }) {
+  const clases = color === 'alive' ? 'bg-alive/15 border-alive/50' : 'bg-danger/15 border-danger/50'
+  return <span className={`rounded-full border px-2 py-0.5 text-xs font-medium text-text ${clases}`}>{children}</span>
+}
+
 function Lista({ items, vacio }: { items: string[]; vacio: string }) {
   if (items.length === 0) return <p className="text-sm text-muted">{vacio}</p>
   return (
@@ -97,6 +116,26 @@ export function Informe({ partida, fraseMeta, faseElegida }: Props) {
   const puntosCriticos = minutosDelMomentoCritico(partida.minutos, minutoCritico)
   const favor = informe.factores_favorables
   const contra = informe.factores_adversos
+
+  // Adelanto de «Contra los que llegaron»: salud y compañeros en el cierre del
+  // momento crítico, verde si está a la altura y rojo si no; la distancia, gris.
+  const faseCritica = puntosCriticos?.actual.fase
+  const estadoCritico = estadoPorFase(partida.minutos).find((e) => e.fase === faseCritica)
+  const refCritica = metricas?.referencia_fase.find((r) => r.fase_zona === faseCritica)
+  const puntosTop: { nombre: string; bien: boolean | null }[] | null =
+    estadoCritico && refCritica
+      ? [
+          { nombre: 'Salud', bien: estadoCritico.salud >= refCritica.hp_medio },
+          { nombre: 'Compañeros', bien: estadoCritico.vivos >= refCritica.jugadores_vivos },
+          { nombre: 'Distancia', bien: null },
+        ]
+      : null
+
+  // Adelanto de «¿Y si…?»: la mejor ganancia real (solo si sube un punto o más).
+  const mejorGanancia = (partida.escenarios ?? [])
+    .filter((e) => e.aplica && e.diferencia != null && e.diferencia >= 0.01)
+    .reduce<number | null>((max, e) => Math.max(max ?? 0, e.diferencia as number), null)
+  const caidaCritica = partida.momento_critico?.caida
 
   return (
     <>
@@ -120,7 +159,13 @@ export function Informe({ partida, fraseMeta, faseElegida }: Props) {
       <Desplegable
         Icono={ThumbsUp}
         titulo="A favor y en contra"
-        resumen={`${favor.length} a favor · ${contra.length} en contra`}
+        resumen={
+          <span className="mt-0.5 flex gap-1.5">
+            <Chip color="alive">{`${favor.length} a favor`}</Chip>
+            <Chip color="danger">{`${contra.length} en contra`}</Chip>
+          </span>
+        }
+        adelanto={<BarraPartida favor={favor.length} contra={contra.length} />}
       >
         <div>
           <h4 className="mb-2 titulo-seccion text-sm text-muted">A favor</h4>
@@ -132,7 +177,19 @@ export function Informe({ partida, fraseMeta, faseElegida }: Props) {
         </div>
       </Desplegable>
 
-      <Desplegable Icono={Clock} titulo="¿Dónde se decidió?" resumen={textoLlano(informe.momento_critico)}>
+      <Desplegable
+        Icono={Clock}
+        titulo="¿Dónde se decidió?"
+        resumen={textoLlano(informe.momento_critico)}
+        acento="danger"
+        adelanto={
+          minutoCritico != null ? (
+            <span className="rounded-full bg-danger px-2 py-0.5 font-cifra text-sm font-semibold text-bg">
+              {`Min ${minutoCritico}${caidaCritica != null && caidaCritica < 0 ? ` · −${pp(caidaCritica)}` : ''}`}
+            </span>
+          ) : undefined
+        }
+      >
         {puntosCriticos ? (
           <dl className="grid grid-cols-1 gap-2 text-center sm:grid-cols-3">
             <Estadistica
@@ -159,7 +216,20 @@ export function Informe({ partida, fraseMeta, faseElegida }: Props) {
         <Desplegable
           Icono={BarChart3}
           titulo="Contra los que llegaron al top"
-          resumen="Tu equipo, cierre a cierre, contra lo típico de los que llegaron"
+          resumen="Tu equipo, cierre a cierre, contra los que llegaron"
+          adelanto={
+            puntosTop ? (
+              <span className="flex items-center gap-1.5">
+                {puntosTop.map((p) => (
+                  <span
+                    key={p.nombre}
+                    title={p.nombre}
+                    className={`h-3 w-3 rounded-full ${p.bien == null ? 'bg-muted' : p.bien ? 'bg-alive' : 'bg-danger'}`}
+                  />
+                ))}
+              </span>
+            ) : undefined
+          }
         >
           <VinetasTop
             clave={partida.id}
@@ -173,12 +243,21 @@ export function Informe({ partida, fraseMeta, faseElegida }: Props) {
       <Desplegable
         Icono={Lightbulb}
         titulo="¿Qué hago la próxima?"
-        resumen={informe.recomendaciones[0] ? textoLlano(informe.recomendaciones[0]) : 'Sin recomendaciones'}
+        resumen={
+          informe.recomendaciones.length === 0
+            ? 'Sin recomendaciones'
+            : `${informe.recomendaciones.length} ${informe.recomendaciones.length === 1 ? 'consejo' : 'consejos'} para la siguiente`
+        }
       >
         <Lista items={informe.recomendaciones} vacio="Sin recomendaciones registradas." />
       </Desplegable>
 
-      <Desplegable Icono={Shuffle} titulo="¿Y si…?" resumen="Qué habría cambiado, según el análisis">
+      <Desplegable
+        Icono={Shuffle}
+        titulo="¿Y si…?"
+        resumen="Qué habría cambiado, según el análisis"
+        adelanto={mejorGanancia != null ? <Chip color="alive">{`hasta +${pp(mejorGanancia)}`}</Chip> : undefined}
+      >
         <Escenarios escenarios={partida.escenarios} />
       </Desplegable>
     </>

@@ -2,12 +2,17 @@ import { Children, useId, useState, type ReactNode } from 'react'
 import { AnimatePresence, motion } from 'motion/react'
 import { ChevronDown, type LucideIcon } from 'lucide-react'
 import { DESPLAZAMIENTO_ENTRADA, DURACION, retrasoCascada, useTransicion } from '../movimiento'
+import type { Acento } from './Plantilla'
 
 type Props = {
   Icono: LucideIcon
   titulo: string
   /** Una línea: lo que hay dentro, para decidir si abrirla sin abrirla. */
   resumen: ReactNode
+  /** Adelanto visual en la cabecera (chips, insignias, puntos): se ve con la tarjeta cerrada. */
+  adelanto?: ReactNode
+  /** Color del dato: borde superior de 3 px. */
+  acento?: Acento
   children: ReactNode
 }
 
@@ -18,7 +23,7 @@ type Props = {
  * abrir varias a la vez. Es un botón con aria-expanded: Enter y Espacio la
  * abren, y el foco se ve.
  */
-export function Desplegable({ Icono, titulo, resumen, children }: Props) {
+export function Desplegable({ Icono, titulo, resumen, adelanto, acento, children }: Props) {
   const [abierta, setAbierta] = useState(false)
   const idContenido = useId()
   const { reducido, transicion } = useTransicion()
@@ -26,14 +31,14 @@ export function Desplegable({ Icono, titulo, resumen, children }: Props) {
   const retraso = retrasoCascada(elementos.length)
 
   return (
-    <section className="elevable rounded-lg border border-line bg-card">
+    <section className={`elevable tarjeta min-w-0 ${acento ? `acento-${acento}` : ''}`}>
       <h3>
         <button
           type="button"
           onClick={() => setAbierta((v) => !v)}
           aria-expanded={abierta}
           aria-controls={idContenido}
-          className="flex w-full items-center gap-3 rounded-lg p-4 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zone"
+          className="flex w-full items-center gap-3 rounded-xl p-4 text-left focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zone"
         >
           <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-card-2 text-text">
             <Icono className="h-5 w-5" aria-hidden="true" />
@@ -42,6 +47,7 @@ export function Desplegable({ Icono, titulo, resumen, children }: Props) {
             <span className="block titulo-seccion text-base text-text">{titulo}</span>
             <span className="block text-sm text-muted">{resumen}</span>
           </span>
+          {adelanto && <span className="hidden shrink-0 sm:block">{adelanto}</span>}
           <motion.span
             animate={{ rotate: abierta ? 180 : 0 }}
             transition={transicion(abierta ? DURACION.abrir : DURACION.cerrar)}

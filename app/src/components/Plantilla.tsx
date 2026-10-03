@@ -20,6 +20,9 @@ export function MensajePrincipal({ antetitulo, children, detalle }: { antetitulo
 
 export type Delta = { texto: string; positivo: boolean }
 
+/** Color de dato para el borde superior de una tarjeta. */
+export type Acento = 'zone' | 'danger' | 'alive' | 'violet' | 'sand'
+
 /**
  * Tarjeta de número grande. El delta solo aparece donde hay una comparación
  * real: verde si es mejor, rojo si es peor.
@@ -32,6 +35,8 @@ export function Indicador({
   Icono,
   icono,
   delta,
+  acento,
+  grafica,
 }: {
   etiqueta: string
   valor: ReactNode
@@ -42,18 +47,23 @@ export function Indicador({
   /** O un ícono propio (p. ej. la huella de un perfil). */
   icono?: ReactNode
   delta?: Delta | null
+  /** Color del dato: borde superior de 3 px. */
+  acento?: Acento
+  /** Mini gráfica bajo la cifra (escalera, anillo, medidor…). */
+  grafica?: ReactNode
 }) {
   const Flecha = delta?.positivo ? ArrowUpRight : ArrowDownRight
   return (
-    <div className="flex min-w-0 flex-col gap-1 rounded-lg border border-line bg-card p-4">
+    <div className={`tarjeta flex min-w-0 flex-col gap-1 p-4 ${acento ? `acento-${acento}` : ''}`}>
       <div className="flex items-start justify-between gap-2">
         <dt className="etiqueta">{etiqueta}</dt>
         {icono ?? (Icono && <Icono className="h-5 w-5 shrink-0 text-muted" aria-hidden="true" />)}
       </div>
-      <dd className={`font-cifra text-5xl font-semibold leading-none ${tono ?? 'text-text'}`}>
+      <dd className={`font-cifra text-[3.5rem] font-semibold leading-none ${tono ?? 'text-text'}`}>
         {valor}
         {detalle && <span className="ml-1 font-texto text-sm font-normal text-muted">{detalle}</span>}
       </dd>
+      {grafica && <dd className="pt-1">{grafica}</dd>}
       {delta && (
         <dd className={`flex items-center gap-1 text-sm font-medium ${delta.positivo ? 'text-alive' : 'text-danger'}`}>
           <Flecha className="h-4 w-4 shrink-0" aria-hidden="true" />
@@ -76,6 +86,8 @@ export function FilaIndicadores({ columnas, children }: { columnas: 3 | 4 | 5; c
 }
 
 /** Pila de tarjetas desplegables: todo el detalle de la vista, cerrado por defecto, que entra en cascada. */
-export function Detalle({ children }: { children: ReactNode }) {
-  return <Cascada className="space-y-3">{children}</Cascada>
+export function Detalle({ children, columnas = 1 }: { children: ReactNode; columnas?: 1 | 2 }) {
+  return (
+    <Cascada className={columnas === 2 ? 'grid grid-cols-1 gap-3 xl:grid-cols-2 xl:items-start' : 'space-y-3'}>{children}</Cascada>
+  )
 }

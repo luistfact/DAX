@@ -900,3 +900,111 @@ discusiones ya cerradas.
   el notebook: la recomendación «Iniciar la rotación antes del cierre del
   círculo» (40 escuadrones) contradice el hallazgo de que la posición casi no
   pesa.
+- **2026-10-02** — Commit `5dbbe5f` (orden y animación). El push lo bloqueó el
+  control de permisos de la sesión: lo hace el usuario. Recomendación de
+  rotación del servicio reencuadrada («Evitar el gas: cada minuto fuera de la
+  zona cuesta salud, y la salud es lo que más pesa»), sin commit: va en uno
+  aparte con el notebook y los JSON, pero el notebook del repositorio todavía
+  dice «Iniciar la rotación…» (el usuario lo editó fuera). Pasada visual
+  (`PROMPT_BI_VISUAL.md`), bloque 1 (apariencia): tema claro de gris frío con
+  tarjetas blancas (`bg #EEF1F5`, `card #FFFFFF`, `card-2 #F5F7FA`, `line
+  #D9DEE6`, `text #141A22`, `muted #556070`: secundario ≥ 5.6:1 en fondo,
+  tarjeta y card-2, 5.2:1 en el cristal; acentos sin cambio, siguen pasando).
+  Clase `.tarjeta` (esquinas de 12 px, sombra suave solo en claro) y
+  `.acento-*` (borde superior de 3 px del color del dato). Ancho máximo de
+  1600 px centrado en encabezado, contenido y pie. Cifras de 56 px. Fondo
+  (curvas de nivel y cuadrícula A–H) más tenue. Decisiones del usuario para
+  el resto de la pasada: alto/medio/bajo se dice como comparación contra el
+  promedio («1.7 veces el promedio»), calculada de `perfiles.json`, sin
+  terciles; «6 de cada 10» con el porcentaje exacto debajo; solo tres
+  excepciones a las 12 palabras (Metodología, avisos de causalidad en una
+  línea con detalle desplegable, frase legal del pie). Nota de proceso: el
+  servidor de Vite dejó de recoger cambios de `index.css` hechos desde un
+  script (servía la versión anterior aunque el archivo y el build estaban
+  bien); y al detener su tarea quedó un proceso huérfano en el puerto 5173.
+  Si un cambio de CSS no aparece, comprobar con `fetch('/src/index.css?direct')`
+  y reiniciar Vite cerrando también ese proceso.
+- **2026-10-02** — Pasada visual, bloque 2 (Resumen). Banda del héroe en 12
+  columnas: título (Saira Stencil) con el anillo como emblema al lado (ya no
+  tapa «escuadrón»), subtítulo de 7 palabras y dos botones secundarios
+  («Explorar escuadrones», «Ver un ejemplo» → el desplome más claro); a la
+  derecha, 4 KPI del corpus con ícono y conteo. Gráfico principal: los cuatro
+  hallazgos en tarjetas 40/60 con borde de acento: dona grande con la cifra al
+  centro; las 6 cosas que más pesan con ícono + «Las demás pesan poco» (ajuste
+  del usuario); perfiles con la línea del 75 % («zona top»); aciertos por
+  cierre como área con degradado que **arranca en 50** con la línea «al
+  azar» (ajuste del usuario: `baseValue={50}`). Barras que crecen con
+  `scaleX` una vez por carga. `Conteo` gana un respaldo con `setTimeout`: si
+  el navegador pausa los cuadros (pestaña en segundo plano), al acabar su
+  duración fija el valor final en vez de quedarse en 0.
+- **2026-10-02** — Pasada visual, bloque 3 (Partidas). KPI con mini gráfica
+  (`MiniGraficas.tsx`, SVG propio): escalera de 1 a N con el corte del top,
+  anillo de «mejor que», medidor semicircular de las mejores posibilidades,
+  mini línea desde el pico (roja si cae 10 puntos o más), punto del minuto
+  crítico en una línea de 15 minutos (HTML para que el punto no se deforme).
+  Se llenan una vez por escuadrón y se deslizan al cambiar: el reporte ya no
+  se desmonta al elegir otro escuadrón (el minuto elegido se reinicia con un
+  efecto) y `Conteo` anima desde el valor anterior. La cifra de la caída va
+  solo con el número («−52» + «puntos» pequeño): a 56 px no cabía. Mensaje de
+  12 palabras como máximo («Se vino abajo en el minuto 11 y terminó 18° de
+  27.»). **Curva**: trazo con degradado horizontal de cortes duros, rojo solo
+  donde cae **5 puntos o más** de un minuto al siguiente (ajuste del usuario,
+  `UMBRAL_CAIDA_FUERTE`); área con degradado vertical; etiqueta «Momento
+  clave» arriba de la gráfica; cierres como franja segmentada bajo la línea
+  (eje Y de −0.1 a 1, área con `baseValue={0}`); pulso de dos latidos en el
+  momento clave. Leyendas de 2-4 palabras con el detalle en «?».
+  **Desplegables en 2 columnas** con adelanto visual: chips y barra partida en
+  «A favor y en contra», insignia roja con minuto y caída, tres puntos (salud
+  y compañeros verde/rojo, distancia gris) y «hasta +N puntos» en «¿Y si…?».
+  **Lista**: chips de filtro con el color de su categoría, la aclaración de
+  forma en «?», soldaditos con los integrantes en pie al final. `Ayuda` abre
+  su globo hacia donde haya espacio (se salía por la derecha en el teléfono).
+- **2026-10-02** — Pasada visual, bloque 4 (Perfiles). Mensaje: «Cuatro formas
+  de jugar el arranque; los Rotadores llegan más lejos.» Cuatro tarjetas con
+  borde del color del perfil, radar (se quedan, ajuste del usuario), medidor
+  semicircular y «6 de cada 10» con el exacto debajo (60 % y 58 % redondean
+  igual). Gráfico principal nuevo: puntos por característica, cada perfil con
+  su ícono dentro de un círculo de su color (segunda codificación para
+  daltonismo), línea en el promedio, se deslizan desde el promedio una vez
+  por carga (translateX). Comparación contra el promedio en palabras
+  (`comparacionPromedio`, solución definitiva del usuario en lugar de
+  terciles): ±10 % = «casi igual»; ≥ 1.45 = «N veces el promedio»; cerca de
+  un cuarto, un tercio o la mitad menos, con esa fracción; el resto en %. El
+  valor exacto, solo en el tooltip. Nombres: «Salud al aterrizar», «Qué tan
+  lejos de la zona caes», «Cuánto te mueves» y, para las dos de variabilidad,
+  «Qué tanto varía tu ruta / tu ritmo» (no «qué tan constante»: un valor alto
+  es menos constante y la comparación se leería al revés). Desplegables en 2
+  columnas con el rasgo que más distingue al perfil en la cabecera (las
+  descripciones de `perfiles.json` llegan a 14 palabras y van dentro).
+- **2026-10-02** — Pasada visual, bloque 5 (Metodología). Diagrama del flujo
+  más grande, con un ícono por paso (Database, Radio, ListOrdered, Cpu,
+  LayoutDashboard; el del modelo en `zone`), ancho máximo 6xl. Tarjeta nueva
+  «AUC de los cinco modelos»: barras horizontales con los dos de la app en
+  `zone` y su chip («Catálogo», «En vivo»), el resto en gris; eje de 0.5 (el
+  azar) a 0.75, rotulado, para no exagerar diferencias que son pequeñas.
+  La tabla queda en su desplegable; desplegables en 2 columnas. Arreglo de
+  rejilla: las celdas de `Cascada` y los `Desplegable` llevan `min-w-0` y el
+  detalle de 2 columnas `grid-cols-1` en angosto (una tabla estiraba la
+  celda y desbordaba 64 px a 390 px).
+- **2026-10-03** — Pasada visual, bloque 6 (lenguaje y texto). Inventario en
+  el navegador de los bloques visibles de más de 12 palabras (sin abrir
+  desplegables, fuera de Metodología y del pie): solo el subtítulo del
+  encabezado (17) → «Revisa tus partidas y descubre qué mejorar en la
+  siguiente.», y el aviso de tratamiento de datos (82 palabras), que no se
+  tocó: va como propuesta al usuario, porque no está entre las excepciones
+  aprobadas y es el texto de consentimiento. Búsqueda de términos técnicos en
+  el texto renderizado con todos los desplegables abiertos (Resumen,
+  Partidas, Perfiles): ninguno. Aviso de causalidad de «¿Y si…?» en una línea
+  («Muestra relaciones, no causas: no es lo que habría pasado.») con el texto
+  completo, sin cambios, en un `<details>` (excepción aprobada). Ficha de
+  Botsito: filas nuevas de traducciones de PROMPT_BI_VISUAL.md (percentil →
+  «mejor que 6 de cada 10», radios, nombres de los perfiles, métricas solo si
+  preguntan por el proyecto) y la regla de comparar con el promedio en vez de
+  dar valores crudos. Claude Code detuvo el servidor de Vite y el servicio
+  local por falta de memoria del sistema; estos últimos cambios no se
+  revisaron en el navegador.
+- **2026-10-03** — Aviso de tratamiento de datos (decisión del usuario): una
+  línea a la vista («Analizamos partidas ya jugadas; el buscador consulta la
+  API oficial de PUBG.») y el texto completo, sin cambios, en un `<details>`
+  («Leer el aviso completo»). Commit de la pasada visual sin `partidas.json`
+  ni `servicio/analisis.py`, que esperan al notebook para el commit aparte.

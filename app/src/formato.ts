@@ -46,10 +46,10 @@ export function pp(d: number | null | undefined, { signo = false } = {}): string
 export function distanciaCirculo(d: number | null | undefined): string {
   if (d == null) return '—'
   if (d > 1) return 'Fuera de la zona'
-  const camino = `${Math.round(d * 100)}${NBSP}% del camino al borde`
-  if (d <= 0.33) return `Dentro de la zona, cerca del centro (${camino})`
-  if (d <= 0.66) return `Dentro de la zona, a medio camino del borde (${camino})`
-  return `Dentro de la zona, cerca del borde (${camino})`
+  const camino = `${Math.round(d * 100)}${NBSP}%`
+  if (d <= 0.33) return `Cerca del centro (${camino})`
+  if (d <= 0.66) return `A medio camino del borde (${camino})`
+  return `Cerca del borde (${camino})`
 }
 
 /** Cambio de distancia al círculo entre dos minutos, en palabras. */

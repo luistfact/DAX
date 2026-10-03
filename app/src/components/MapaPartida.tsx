@@ -98,7 +98,7 @@ export function MapaPartida({ mapa, minuto, onMinuto }: Props) {
   }
 
   return (
-    <div className="rounded-lg border border-line bg-card p-4">
+    <div className="tarjeta p-4">
       <p className="mb-3 text-sm text-text">
         Tu recorrido durante la partida. Los círculos azules son la zona segura cerrándose; los puntos rojos, donde cayó
         alguien de tu escuadrón.

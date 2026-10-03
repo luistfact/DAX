@@ -46,7 +46,7 @@ function EsperaAnalisis({ inicio }: { inicio: number }) {
     transcurrido < INTERVALO_MENSAJE_MS ? MENSAJE_INICIAL : MENSAJES_ROTATIVOS[indiceMensaje]
 
   return (
-    <div className="flex items-center gap-4 rounded-lg border border-line bg-card p-4" role="status">
+    <div className="flex items-center gap-4 tarjeta p-4" role="status">
       <AnilloZona tamano={56} modo="bucle" className="text-zone" />
       <div>
         <p className="text-sm font-medium text-text">Analizando tu partida más reciente…</p>
@@ -114,7 +114,7 @@ export function AnalisisEnVivo({ estado, onCerrar }: Props) {
 
   return (
     <div className="space-y-4">
-      <div className="flex items-center justify-between gap-3 rounded-lg border border-line bg-card px-4 py-2">
+      <div className="flex items-center justify-between gap-3 tarjeta px-4 py-2">
         <p className="titulo-seccion text-sm text-muted">Análisis en vivo</p>
         <button
           type="button"

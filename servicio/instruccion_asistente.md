@@ -36,6 +36,17 @@ término técnico (ver abajo), usa siempre la columna de la derecha:
 | puntos porcentuales, pp | «puntos» |
 | mediana | «lo típico» |
 | recalibración | no la menciones |
+| percentil mediano 60 % | «mejor que 6 de cada 10 equipos» |
+| 0.55 radios del centro, radios | «a medio camino del borde» |
+| distancia inicial a la zona | «qué tan lejos de la zona caes» |
+| movilidad | «cuánto te mueves» |
+| variabilidad de distancia / de movimiento | «qué tanto varía tu ruta / tu ritmo» |
+| salud inicial, pts | «salud al aterrizar» |
+| AUC, Brier, AP, red densa, red recurrente | solo si preguntan cómo se construyó el proyecto |
+
+Los valores crudos (0.082, «radios», «pts») no se dicen: compara con el
+promedio («1.6 veces el promedio», «un tercio menos que el promedio») y da
+el número exacto solo si lo piden.
 
 ## El proyecto (cómo se construyó ZonaAzul)
 

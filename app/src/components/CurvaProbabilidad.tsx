@@ -1,4 +1,6 @@
-import { useState, type ReactNode } from 'react'
+import { useId, useState, type ReactNode } from 'react'
+import { motion } from 'motion/react'
+import { Ayuda } from './Ayuda'
 import {
   Area,
   CartesianGrid,
@@ -35,6 +37,9 @@ type Props = {
 }
 
 type TramoFase = { fase: number; desde: number; hasta: number }
+
+/** Caída entre un minuto y el siguiente que se pinta de rojo en la curva (5 puntos). */
+const UMBRAL_CAIDA_FUERTE = 0.05
 
 type Fila = Minuto & { referencia: number | null }
 
@@ -235,6 +240,10 @@ export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinuto
   const animar = useAnimarUnaVez(`curva-${partida?.id ?? 'vacia'}`)
   // Ícono de evento bajo el cursor o con foco: su minuto y su x en la gráfica.
   const [eventoActivo, setEventoActivo] = useState<{ minuto: number; x: number } | null>(null)
+  // El momento clave late dos veces al cargar y se detiene (una vez por escuadrón).
+  const pulsoInicial = useAnimarUnaVez(`pulso-${partida?.id ?? 'vacia'}`)
+  const [pulsar] = useState(pulsoInicial)
+  const idBase = useId().replace(/[^a-zA-Z0-9]/g, '')
 
   if (!partida) {
     return <EstadoVacio mensaje="Selecciona un escuadrón para ver su probabilidad de llegar al top 25 %." />
@@ -276,8 +285,17 @@ export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinuto
         .filter(Boolean)
         .join(' · ')
     : null
-  // Pegada al lado del gráfico que tiene espacio, para que no se salga del borde.
-  const etiquetaALaIzquierda = puntoCritico != null && puntoCritico.minuto > (primero + ultimo) / 2
+  // Color de cada tramo entre minutos: rojo solo en caídas de 5 puntos o más,
+  // para que el rojo siga señalando lo importante; las bajadas pequeñas, azul.
+  const conProbabilidad = minutos.filter((m) => m.probabilidad != null)
+  const desdeX = conProbabilidad[0]?.minuto ?? primero
+  const hastaX = conProbabilidad.at(-1)?.minuto ?? ultimo
+  const posicion = (m: number) => (hastaX > desdeX ? (m - desdeX) / (hastaX - desdeX) : 0)
+  const tramosColor = conProbabilidad.slice(1).map((m, i) => {
+    const previo = conProbabilidad[i]
+    const cae = (previo.probabilidad as number) - (m.probabilidad as number) >= UMBRAL_CAIDA_FUERTE
+    return { desde: posicion(previo.minuto), hasta: posicion(m.minuto), color: cae ? paleta.danger : paleta.zone }
+  })
 
   // Sin elección, el panel abre en el momento crítico: es lo primero que hay que ver.
   const elegido = minutoMarcado ?? minutoPropio ?? puntoCritico?.minuto ?? ultimo
@@ -291,7 +309,7 @@ export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinuto
 
   return (
     <Mira>
-      <div className="rounded-lg border border-line bg-card p-4">
+      <div className="tarjeta p-4">
         <div className="mb-2 flex items-center justify-between gap-3">
           <h3 className="titulo-seccion text-base text-muted">{LABEL_PROBABILIDAD_TOP25}</h3>
           <BotonCompartir partida={partida} />
@@ -299,6 +317,12 @@ export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinuto
 
         <div className="grid gap-4 lg:grid-cols-[minmax(0,1fr)_240px]">
           <div className="min-w-0">
+            {etiquetaCritica && (
+              <p className="mb-2 flex items-center gap-2 text-sm">
+                <span className="rounded-full bg-danger px-2 py-0.5 text-xs font-semibold text-bg">Momento clave</span>
+                <span className="font-medium text-text">{etiquetaCritica}</span>
+              </p>
+            )}
             <div className="relative">
             {eventoActivo && (
               <TarjetaEvento
@@ -317,40 +341,41 @@ export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinuto
                   if (estado.activeLabel != null) elegir(Number(estado.activeLabel))
                 }}
               >
+                <defs>
+                  {/* Trazo por tramos con cortes duros: rojo solo donde cae 5 puntos o más de un minuto al siguiente. */}
+                  <linearGradient id={`trazo-${idBase}`} x1="0" y1="0" x2="1" y2="0">
+                    {tramosColor.flatMap((t, i) => [
+                      <stop key={`${i}a`} offset={t.desde} stopColor={t.color} />,
+                      <stop key={`${i}b`} offset={t.hasta} stopColor={t.color} />,
+                    ])}
+                  </linearGradient>
+                  <linearGradient id={`area-${idBase}`} x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stopColor={paleta.zone} stopOpacity={0.35} />
+                    <stop offset="100%" stopColor={paleta.zone} stopOpacity={0.02} />
+                  </linearGradient>
+                </defs>
+                {/* Cierres como franja segmentada bajo la línea, tipo línea de tiempo de juego. */}
                 {tramos.map((t, i) => (
                   <ReferenceArea
                     key={`${t.fase}-${t.desde}`}
                     x1={t.desde - 0.5}
                     x2={t.hasta + 0.5}
-                    fill={i % 2 === 0 ? 'transparent' : paleta.phaseBand}
-                    stroke="none"
-                    label={{ value: rotuloFaseCorto(t.fase), position: 'insideTop', offset: -18, fontSize: 12, fill: paleta.muted }}
+                    y1={-0.1}
+                    y2={-0.035}
+                    fill={paleta.zone}
+                    fillOpacity={i % 2 === 0 ? 0.22 : 0.4}
+                    stroke={paleta.card}
+                    strokeWidth={2}
+                    label={{ value: rotuloFaseCorto(t.fase), position: 'center', fontSize: 12, fill: paleta.text }}
                   />
                 ))}
                 {puntoCritico && etiquetaCritica && (
                   <ReferenceArea
                     x1={puntoCritico.minuto - 0.5}
                     x2={puntoCritico.minuto + 0.5}
+                    y1={0}
                     fill={paleta.dangerWash}
                     stroke="none"
-                    label={({ viewBox }: { viewBox?: { x?: number; y?: number; width?: number; height?: number } }) => {
-                      const x = viewBox?.x ?? 0
-                      const y = viewBox?.y ?? 0
-                      const ancho = viewBox?.width ?? 0
-                      const alto = viewBox?.height ?? 0
-                      return (
-                        <text
-                          x={etiquetaALaIzquierda ? x + ancho - 4 : x + 4}
-                          y={y + alto - 8}
-                          textAnchor={etiquetaALaIzquierda ? 'end' : 'start'}
-                          fontSize={12}
-                          fontWeight={600}
-                          fill={paleta.text}
-                        >
-                          {etiquetaCritica}
-                        </text>
-                      )
-                    }}
                   />
                 )}
                 <CartesianGrid strokeDasharray="3 3" stroke={paleta.cuadricula} vertical={false} />
@@ -364,7 +389,8 @@ export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinuto
                   label={{ value: 'Minuto', position: 'insideBottom', offset: -16, fontSize: 12, fill: paleta.muted }}
                 />
                 <YAxis
-                  domain={[0, 1]}
+                  // Debajo de 0 queda espacio para la franja de cierres.
+                  domain={[-0.1, 1]}
                   ticks={[0, 0.25, 0.5, 0.75, 1]}
                   tickFormatter={(v: number) => pct(v)}
                   stroke={paleta.muted}
@@ -389,9 +415,10 @@ export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinuto
                 <Area
                   type="monotone"
                   dataKey="probabilidad"
-                  stroke={paleta.zone}
-                  strokeWidth={2}
-                  fill={paleta.zoneWash}
+                  baseValue={0}
+                  stroke={`url(#trazo-${idBase})`}
+                  strokeWidth={2.5}
+                  fill={`url(#area-${idBase})`}
                   fillOpacity={1}
                   dot={{ r: 3, fill: paleta.zone, stroke: paleta.zone }}
                   activeDot={false}
@@ -405,9 +432,24 @@ export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinuto
                     x={puntoCritico.minuto}
                     y={puntoCritico.probabilidad ?? 0}
                     r={6}
-                    fill={paleta.danger}
-                    stroke={paleta.card}
-                    strokeWidth={2}
+                    shape={({ cx, cy }: { cx?: number; cy?: number }) => (
+                      <g>
+                        {pulsar && (
+                          // Dos latidos y se detiene. Solo transformación y opacidad.
+                          <motion.circle
+                            cx={cx}
+                            cy={cy}
+                            r={6}
+                            fill={paleta.danger}
+                            style={{ transformBox: 'fill-box', transformOrigin: 'center' }}
+                            initial={{ scale: 1, opacity: 0.6 }}
+                            animate={{ scale: 2.6, opacity: 0 }}
+                            transition={{ duration: 0.8, ease: 'easeOut', repeat: 1, delay: DURACION_GRAFICA_MS / 1000 }}
+                          />
+                        )}
+                        <circle cx={cx} cy={cy} r={6} fill={paleta.danger} stroke={paleta.card} strokeWidth={2} />
+                      </g>
+                    )}
                   />
                 )}
                 {eventos.map((e) => {
@@ -446,8 +488,16 @@ export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinuto
             </div>
             <ul className="mt-1 flex flex-wrap gap-x-4 gap-y-1 text-xs text-muted">
               <li className="flex items-center gap-1.5">
-                <span className="h-3 w-3 rounded-sm bg-danger-wash ring-1 ring-danger" aria-hidden="true" />
-                Momento crítico
+                <span className="h-3 w-3 rounded-full bg-danger" aria-hidden="true" />
+                Momento clave
+              </li>
+              <li className="flex items-center gap-1.5">
+                <span className="w-4 border-t-2 border-zone" aria-hidden="true" />
+                Tu equipo
+              </li>
+              <li className="flex items-center gap-1.5">
+                <span className="w-4 border-t-2 border-danger" aria-hidden="true" />
+                Caída fuerte
               </li>
               <li className="flex items-center gap-1.5">
                 <UserX className="h-3.5 w-3.5 text-danger" aria-hidden="true" />
@@ -455,17 +505,23 @@ export function CurvaProbabilidad({ partida, referencia, minutoMarcado, onMinuto
               </li>
               <li className="flex items-center gap-1.5">
                 <HeartCrack className="h-3.5 w-3.5 text-text" aria-hidden="true" />
-                Golpe fuerte (25 puntos de salud o más en un minuto)
+                Golpe fuerte
+                <Ayuda texto="25 puntos de salud o más perdidos en un minuto." etiqueta="¿Qué es un golpe fuerte?" />
               </li>
               <li className="flex items-center gap-1.5">
-                <span className="h-2.5 w-4 rounded-sm bg-phase-band ring-1 ring-line" aria-hidden="true" />
-                Cierres de la zona (C1 a C6)
+                <span className="h-2.5 w-4 rounded-sm bg-zone/40" aria-hidden="true" />
+                Cierres de la zona
               </li>
               {referencia && (
                 <li className="flex items-center gap-1.5">
                   <span className="w-4 border-t-2 border-dashed border-muted" aria-hidden="true" />
-                  Lo típico de los que llegaron al top
-                  {escuadronesReferencia != null && ` (${miles(escuadronesReferencia)} escuadrones)`}
+                  Los que llegaron
+                  {escuadronesReferencia != null && (
+                    <Ayuda
+                      texto={`Lo típico de los ${miles(escuadronesReferencia)} escuadrones que llegaron al top 25 %.`}
+                      etiqueta="¿Quiénes son los que llegaron?"
+                    />
+                  )}
                 </li>
               )}
             </ul>

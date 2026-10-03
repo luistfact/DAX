@@ -14,7 +14,9 @@
 //
 // Validadas con validate_palette.js del skill de dataviz:
 //   perfiles oscuro: "#4594F7,#AF62C1,#A0906F,#F75247" --mode dark --surface "#151A18" --pairs all
-//   perfiles claro:  "#1069CB,#874197,#8A7A5A,#BE2420" --mode light --surface "#F3F4EE" --pairs all
+//   perfiles claro:  "#1069CB,#874197,#8A7A5A,#BE2420" --mode light --surface "#EEF1F5" (y "#FFFFFF") --pairs all
+// Tema claro de gris frío con tarjetas blancas: texto secundario #556070 da
+// 5.6:1 o más sobre fondo, tarjeta y card-2, y 5.2:1 en el cristal (peor caso).
 // Ajustes respecto del complemento: zone y danger, un poco más oscuros para
 // entrar en la banda de luminosidad; violet #B38CFF quedaba idéntico al azul
 // para protanopía (ΔE 0.6) y pasó a orquídea #AF62C1 (ΔE 8.5). La arena de
@@ -69,12 +71,12 @@ export const PALETA_OSCURA: Paleta = {
 }
 
 export const PALETA_CLARA: Paleta = {
-  bg: '#F3F4EE',
-  card: '#FCFCF8',
-  card2: '#ECEEE6',
-  line: '#D6D8CB',
-  text: '#1B1D17',
-  muted: '#5D604F',
+  bg: '#EEF1F5',
+  card: '#FFFFFF',
+  card2: '#F5F7FA',
+  line: '#D9DEE6',
+  text: '#141A22',
+  muted: '#556070',
   brand: '#F2A900',
   onBrand: '#0C0F0E',
   zone: '#1069CB',
@@ -85,5 +87,5 @@ export const PALETA_CLARA: Paleta = {
   zoneWash: 'rgba(16, 105, 203, 0.12)',
   phaseBand: 'rgba(16, 105, 203, 0.06)',
   dangerWash: 'rgba(190, 36, 32, 0.12)',
-  cuadricula: 'rgba(93, 96, 79, 0.16)',
+  cuadricula: 'rgba(85, 96, 112, 0.14)',
 }

@@ -108,7 +108,7 @@ export function AsistenteChat({ partida, sugerencias }: Props) {
   }
 
   return (
-    <div className="space-y-3 rounded-lg border border-line bg-card p-4 shadow-xl">
+    <div className="space-y-3 tarjeta p-4 shadow-xl">
       <div>
         <h4 className="titulo-seccion text-lg text-text">Botsito</h4>
         <p className="text-xs text-muted">

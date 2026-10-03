@@ -105,11 +105,17 @@ export function Escenarios({ escenarios }: Props) {
           <TarjetaEscenario key={esc.escenario} esc={esc} destacada={hayDestacada && i === 0} />
         ))}
       </ul>
-      <p className="rounded-md border border-muted/30 p-3 text-sm text-text">
-        Esto compara posibilidades dentro del análisis, no lo que habría pasado en realidad. El análisis encuentra relaciones,
-        no causas: los equipos que llegan completos suelen ir mejor, pero no sabemos si es por llegar completos o porque
-        son mejores jugadores en general.
-      </p>
+      {/* Excepción aprobada a las 12 palabras: el aviso va en una línea y su detalle, completo, desplegable. */}
+      <details className="rounded-md border border-muted/30 p-3 text-sm text-text">
+        <summary className="cursor-pointer font-medium focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-zone">
+          Muestra relaciones, no causas: no es lo que habría pasado.
+        </summary>
+        <p className="mt-2 text-muted">
+          Esto compara posibilidades dentro del análisis, no lo que habría pasado en realidad. El análisis encuentra
+          relaciones, no causas: los equipos que llegan completos suelen ir mejor, pero no sabemos si es por llegar
+          completos o porque son mejores jugadores en general.
+        </p>
+      </details>
     </div>
   )
 }

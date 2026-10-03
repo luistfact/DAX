@@ -1,4 +1,7 @@
 import type { ReactNode } from 'react'
+import { motion } from 'motion/react'
+import { useAnimarUnaVez } from '../hooks/useAnimarUnaVez'
+import { DURACION, useTransicion } from '../movimiento'
 import {
   CartesianGrid,
   Legend,
@@ -149,6 +152,52 @@ function Cifras({ modelo }: { modelo: ModeloMetrica | undefined }) {
   )
 }
 
+// El eje de las barras de AUC arranca en 0.5 (el azar): desde cero, las cinco
+// familias se verían iguales; el rótulo lo dice para no exagerar diferencias.
+const AUC_PISO = 0.5
+const AUC_TECHO = 0.75
+
+/** AUC de los cinco modelos en barras, con los dos que usa la app resaltados. */
+function BarrasAuc({ modelos }: { modelos: ModeloMetrica[] }) {
+  const crecer = useAnimarUnaVez('barras-auc')
+  const { transicion } = useTransicion()
+  const ordenados = [...modelos].sort((a, b) => b.AUC - a.AUC)
+  return (
+    <div className="space-y-2">
+      <ul className="space-y-2.5">
+        {ordenados.map((m, i) => {
+          const enApp = m.Modelo === RECURRENTE ? 'Catálogo' : m.Modelo === DENSA ? 'En vivo' : null
+          const fraccion = Math.max(0, Math.min(1, (m.AUC - AUC_PISO) / (AUC_TECHO - AUC_PISO)))
+          return (
+            <li key={m.Modelo} className="grid grid-cols-[minmax(0,15rem)_1fr_3.5rem] items-center gap-3 text-sm">
+              <span className={`flex items-center gap-2 ${enApp ? 'font-semibold text-text' : 'text-muted'}`}>
+                {nombreModelo(m.Modelo, i === ordenados.findIndex((x) => x.Modelo === BOOSTING))}
+                {enApp && (
+                  <span className="rounded-full border border-zone/60 bg-zone/15 px-2 py-0.5 text-xs font-medium text-text">
+                    {enApp}
+                  </span>
+                )}
+              </span>
+              <span className="relative block h-3 overflow-hidden rounded-sm bg-text/5">
+                <motion.span
+                  className={`absolute inset-0 origin-left rounded-sm ${enApp ? 'bg-zone' : 'bg-muted/60'}`}
+                  initial={crecer ? { scaleX: 0 } : false}
+                  animate={{ scaleX: fraccion }}
+                  transition={transicion(DURACION.grafica)}
+                />
+              </span>
+              <span className={`text-right font-cifra text-base ${enApp ? 'text-text' : 'text-muted'}`}>{metrica(m.AUC)}</span>
+            </li>
+          )
+        })}
+      </ul>
+      <p className="text-xs text-muted">
+        Eje desde 0.5 (el azar) hasta 0.75. Las diferencias entre familias son pequeñas.
+      </p>
+    </div>
+  )
+}
+
 /** Pestaña para el evaluador: de dónde salen los datos, qué modelo se usa y qué tan bien funciona, sin exagerar. */
 export function Metodologia({ metricas }: Props) {
   const paleta = usePaleta()
@@ -196,9 +245,9 @@ export function Metodologia({ metricas }: Props) {
         />
       </FilaIndicadores>
 
-      <section className="space-y-3 rounded-lg border border-line bg-card p-5">
+      <section className="space-y-3 tarjeta p-5">
         <h3 className="titulo-seccion text-base text-text">De los datos a la app</h3>
-        <div className="mx-auto max-w-5xl">
+        <div className="mx-auto max-w-6xl">
           <DiagramaFlujo />
         </div>
         {partidas && partidasCatalogo != null && (
@@ -211,7 +260,12 @@ export function Metodologia({ metricas }: Props) {
         )}
       </section>
 
-      <Detalle>
+      <section className="tarjeta acento-zone space-y-3 p-5">
+        <h3 className="titulo-seccion text-base text-text">AUC de los cinco modelos</h3>
+        <BarrasAuc modelos={modelos} />
+      </section>
+
+      <Detalle columnas={2}>
         <Desplegable
           Icono={Cpu}
           titulo="Los modelos que usa la app"
@@ -268,7 +322,7 @@ export function Metodologia({ metricas }: Props) {
           titulo="Comparación de modelos"
           resumen={`Cinco familias, de ${metrica(aucMin)} a ${metrica(aucMax)} de AUC`}
         >
-          <div className="overflow-x-auto rounded-lg border border-line bg-card">
+          <div className="overflow-x-auto tarjeta">
             <table className="w-full text-left text-sm">
               <thead className="titulo-seccion border-b border-line bg-text/5 text-sm text-muted">
                 <tr>

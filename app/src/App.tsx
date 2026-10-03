@@ -86,11 +86,11 @@ function App() {
       <AvisoTratamiento aceptado={aceptoTratamiento} onAceptar={setAceptoTratamiento} />
 
       <header ref={refEncabezado} className="nav-cristal sticky top-0 z-30 border-b border-line">
-        <div className="flex flex-wrap items-center gap-x-6 gap-y-3 px-4 py-3 sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-[1600px] flex-wrap items-center gap-x-6 gap-y-3 px-4 py-3 sm:px-6 lg:px-8">
           <div className="min-w-0 flex-1">
             <h1 className="titulo-seccion text-2xl text-text">ZonaAzul</h1>
             <p className="text-sm text-muted">
-              Aprende de tus partidas: revisamos lo que ya jugaste para que sepas qué mejorar en la siguiente.
+              Revisa tus partidas y descubre qué mejorar en la siguiente.
             </p>
           </div>
           {aceptoTratamiento && (
@@ -102,7 +102,7 @@ function App() {
         </div>
 
         {aceptoTratamiento && (
-          <nav className="flex overflow-x-auto px-2 [scrollbar-width:none] sm:gap-1 sm:px-6 lg:px-8" aria-label="Secciones">
+          <nav className="mx-auto flex max-w-[1600px] overflow-x-auto px-2 [scrollbar-width:none] sm:gap-1 sm:px-6 lg:px-8" aria-label="Secciones">
             {PESTANAS.map((p) => (
               <button
                 key={p}
@@ -130,7 +130,8 @@ function App() {
             <AnimatePresence mode="popLayout" initial={false}>
               <motion.div
                 key={pestana}
-                className="space-y-6"
+                // Ancho máximo de 1600 px, centrado: a 1920 px ya no se estira todo.
+                className="mx-auto w-full max-w-[1600px] space-y-6"
                 // La vista que sale no recibe clics: nada debe interponerse con la nueva.
                 exit={{ opacity: 0, pointerEvents: 'none', transition: transicion(DURACION.salidaVista) }}
               >
@@ -140,6 +141,12 @@ function App() {
                 perfiles={perfiles}
                 partidas={partidas}
                 onExplorar={() => setPestana('Partidas')}
+                onVerEjemplo={() => {
+                  // El desplome más claro: el caso que mejor enseña a leer la curva.
+                  analisis.reiniciar()
+                  setPartidaSeleccionada(idPorDefecto)
+                  setPestana('Partidas')
+                }}
                 onVerPerfiles={() => setPestana('Perfiles')}
               />
             )}
@@ -162,8 +169,6 @@ function App() {
                         <AnalisisEnVivo estado={analisis.estado} onCerrar={analisis.reiniciar} />
                       ) : entradaActual ? (
                         <Reporte
-                          // Un escuadrón nuevo empieza limpio: su minuto elegido, su cascada, sus números.
-                          key={entradaActual.partida.id}
                           partida={entradaActual.partida}
                           titulo={nombreEscuadron(entradaActual)}
                           subtitulo={[
@@ -205,7 +210,7 @@ function App() {
             </AnimatePresence>
           </main>
 
-          <footer className="border-t border-line px-4 py-4 text-xs text-muted sm:px-6 lg:px-8">
+          <footer className="mx-auto w-full max-w-[1600px] border-t border-line px-4 py-4 text-xs text-muted sm:px-6 lg:px-8">
             <p>
               Proyecto académico independiente. No afiliado a KRAFTON ni a PUBG. Imágenes de mapas: KRAFTON, Inc., vía
               pubg/api-assets.
