@@ -323,7 +323,9 @@ def _generar_informe(agg: pd.DataFrame, prob: np.ndarray,
         recomendaciones.append("Revisar la coordinación en los enfrentamientos")
     if fuera > 0.15:
         adversos.append(f"Permaneció fuera de la zona el {fuera * 100:.0f} % del tiempo")
-        recomendaciones.append("Iniciar la rotación antes del cierre del círculo")
+        # Reencuadrada como en el notebook: la posición casi no pesa; lo que cuesta
+        # estar fuera de la zona es la salud.
+        recomendaciones.append("Evitar el gas: cada minuto fuera de la zona cuesta salud, y la salud es lo que más pesa")
     else:
         favorables.append("Posicionamiento dentro de la zona sostenido")
     if hp_ini - hp_fin > 40:
