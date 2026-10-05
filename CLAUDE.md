@@ -1192,3 +1192,50 @@ discusiones ya cerradas.
   (`PROMPT_BI_VISUAL.md`, `PROMPT_PULIDO_BI.md`); `ejemplo_fondos.html`
   borrado (decisión del usuario: la opción A ya está en la app). Quedan fuera
   `partidas.json` y `servicio/analisis.py`, para el commit con el notebook.
+- **2026-10-04** — **Reglas de forma de curva nuevas** (reemplazan las del
+  2026-09-16, bloque 2), idénticas en `app/src/forma.ts` y `servicio/forma.py`.
+  Motivo: los umbrales viejos (0.30, 0.50, 0.55…) estaban en la escala de la
+  red sin recalibrar y, tras la recalibración de Platt, ningún escuadrón salía
+  Dominante. Ahora son relativos al catálogo:
+  - Se ignoran los minutos 0 a 2 (todos empiezan cerca de la tasa base). Con
+    menos de 3 minutos de datos desde el minuto 3 → **«Partida muy corta»**
+    (antes «Sin datos suficientes»; nombre del usuario, en lenguaje de
+    jugador): categoría propia, al final de la lista y sin pastilla.
+  - Constantes calculadas **una vez** sobre `partidas.json` (200 escuadrones,
+    187 con datos suficientes): `P75_CIERRE = 0.5348` (percentil 75 del
+    promedio de los últimos 3 minutos) y `MEDIANA = 0.3448` (mediana de todas
+    las probabilidades desde el minuto 3; no la mediana de las medianas por
+    escuadrón, 0.3193). Si se regenera el catálogo, se recalculan y se copian
+    en los dos archivos.
+  - Orden de evaluación (decisión del usuario: manda el final de la partida):
+    1. **Desplome**: cae ≥ 20 puntos desde su máximo y termina a ≤ 5 puntos de
+       lo más bajo que llegó después.
+    2. **Dominante**: promedio de los últimos 3 minutos ≥ `P75_CIERRE` y
+       desde el minuto 3 nunca baja de `MEDIANA`. (El único que también cumple
+       Remontada queda Dominante: un equipo fuerte con un tropiezo.)
+    3. **Remontada**: cae ≥ 10 puntos desde un máximo previo y después
+       recupera ≥ 15 desde ese punto bajo.
+    4. **Reñida**: ninguna de las anteriores.
+  - Se elimina «Caída temprana».
+  - Reparto: Dominante 13 (6.5 %; 77 % llegó al top), Remontada 33 (16.5 %;
+    64 %), Desplome 60 (30 %; 3 %), Reñida 81 (40.5 %; 36 %), Partida muy
+    corta 13 (6.5 %; 0 %). Ninguna vacía ni por encima del 50 %.
+  - App y servicio comprobados con los 200 escuadrones (`forma.ts` ejecutado
+    con Node 24, que entiende TypeScript; `forma.py` con Python): 0
+    diferencias.
+  - Orden «más claro primero» dentro de cada categoría: Desplome por la caída
+    desde su máximo, Remontada por la recuperación tras la caída, Dominante
+    por el promedio desde el minuto 3, Reñida por qué tan cerca de `MEDIANA`
+    anduvo, y las partidas muy cortas, las más cortas primero.
+  Mensaje del reporte: Remontada → «Se recuperó de una caída» (la regla ya no
+  exige tocar fondo, «desde muy abajo» exageraba); Partida muy corta → «Duró
+  muy poco». **Lista agrupada**: con «Todas», una sección por categoría
+  (Desplomes, Remontadas, Dominadas, Reñidas, Partidas muy cortas) con su
+  conteo, los 3 casos más claros y «Ver las N» (se vuelve «Ver solo los 3
+  más claros»); si el escuadrón elegido está más abajo de los 3 primeros, su
+  sección se abre sola. Con una pastilla, la categoría completa. La línea
+  «200 escuadrones de 45 partidas…» pasa de encabezado a nota al pie de la
+  lista (ya estaba en 12 px, el mínimo de la app). De paso: el centrado
+  automático de la fila elegida medía con `offsetTop`, que desde la sección G
+  se medía contra el `div` relativo de la fila (siempre 0); ahora mide con
+  rectángulos contra el contenedor `[data-lista-escuadrones]`.

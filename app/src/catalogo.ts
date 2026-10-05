@@ -1,5 +1,5 @@
 import type { Minuto, Partida, Perfiles } from './types/datos'
-import { clasificarForma, magnitudDesplome, magnitudRemontada, nivelDominante, type Forma } from './forma'
+import { clasificarForma, magnitudDesplome, magnitudRemontada, nivelCorta, nivelDominante, nivelRenida, type Forma } from './forma'
 
 export type Filtro = 'Todas' | 'Desplome' | 'Remontada' | 'Dominante'
 
@@ -11,15 +11,40 @@ export const FILTROS: { id: Filtro; etiqueta: string }[] = [
 ]
 
 /**
- * Dentro de cada filtro, primero los casos más claros de esa forma (documentado
- * en CLAUDE.md): Desplome por la caída entre su mejor momento y el cierre,
- * Remontada por la recuperación desde su peor momento, Dominante por la
- * probabilidad promedio sostenida en toda la curva.
+ * Dentro de cada categoría, primero los casos más claros (documentado en
+ * CLAUDE.md): Desplome por cuánto cayó desde su máximo, Remontada por cuánto
+ * recuperó tras la caída, Dominante por sus posibilidades promedio, Reñida por
+ * qué tan pegada a la mediana anduvo y las partidas muy cortas, las más
+ * cortas primero.
  */
-const PUNTAJE: Record<Exclude<Filtro, 'Todas'>, (minutos: Minuto[]) => number> = {
+const PUNTAJE: Record<Forma, (minutos: Minuto[]) => number> = {
   Desplome: magnitudDesplome,
   Remontada: magnitudRemontada,
   Dominante: nivelDominante,
+  Reñida: nivelRenida,
+  'Partida muy corta': nivelCorta,
+}
+
+/** Secciones de la lista con «Todas»: las de pastilla primero y las partidas muy cortas al final. */
+export const SECCIONES: { forma: Forma; titulo: string }[] = [
+  { forma: 'Desplome', titulo: 'Desplomes' },
+  { forma: 'Remontada', titulo: 'Remontadas' },
+  { forma: 'Dominante', titulo: 'Dominadas' },
+  { forma: 'Reñida', titulo: 'Reñidas' },
+  { forma: 'Partida muy corta', titulo: 'Partidas muy cortas' },
+]
+
+/** Las entradas de una categoría, del caso más claro al menos claro. */
+function porClaridad(catalogo: EntradaCatalogo[], forma: Forma): EntradaCatalogo[] {
+  const puntuar = PUNTAJE[forma]
+  return catalogo
+    .filter((e) => e.forma === forma)
+    .sort((a, b) => puntuar(b.partida.minutos) - puntuar(a.partida.minutos))
+}
+
+/** La lista agrupada del filtro «Todas»: una sección por categoría, sin las vacías. */
+export function agruparCatalogo(catalogo: EntradaCatalogo[]) {
+  return SECCIONES.map((s) => ({ ...s, entradas: porClaridad(catalogo, s.forma) })).filter((s) => s.entradas.length > 0)
 }
 
 export type EntradaCatalogo = {
@@ -51,11 +76,7 @@ export function construirCatalogo(partidas: Partida[], perfiles: Perfiles | null
 
 /** Entradas de un filtro, en el orden en que se muestran. */
 export function filtrarCatalogo(catalogo: EntradaCatalogo[], filtro: Filtro): EntradaCatalogo[] {
-  if (filtro === 'Todas') return catalogo
-  const puntuar = PUNTAJE[filtro]
-  return catalogo
-    .filter((e) => e.forma === filtro)
-    .sort((a, b) => puntuar(b.partida.minutos) - puntuar(a.partida.minutos))
+  return filtro === 'Todas' ? catalogo : porClaridad(catalogo, filtro)
 }
 
 /** «Partida 7 · Escuadrón 12»: una partida tiene varios escuadrones, así que el nombre lleva los dos. */

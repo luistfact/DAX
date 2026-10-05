@@ -23,9 +23,8 @@ const BARRA: Record<Forma, string> = {
   Desplome: 'bg-danger',
   Remontada: 'bg-zone',
   Dominante: 'bg-text',
-  'Caída temprana': 'bg-line',
   Reñida: 'bg-line',
-  'Sin datos suficientes': 'bg-line',
+  'Partida muy corta': 'bg-line',
 }
 
 /** Soldaditos: en pie en verde, caídos en gris. */
@@ -58,9 +57,12 @@ export function FilaEscuadron({ entrada, activa, onSeleccionar, onFiltrar, etiqu
   // (scrollIntoView movería los dos).
   useEffect(() => {
     const fila = ref.current
-    const lista = fila?.closest('ul')
+    const lista = fila?.closest<HTMLElement>('[data-lista-escuadrones]')
     if (!activa || !fila || !lista) return
-    const arriba = fila.offsetTop
+    // Posición dentro del contenedor con scroll medida con rectángulos:
+    // offsetTop se mide contra el ancestro posicionado más cercano, que ya no
+    // es la lista (la fila va en un div relativo y la lista tiene secciones).
+    const arriba = fila.getBoundingClientRect().top - lista.getBoundingClientRect().top + lista.scrollTop
     const abajo = arriba + fila.offsetHeight
     if (arriba < lista.scrollTop || abajo > lista.scrollTop + lista.clientHeight) {
       lista.scrollTop = arriba - lista.clientHeight / 2 + fila.offsetHeight / 2

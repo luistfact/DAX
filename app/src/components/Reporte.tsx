@@ -59,11 +59,12 @@ function mensaje(forma: Forma, partida: Partida, minutoCritico: number | null): 
   // Doce palabras como máximo: el top ya lo dice el trofeo de la tarjeta.
   const como: Record<Forma, string> = {
     Desplome: minutoCritico != null ? `Se vino abajo en el minuto ${minutoCritico}` : 'Se vino abajo al final',
-    Remontada: 'Remontó desde muy abajo',
+    // La regla de Remontada pide caer 10 puntos y recuperar 15, no tocar fondo:
+    // «se recuperó» y no «desde muy abajo».
+    Remontada: 'Se recuperó de una caída',
     Dominante: 'Dominó la partida',
-    'Caída temprana': 'Empezó cuesta arriba',
     Reñida: 'Partida reñida',
-    'Sin datos suficientes': 'Pocos minutos para leer',
+    'Partida muy corta': 'Duró muy poco',
   }
   return `${como[forma]} y terminó ${partida.posicion_final}° de ${partida.escuadrones}.`
 }

@@ -1,88 +1,112 @@
 import type { Minuto } from './types/datos'
 
-// Umbrales y orden de evaluación documentados en CLAUDE.md (bitácora):
-// se evalúa en este orden y gana la primera regla que se cumple, para que
-// las 5 formas no se solapen entre sí.
-export const FORMAS = ['Dominante', 'Caída temprana', 'Remontada', 'Reñida', 'Desplome'] as const
-export type Forma = (typeof FORMAS)[number] | 'Sin datos suficientes'
+// Reglas de forma de curva (2026-10-04, documentadas en CLAUDE.md). Idénticas
+// en servicio/forma.py: el asistente debe decir la misma etiqueta que ve el
+// jugador. Los umbrales son relativos al catálogo y no absolutos: los
+// anteriores (0.30, 0.50, 0.55…) estaban en la escala de la red sin
+// recalibrar y, tras la recalibración, ningún escuadrón salía Dominante.
 
+/** Minutos que se ignoran: ahí todos empiezan cerca de la tasa base. */
+export const PRIMER_MINUTO = 3
+/** Puntos mínimos (desde PRIMER_MINUTO) para leer una forma; con menos, la partida duró muy poco. */
 const MINIMO_PUNTOS = 3
 
-/** Clasifica la partida por la forma de su curva de probabilidad (solo minutos[].probabilidad). */
-export function clasificarForma(minutos: Minuto[]): Forma {
-  const puntos = minutos
-    .filter((m) => m.probabilidad != null)
-    .map((m) => ({ minuto: m.minuto, p: m.probabilidad as number }))
+// Calculadas una sola vez sobre el catálogo (partidas.json, 200 escuadrones;
+// 187 con al menos 3 minutos desde el minuto 3). Si se regenera el catálogo,
+// se recalculan y se copian igual en servicio/forma.py.
+/** Percentil 75 del promedio de los últimos 3 minutos de cada escuadrón. */
+export const P75_CIERRE = 0.5348
+/** Mediana de todas las probabilidades del catálogo desde el minuto 3. */
+export const MEDIANA = 0.3448
 
-  if (puntos.length < MINIMO_PUNTOS) return 'Sin datos suficientes'
+const CAIDA_REMONTADA = 0.1
+const RECUPERACION_REMONTADA = 0.15
+const CAIDA_DESPLOME = 0.2
+const MARGEN_FONDO_DESPLOME = 0.05
 
-  const valores = puntos.map((p) => p.p)
-  const minGlobal = Math.min(...valores)
-  const ultimo = valores[valores.length - 1]
+/** Orden de evaluación: gana la primera que se cumple. Manda el final de la partida. */
+export const FORMAS = ['Desplome', 'Dominante', 'Remontada', 'Reñida'] as const
+export type Forma = (typeof FORMAS)[number] | 'Partida muy corta'
 
-  // 1. Remontada: cae por debajo de 0.30 en algún punto y termina por encima de 0.50.
-  if (minGlobal < 0.3 && ultimo > 0.5) return 'Remontada'
+/** Probabilidades desde el minuto 3, en orden de minuto, sin minutos vacíos. */
+function curva(minutos: Minuto[]): number[] {
+  return [...minutos]
+    .filter((m) => m.minuto >= PRIMER_MINUTO && m.probabilidad != null)
+    .sort((a, b) => a.minuto - b.minuto)
+    .map((m) => m.probabilidad as number)
+}
 
-  // 2. Caída temprana: cae >=15 puntos respecto de su máximo hasta ese momento,
-  // antes del minuto 5, y el cierre no recupera ese máximo (menos 5 puntos de margen).
-  const primerTramo = puntos.filter((p) => p.minuto <= 5)
-  if (primerTramo.length >= 2) {
-    let maxHastaAhora = primerTramo[0].p
-    let picoAntesDeCaer = maxHastaAhora
-    let cayoTemprano = false
-    for (let i = 1; i < primerTramo.length; i++) {
-      const actual = primerTramo[i].p
-      if (maxHastaAhora - actual >= 0.15) {
-        picoAntesDeCaer = maxHastaAhora
-        cayoTemprano = true
-        break
-      }
-      maxHastaAhora = Math.max(maxHastaAhora, actual)
+const promedio = (v: number[]) => v.reduce((a, b) => a + b, 0) / v.length
+
+/** Caída desde el máximo hasta lo más bajo que llega después de él. */
+function caidaDesdeMaximo(v: number[]): { caida: number; fondo: number } {
+  const pico = v.indexOf(Math.max(...v))
+  const fondo = Math.min(...v.slice(pico))
+  return { caida: v[pico] - fondo, fondo }
+}
+
+/**
+ * La mayor recuperación tras una caída de al menos 10 puntos desde un máximo
+ * previo: para cada punto bajo, cuánto sube después. 0 si nunca cayó así.
+ */
+function mejorRecuperacion(v: number[]): number {
+  let mejor = 0
+  for (let i = 1; i < v.length; i++) {
+    if (Math.max(...v.slice(0, i)) - v[i] >= CAIDA_REMONTADA) {
+      mejor = Math.max(mejor, Math.max(...v.slice(i)) - v[i])
     }
-    if (cayoTemprano && ultimo < picoAntesDeCaer - 0.05) return 'Caída temprana'
   }
+  return mejor
+}
 
-  // 3. Desplome: se mantuvo alta en los primeros 10 minutos y cae >=20 puntos
-  // en los últimos 4, cerrando por debajo de 0.40.
-  const primerosDiez = puntos.filter((p) => p.minuto <= 10)
-  const ultimosCuatro = puntos.filter((p) => p.minuto >= 11)
-  if (primerosDiez.length > 0 && ultimosCuatro.length > 0) {
-    const maxDiez = Math.max(...primerosDiez.map((p) => p.p))
-    if (maxDiez >= 0.5 && maxDiez - ultimo >= 0.2 && ultimo < 0.4) return 'Desplome'
-  }
+/** Clasifica el escuadrón por la forma de su curva de probabilidad. */
+export function clasificarForma(minutos: Minuto[]): Forma {
+  const v = curva(minutos)
+  if (v.length < MINIMO_PUNTOS) return 'Partida muy corta'
 
-  // 4. Dominante: en los últimos 5 minutos promedia >=0.55 y nunca se hundió por debajo de 0.35.
-  const ultimosCinco = puntos.filter((p) => p.minuto >= 10).map((p) => p.p)
-  if (ultimosCinco.length > 0) {
-    const promedioUltimosCinco = ultimosCinco.reduce((a, b) => a + b, 0) / ultimosCinco.length
-    if (promedioUltimosCinco >= 0.55 && minGlobal >= 0.35) return 'Dominante'
-  }
+  // 1. Desplome: cae al menos 20 puntos desde su máximo y termina a 5 puntos
+  // o menos de lo más bajo que llegó después.
+  const { caida, fondo } = caidaDesdeMaximo(v)
+  if (caida >= CAIDA_DESPLOME && v[v.length - 1] - fondo <= MARGEN_FONDO_DESPLOME) return 'Desplome'
 
-  // 5. Reñida: no cae en ninguna de las anteriores — oscila sin definirse.
+  // 2. Dominante: cierra en el cuarto superior del catálogo y nunca baja de la mediana.
+  if (promedio(v.slice(-3)) >= P75_CIERRE && Math.min(...v) >= MEDIANA) return 'Dominante'
+
+  // 3. Remontada: cae al menos 10 puntos y después recupera al menos 15 desde ese punto.
+  if (mejorRecuperacion(v) >= RECUPERACION_REMONTADA) return 'Remontada'
+
+  // 4. Reñida: ninguna de las anteriores.
   return 'Reñida'
 }
 
-function valoresValidos(minutos: Minuto[]): number[] {
-  return minutos.map((m) => m.probabilidad).filter((p): p is number => p != null)
-}
+// Qué tan claro es cada caso, para ordenar dentro de su categoría (los
+// mayores primero). Miden el mismo rasgo que define la categoría.
 
-/** Cuánto cayó desde su mejor momento hasta el cierre — para ordenar los Desplome más dramáticos. */
+/** Desplome: cuánto cayó desde su máximo. */
 export function magnitudDesplome(minutos: Minuto[]): number {
-  const valores = valoresValidos(minutos)
-  if (valores.length === 0) return 0
-  return Math.max(...valores) - valores[valores.length - 1]
+  const v = curva(minutos)
+  return v.length === 0 ? 0 : caidaDesdeMaximo(v).caida
 }
 
-/** Cuánto recuperó desde su peor momento hasta el cierre — para ordenar las Remontada más dramáticas. */
+/** Remontada: cuánto recuperó tras la caída. */
 export function magnitudRemontada(minutos: Minuto[]): number {
-  const valores = valoresValidos(minutos)
-  if (valores.length === 0) return 0
-  return valores[valores.length - 1] - Math.min(...valores)
+  const v = curva(minutos)
+  return v.length === 0 ? 0 : mejorRecuperacion(v)
 }
 
-/** Probabilidad promedio de toda la curva — para ordenar las Dominante más sostenidas. */
+/** Dominante: posibilidades promedio sostenidas desde el minuto 3. */
 export function nivelDominante(minutos: Minuto[]): number {
-  const valores = valoresValidos(minutos)
-  if (valores.length === 0) return 0
-  return valores.reduce((a, b) => a + b, 0) / valores.length
+  const v = curva(minutos)
+  return v.length === 0 ? 0 : promedio(v)
+}
+
+/** Reñida: qué tan pegada a la mediana anduvo (más cerca, más reñida). */
+export function nivelRenida(minutos: Minuto[]): number {
+  const v = curva(minutos)
+  return v.length === 0 ? -Infinity : -Math.abs(promedio(v) - MEDIANA)
+}
+
+/** Partida muy corta: las más cortas primero (sin datos para otra medida). */
+export function nivelCorta(minutos: Minuto[]): number {
+  return -minutos.filter((m) => m.probabilidad != null).length
 }
